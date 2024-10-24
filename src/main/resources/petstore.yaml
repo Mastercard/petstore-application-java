@@ -1,0 +1,2284 @@
+openapi: 3.0.3
+info:
+  description: >-
+    This is a rewrite of the famous [Swagger Pet Store API](https://github.com/swagger-api/swagger-petstore/blob/master/src/main/resources/openapi.yaml) according to Mastercard API Standards.
+
+    This API uses OAuth 1.0a for authenticating client applications. For
+    that, please refer to [Using OAuth 1.0a to Access Mastercard
+    APIs](https://mstr.cd/31YcrTi).
+  version: 1.0.0
+  title: Mastercard Pet Store API
+  contact:
+    name: API Support
+    email: apisupport@mastercard.com
+    url: 'https://developer.mastercard.com/support'
+servers:
+  - url: 'https://sandbox.api.mastercard.com/oauth-petstore'
+    description: Sandbox environment
+  - url: 'https://api.mastercard.com/oauth-petstore'
+    description: Production environment
+tags:
+  - name: Dogs
+    description: Operations specific to dogs.
+  - name: Cats
+    description: Operations specific to cats.
+  - name: Pets
+    description: Operations common to all pets.
+  - name: Adoptions
+    description: Pets leaving or having left the store.
+  - name: Employees
+    description: Manage store employees.
+paths:
+  /dogs:
+    post:
+      tags:
+        - Dogs
+      summary: Welcome a new dog
+      description: Send a `NewDog` to add a dog to the pet store.
+      operationId: addDog
+      requestBody:
+        $ref: '#/components/requestBodies/AddDogRequest'
+      responses:
+        '200':
+          $ref: '#/components/responses/AddDogResponse'
+        '400':
+          $ref: '#/components/responses/BadRequestErrorResponse'
+        '401':
+          $ref: '#/components/responses/UnauthorizedErrorResponse'
+        '403':
+          $ref: '#/components/responses/ForbiddenErrorResponse'
+  '/dogs/{pet_id}':
+    get:
+      tags:
+        - Dogs
+      summary: Retrieve information about a dog
+      description: Fetch a `Dog` from the pet store.
+      operationId: getDog
+      parameters:
+        - $ref: '#/components/parameters/DogIdParameter'
+      responses:
+        '200':
+          $ref: '#/components/responses/GetDogResponse'
+        '400':
+          $ref: '#/components/responses/BadRequestErrorResponse'
+        '401':
+          $ref: '#/components/responses/UnauthorizedErrorResponse'
+        '403':
+          $ref: '#/components/responses/ForbiddenErrorResponse'
+        '404':
+          $ref: '#/components/responses/DogNotFoundErrorResponse'
+    put:
+      tags:
+        - Dogs
+      summary: Update information about a dog
+      description: Send an updated version of a `Dog` (you must fetch it first).
+      operationId: updateDog
+      parameters:
+        - $ref: '#/components/parameters/DogIdParameter'
+        - $ref: '#/components/parameters/IfMatchHeaderParameter'
+      requestBody:
+        $ref: '#/components/requestBodies/UpdateDogRequest'
+      responses:
+        '204':
+          $ref: '#/components/responses/UpdateDogResponse'
+        '400':
+          $ref: '#/components/responses/BadRequestErrorResponse'
+        '401':
+          $ref: '#/components/responses/UnauthorizedErrorResponse'
+        '403':
+          $ref: '#/components/responses/ForbiddenErrorResponse'
+        '404':
+          $ref: '#/components/responses/DogNotFoundErrorResponse'
+        '412':
+          $ref: '#/components/responses/DogPreconditionFailedErrorResponse'
+  /cats:
+    post:
+      tags:
+        - Cats
+      summary: Welcome a new cat
+      description: Send a `NewCat` to add a cat to the pet store.
+      operationId: addCat
+      requestBody:
+        $ref: '#/components/requestBodies/AddCatRequest'
+      responses:
+        '200':
+          $ref: '#/components/responses/AddCatResponse'
+        '400':
+          $ref: '#/components/responses/BadRequestErrorResponse'
+        '401':
+          $ref: '#/components/responses/UnauthorizedErrorResponse'
+        '403':
+          $ref: '#/components/responses/ForbiddenErrorResponse'
+  '/cats/{pet_id}':
+    get:
+      tags:
+        - Cats
+      summary: Retrieve information about a cat
+      description: Fetch a `Cat` from the pet store.
+      operationId: getCat
+      parameters:
+        - $ref: '#/components/parameters/CatIdParameter'
+      responses:
+        '200':
+          $ref: '#/components/responses/GetCatResponse'
+        '400':
+          $ref: '#/components/responses/BadRequestErrorResponse'
+        '401':
+          $ref: '#/components/responses/UnauthorizedErrorResponse'
+        '403':
+          $ref: '#/components/responses/ForbiddenErrorResponse'
+        '404':
+          $ref: '#/components/responses/CatNotFoundErrorResponse'
+    put:
+      tags:
+        - Cats
+      summary: Update information about a cat
+      description: Send an updated version of a `Cat` (you must fetch it first).
+      operationId: updateCat
+      parameters:
+        - $ref: '#/components/parameters/CatIdParameter'
+        - $ref: '#/components/parameters/IfMatchHeaderParameter'
+      requestBody:
+        $ref: '#/components/requestBodies/UpdateCatRequest'
+      responses:
+        '204':
+          $ref: '#/components/responses/UpdateCatResponse'
+        '400':
+          $ref: '#/components/responses/BadRequestErrorResponse'
+        '401':
+          $ref: '#/components/responses/UnauthorizedErrorResponse'
+        '403':
+          $ref: '#/components/responses/ForbiddenErrorResponse'
+        '404':
+          $ref: '#/components/responses/CatNotFoundErrorResponse'
+        '412':
+          $ref: '#/components/responses/CatPreconditionFailedErrorResponse'
+  '/pets/{pet_id}/status':
+    put:
+      tags:
+        - Pets
+      summary: Update the status of an existing pet
+      description: Send an updated version of a `PetStatus` (you must fetch it first).
+      operationId: updatePetStatus
+      parameters:
+        - $ref: '#/components/parameters/PetIdParameter'
+        - $ref: '#/components/parameters/IfMatchHeaderParameter'
+      requestBody:
+        $ref: '#/components/requestBodies/UpdatePetStatusRequest'
+      responses:
+        '204':
+          $ref: '#/components/responses/UpdatePetStatusResponse'
+        '400':
+          $ref: '#/components/responses/BadRequestErrorResponse'
+        '401':
+          $ref: '#/components/responses/UnauthorizedErrorResponse'
+        '403':
+          $ref: '#/components/responses/ForbiddenErrorResponse'
+        '412':
+          $ref: '#/components/responses/PetPreconditionFailedErrorResponse'
+  /pets:
+    get:
+      tags:
+        - Pets
+      summary: Search for pets
+      description: |-
+        Retrieve a list of `Pet` by status.
+
+        Search criteria are sent in the URI (non-PCI/non-PII data).
+      operationId: searchPets
+      parameters:
+        - $ref: '#/components/parameters/PetStatusParameter'
+        - $ref: '#/components/parameters/LimitParameter'
+        - $ref: '#/components/parameters/OffsetParameter'
+        - $ref: '#/components/parameters/SortParameter'
+      responses:
+        '200':
+          $ref: '#/components/responses/SearchPetsResponse'
+        '400':
+          $ref: '#/components/responses/BadRequestErrorResponse'
+        '401':
+          $ref: '#/components/responses/UnauthorizedErrorResponse'
+        '403':
+          $ref: '#/components/responses/ForbiddenErrorResponse'
+  /pets/{pet_id}:
+    delete:
+      tags:
+        - Pets
+      summary: Delete information about a pet
+      description: Delete a `Pet` from the database.
+      operationId: deletePet
+      parameters:
+        - $ref: '#/components/parameters/PetIdParameter'
+      responses:
+        '204':
+          $ref: '#/components/responses/DeletePetResponse'
+        '400':
+          $ref: '#/components/responses/BadRequestErrorResponse'
+        '401':
+          $ref: '#/components/responses/UnauthorizedErrorResponse'
+        '403':
+          $ref: '#/components/responses/ForbiddenErrorResponse'
+        '404':
+          $ref: '#/components/responses/PetNotFoundErrorResponse'
+  '/adoptions':
+    post:
+      tags:
+        - Adoptions
+      summary: Log a pet adoption
+      description: Post a `NewAdoption` record to log a pet adoption.
+      operationId: adoptPet
+      x-mastercard-api-encrypted: true
+      requestBody:
+        $ref: '#/components/requestBodies/AdoptPetRequest'
+      responses:
+        '201':
+          $ref: '#/components/responses/AdoptPetResponse'
+        '400':
+          $ref: '#/components/responses/BadRequestErrorResponse'
+        '401':
+          $ref: '#/components/responses/UnauthorizedErrorResponse'
+        '403':
+          $ref: '#/components/responses/ForbiddenErrorResponse'
+        '404':
+          $ref: '#/components/responses/PetNotFoundErrorResponse'
+        '409':
+          $ref: '#/components/responses/AdoptionConflictErrorResponse'
+    get:
+      tags:
+        - Adoptions
+      summary: Search for previously adopted pets
+      description: |-
+        Retrieve a list of previously adopted pets within a date range (both days inclusive). Optional criteria of pet category or pet identifier can be passed. Search criteria (non-PCI/non-PII data) are sent in the URI.
+      operationId: searchAdoptedPets
+      parameters:
+        - $ref: '#/components/parameters/FromDateParameter'
+        - $ref: '#/components/parameters/ToDateParameter'
+        - $ref: '#/components/parameters/PetCategoryParameter'
+        - $ref: '#/components/parameters/PetIdentifierParameter'
+      responses:
+        '200':
+          $ref: '#/components/responses/SearchAdoptedPetsResponse'
+        '400':
+          $ref: '#/components/responses/BadRequestErrorResponse'
+        '401':
+          $ref: '#/components/responses/UnauthorizedErrorResponse'
+        '403':
+          $ref: '#/components/responses/ForbiddenErrorResponse'
+
+  '/adoptions/{adoption_id}/payments':
+    post:
+      tags:
+        - Adoptions
+      summary: Pay for a pet adoption.
+      description: A payment is an attempt to pay for the pet, which will confirm the payment for the user and enable them to complete their adoption.
+      operationId: adoptionPayment
+      x-mastercard-api-encrypted: true
+      parameters:
+        - $ref: '#/components/parameters/AdoptionIdParameter'
+      requestBody:
+        $ref: '#/components/requestBodies/AddPaymentRequest'
+      responses:
+        '200':
+          $ref: '#/components/responses/PaymentResponse'
+        '400':
+          $ref: '#/components/responses/BadRequestErrorResponse'
+        '401':
+          $ref: '#/components/responses/UnauthorizedErrorResponse'
+        '403':
+          $ref: '#/components/responses/ForbiddenErrorResponse'
+        '404':
+          $ref: '#/components/responses/AdoptionNotFoundErrorResponse'
+  '/adoptions/{adoption_id}':
+    get:
+      tags:
+        - Adoptions
+      summary: Retrieve an adoption record
+      description: Fetch an `Adoption` record based on a unique adoption identifier
+      operationId: getAdoption
+      parameters:
+        - $ref: '#/components/parameters/AdoptionIdParameter'
+      responses:
+        '200':
+          $ref: '#/components/responses/GetAdoptionResponse'
+        '400':
+          $ref: '#/components/responses/BadRequestErrorResponse'
+        '401':
+          $ref: '#/components/responses/UnauthorizedErrorResponse'
+        '403':
+          $ref: '#/components/responses/ForbiddenErrorResponse'
+        '404':
+          $ref: '#/components/responses/AdoptionNotFoundErrorResponse'
+    put:
+      tags:
+        - Adoptions
+      summary: Update information of an adoption record
+      description: Updating the pet Adoption record (you must fetch it first).
+      operationId: updateAdoption
+      x-mastercard-api-encrypted: true
+      parameters:
+        - $ref: '#/components/parameters/AdoptionIdParameter'
+        - $ref: '#/components/parameters/IfMatchHeaderParameter'
+      requestBody:
+        $ref: '#/components/requestBodies/UpdateAdoptionRequest'
+      responses:
+        '200':
+          $ref: '#/components/responses/UpdateAdoptionResponse'
+        '400':
+          $ref: '#/components/responses/BadRequestErrorResponse'
+        '401':
+          $ref: '#/components/responses/UnauthorizedErrorResponse'
+        '403':
+          $ref: '#/components/responses/ForbiddenErrorResponse'
+        '404':
+          $ref: '#/components/responses/AdoptionNotFoundErrorResponse'
+        '409':
+          $ref: '#/components/responses/AdoptionConflictModifyErrorResponse'
+        '412':
+          $ref: '#/components/responses/AdoptionPreconditionFailedErrorResponse'
+    delete:
+      tags:
+        - Adoptions
+      summary: Delete an adoption record
+      description: Delete an `Adoption` record. This action cannot be undone.
+      operationId: deleteAdoption
+      parameters:
+        - $ref: '#/components/parameters/AdoptionIdParameter'
+      responses:
+        '204':
+          $ref: '#/components/responses/DeleteAdoptionResponse'
+        '400':
+          $ref: '#/components/responses/BadRequestErrorResponse'
+        '401':
+          $ref: '#/components/responses/UnauthorizedErrorResponse'
+        '403':
+          $ref: '#/components/responses/ForbiddenErrorResponse'
+        '404':
+          $ref: '#/components/responses/AdoptionNotFoundErrorResponse'
+  /employees:
+    post:
+      tags:
+        - Employees
+      summary: Hire one or many new employees
+      description: Send a `NewEmployee` list to create new employee accounts.
+      operationId: addEmployees
+      x-mastercard-api-encrypted: true
+      requestBody:
+        $ref: '#/components/requestBodies/AddEmployeesRequest'
+      responses:
+        '200':
+          $ref: '#/components/responses/AddEmployeesResponse'
+        '400':
+          $ref: '#/components/responses/BadRequestErrorResponse'
+        '401':
+          $ref: '#/components/responses/UnauthorizedErrorResponse'
+        '403':
+          $ref: '#/components/responses/ForbiddenErrorResponse'
+  '/employees/searches':
+    post:
+      tags:
+        - Employees
+      summary: Search for employee by SSN.
+      description: |-
+        Retrieve an `Employee` based on their Social Security number.
+      operationId: searchEmployee
+      x-mastercard-api-encrypted: true
+      requestBody:
+        $ref: '#/components/requestBodies/SearchEmployeeRequest'
+      responses:
+        '200':
+          $ref: '#/components/responses/SearchEmployeeResponse'
+        '400':
+          $ref: '#/components/responses/BadRequestErrorResponse'
+        '401':
+          $ref: '#/components/responses/UnauthorizedErrorResponse'
+        '403':
+          $ref: '#/components/responses/ForbiddenErrorResponse'
+  '/employees/{username}':
+    get:
+      tags:
+        - Employees
+      summary: Retrieve information about an employee
+      description: Fetch an `Employee` by username.
+      operationId: getEmployee
+      parameters:
+        - $ref: '#/components/parameters/UsernameParameter'
+      responses:
+        '200':
+          $ref: '#/components/responses/GetEmployeeResponse'
+        '400':
+          $ref: '#/components/responses/BadRequestErrorResponse'
+        '401':
+          $ref: '#/components/responses/UnauthorizedErrorResponse'
+        '403':
+          $ref: '#/components/responses/ForbiddenErrorResponse'
+        '404':
+          $ref: '#/components/responses/EmployeeNotFoundErrorResponse'
+    put:
+      tags:
+        - Employees
+      summary: Update information about an employee
+      description: Send an updated version of an `Employee` (you must fetch it first).
+      operationId: updateEmployee
+      x-mastercard-api-encrypted: true
+      parameters:
+        - $ref: '#/components/parameters/UsernameParameter'
+        - $ref: '#/components/parameters/IfMatchHeaderParameter'
+      requestBody:
+        $ref: '#/components/requestBodies/UpdateEmployeeRequest'
+      responses:
+        '204':
+          $ref: '#/components/responses/UpdateEmployeeResponse'
+        '400':
+          $ref: '#/components/responses/BadRequestErrorResponse'
+        '401':
+          $ref: '#/components/responses/UnauthorizedErrorResponse'
+        '403':
+          $ref: '#/components/responses/ForbiddenErrorResponse'
+        '404':
+          $ref: '#/components/responses/EmployeeNotFoundErrorResponse'
+        '412':
+          $ref: '#/components/responses/EmployeePreconditionFailedErrorResponse'
+    delete:
+      tags:
+        - Employees
+      summary: Say goodbye to an employee
+      description: Remove a pet store `Employee`. This action cannot be undone.
+      operationId: removeEmployee
+      parameters:
+        - $ref: '#/components/parameters/UsernameParameter'
+      responses:
+        '204':
+          $ref: '#/components/responses/RemoveEmployeeResponse'
+        '400':
+          $ref: '#/components/responses/BadRequestErrorResponse'
+        '401':
+          $ref: '#/components/responses/UnauthorizedErrorResponse'
+        '403':
+          $ref: '#/components/responses/ForbiddenErrorResponse'
+        '404':
+          $ref: '#/components/responses/EmployeeNotFoundErrorResponse'
+components:
+  parameters:
+    PetIdParameter:
+      name: pet_id
+      in: path
+      description: A UUID (Unique Identifier) which uniquely identifies the pet.
+      required: true
+      schema:
+        $ref: '#/components/schemas/ResourceIdentifier'
+      example: 6f93a031-d45a-4a38-9bdc-cf202541abcb
+    DogIdParameter:
+      name: pet_id
+      in: path
+      description: A UUID (Unique Identifier) which uniquely identifies the Dog.
+      required: true
+      schema:
+        $ref: '#/components/schemas/ResourceIdentifier'
+      example: 6d473178-343f-4174-b04b-50120b1b77dc
+    CatIdParameter:
+      name: pet_id
+      in: path
+      description: A UUID (Unique Identifier) which uniquely identifies the Cat.
+      required: true
+      schema:
+        $ref: '#/components/schemas/ResourceIdentifier'
+      example: f2123113-2626-492d-bf73-309a429bf67a
+    IfMatchHeaderParameter:
+      name: If-Match
+      in: header
+      description: >-
+        Used to ensure idempotency for PUT method. This header should
+        be populated with the 'ETag' received in the response header from the
+        GET call of the same resource being updated. See
+        [RFC7232](https://datatracker.ietf.org/doc/html/rfc7232) for more
+        details.
+      required: true
+      schema:
+        type: string
+      example: "0"
+    UsernameParameter:
+      name: username
+      in: path
+      description: A string which uniquely identifies the employee.
+      required: true
+      schema:
+        $ref: '#/components/schemas/Username'
+      example: john_doe
+    PetStatusParameter:
+      name: status
+      in: query
+      description: A status the pet must have.
+      required: false
+      schema:
+        $ref: '#/components/schemas/PetStatusValue'
+      example: AVAILABLE
+    FromDateParameter:
+      name: from_date
+      in: query
+      description: The starting date of the date range across which pet adoptions are searched.
+      required: true
+      schema:
+        $ref: '#/components/schemas/FullDate'
+      example: '2021-04-23'
+    ToDateParameter:
+      name: to_date
+      in: query
+      description: The ending date of the date range across which pet adoptions are searched.
+      required: true
+      schema:
+        $ref: '#/components/schemas/FullDate'
+      example: '2024-05-23'
+    PetCategoryParameter:
+      name: pet_category
+      in: query
+      description: The category of pets to be searched.
+      required: false
+      schema:
+        $ref: '#/components/schemas/PetCategory'
+      example: CAT
+    PetIdentifierParameter:
+      name: pet_id
+      in: query
+      description: A UUID which uniquely identifies the pet
+      required: false
+      schema:
+        $ref: '#/components/schemas/ResourceIdentifier'
+      example: 6f93a031-d45a-4a38-9bdc-cf202541abcb
+    AdoptionIdParameter:
+      name: adoption_id
+      in: path
+      description: A UUID which uniquely identifies an adoption record.
+      required: true
+      schema:
+        $ref: '#/components/schemas/ResourceIdentifier'
+      example: f2575226-50a1-4350-9163-2af1a5e38131
+    LimitParameter:
+      name: limit
+      in: query
+      description: The number of items to return.
+      required: false
+      schema:
+        type: integer
+        minimum: 1
+        default: 25
+      example: 25
+    OffsetParameter:
+      name: offset
+      in: query
+      description: The number of items to skip before starting to collect the result set.
+      required: false
+      schema:
+        type: integer
+        minimum: 0
+        default: 0
+      example: 0
+    SortParameter:
+      name: sort
+      in: query
+      description: The fields by which to sort the results. Prefix with '-' for descending order and '+' for asscending order.
+      required: false
+      schema:
+        type: string
+        default: '+'
+        maxLength: 1
+        minLength: 1
+      example: '+'
+  schemas:
+    PetList:
+      description: A result for searching for pets
+      type: object
+      properties:
+        count:
+          $ref: '#/components/schemas/Count'
+        offset:
+          $ref: '#/components/schemas/Offset'
+        limit:
+          $ref: '#/components/schemas/Limit'
+        total:
+          $ref: '#/components/schemas/Total'
+        items:
+          type: array
+          description: The list of pets.
+          items:
+            $ref: '#/components/schemas/Pet'
+    Birthdate:
+      description: A pet date of birth.
+      type: object
+      required:
+        - year
+      properties:
+        year:
+          description: The `year` must at least be estimated by the vet.
+          type: integer
+          minimum: 2000
+          maximum: 2050
+          example: 2021
+        month:
+          description: 'A month of the year. In case of doubt, `month` can stay unspecified.'
+          type: integer
+          minimum: 1
+          maximum: 12
+          example: 12
+        day:
+          description: 'A day of the month. In case of doubt, `day` can stay unspecified.'
+          type: integer
+          minimum: 1
+          maximum: 31
+          example: 22
+    SearchResults:
+      description: The search result of adoption records matching the adoption search criteria.'
+      type: array
+      minimum: 0
+      maximum: 100
+      items:
+        $ref: '#/components/schemas/Adoption'
+    Count:
+      description: The number of items in this batch (the size of the item array).
+      type: integer
+      minimum: 0
+      maximum: 100
+    Offset:
+      description: The number of items the start of the list is off setted from.
+      type: integer
+      minimum: 0
+      maximum: 1000
+      default: 0
+    Limit:
+      description: The number of items list to be limited to.
+      type: integer
+      minimum: 1
+      maximum: 100
+      default: 50
+    Total:
+      description: The total number of items available in the collection.
+      type: integer
+      minimum: 0
+    FullDate:
+      description: >-
+        A full-date as defined by [RFC 3339, section
+        5.6](https://tools.ietf.org/html/rfc3339#section-5.6)
+      type: string
+      format: date
+      example: '2021-04-23'
+    DateAndTime:
+      description: >-
+        A date-time as defined by [RFC 3339, section
+        5.6](https://tools.ietf.org/html/rfc3339#section-5.6). This is generated by the server and should not be updated.
+      type: string
+      format: date-time
+      readOnly: true
+      example: '2021-04-23T17:32:28Z'
+    ResourceIdentifier:
+      description: A UUID which uniquely identifies a resource.
+      type: string
+      format: uuid
+      readOnly: true
+      example: c63de020-a446-11eb-bcbc-0242ac130002
+    BaseResource:
+      description: Properties common to all resources.
+      type: object
+      required:
+        - id
+      properties:
+        id:
+          $ref: '#/components/schemas/ResourceIdentifier'
+        created:
+          $ref: '#/components/schemas/DateAndTime'
+        updated:
+          $ref: '#/components/schemas/DateAndTime'
+    Username:
+      description: A string which uniquely identifies a user.
+      type: string
+      minLength: 2
+      maxLength: 100
+      pattern: '^[a-z|_]+$'
+      example: john_k
+    AccountStatus:
+      description: A status for the employee account.
+      type: string
+      minLength: 6
+      maxLength: 8
+      pattern: ^(ACTIVE|INACTIVE)
+      example: ACTIVE
+    Allergy:
+      description: An item that and employee is allergic to.
+      type: string
+      minLength: 2
+      maxLength: 100
+      example: Shellfish
+    Person:
+      description: Information about a person.
+      type: object
+      required:
+        - firstName
+        - lastName
+        - phoneNumber
+        - ssn
+      properties:
+        firstName:
+          description: The person's first name.
+          type: string
+          minLength: 2
+          maxLength: 100
+          example: John
+        lastName:
+          description: The person's last name.
+          type: string
+          minLength: 2
+          maxLength: 100
+          example: Doe
+        phoneNumber:
+          description: 'The person''s phone number ([E.164](https://w.wiki/3xGY) format).'
+          type: string
+          minLength: 2
+          maxLength: 16
+          pattern: '^\+?[1-9]\d{1,14}$'
+          example: '+3763610932910'
+        ssn:
+          $ref: '#/components/schemas/SocialSecurityNumber'
+    NewEmployeeData:
+      description: A wrapper object containing new employee data to be added.
+      type: object
+      properties:
+        newEmployees:
+          description: 'A list of new employees to be added to the pet store.'
+          type: array
+          items:
+            $ref: '#/components/schemas/NewEmployee'
+    NewEmployee:
+      description: A new employee working in the store.
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/Person'
+        - type: object
+          properties:
+            allergies:
+              type: array
+              items:
+                $ref: '#/components/schemas/Allergy'
+    EmployeeData:
+      description: A wrapper object containing employee data to be updated.
+      type: object
+      properties:
+        employee:
+          $ref: '#/components/schemas/Employee'
+    EmployeeListData:
+      description: A wrapper object containing a list of added employees.
+      type: object
+      properties:
+        employees:
+          description: A list of employees added to the pet store.
+          type: array
+          items:
+            $ref: '#/components/schemas/Employee'
+    Employee:
+      description: An employee of the store.
+      type: object
+      required:
+        - username
+        - email
+        - accountStatus
+      allOf:
+        - $ref: '#/components/schemas/BaseResource'
+        - $ref: '#/components/schemas/NewEmployee'
+        - type: object
+          properties:
+            username:
+              $ref: '#/components/schemas/Username'
+            email:
+              $ref: '#/components/schemas/Email'
+            accountStatus:
+              $ref: '#/components/schemas/AccountStatus'
+    Email:
+      description: The employee email address (generated by the system).
+      type: string
+      minLength: 9
+      maxLength: 205
+      example: 'john.murphy@petstore.com'
+    EmployeeWrapper:
+      description: A wrapped representation of an employee.
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/Employee'
+    PetCategory:
+      description: The category a pet belongs to.
+      type: string
+      minLength: 3
+      maxLength: 3
+      pattern: ^(DOG|CAT)
+      example: DOG
+    Payment:
+      description: The payment information for purchasing a pet.
+      type: object
+      required:
+        - amount
+        - currency
+        - source
+        - id
+      properties:
+        id:
+          $ref: '#/components/schemas/ResourceIdentifier'
+        amount:
+          $ref: '#/components/schemas/PaymentAmount'
+        currency:
+          $ref: '#/components/schemas/PaymentCurrency'
+        source:
+          $ref: '#/components/schemas/PaymentSource'
+        status:
+          $ref: '#/components/schemas/PaymentStatus'
+    PaymentAmount:
+      description: Amount intended to be collected by this payment. A positive decimal figure describing the amount to be collected.
+      type: number
+      minimum: 0.01
+      maximum: 1000
+      example: 49.99
+    PaymentCurrency:
+      description: |
+        Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in uppercase.
+        - Possible values are:
+            * BAM
+            * BGN
+            * EUR
+            * GBP
+            * NOK
+            * SEK
+            * TRY
+      type: string
+      minLength: 3
+      maxLength: 3
+      example: EUR
+    PaymentSource:
+      description: The payment source to take the payment from. This can be a card or a bank account.
+      anyOf:
+        - $ref: '#/components/schemas/CardDetails'
+        - $ref: '#/components/schemas/BankDetails'
+    PaymentDetails:
+      description: The payment information for purchasing a pet.
+      type: object
+      required:
+        - amount
+        - currency
+        - source
+        - id
+      properties:
+        id:
+          $ref: '#/components/schemas/ResourceIdentifier'
+        amount:
+          $ref: '#/components/schemas/PaymentAmount'
+        currency:
+          $ref: '#/components/schemas/PaymentCurrency'
+        source:
+          $ref: '#/components/schemas/PaymentReceipt'
+        status:
+          $ref: '#/components/schemas/PaymentStatus'
+        link:
+          $ref: '#/components/schemas/Link'
+    PaymentReceipt:
+      description: The payment receipt. This can be a receipt of a card or a bank account payment.
+      anyOf:
+        - $ref: '#/components/schemas/CardReceipt'
+        - $ref: '#/components/schemas/BankReceipt'
+    CardReceipt:
+      type: object
+      required:
+        - name
+        - number
+        - addressCountry
+      description: A card (debit or credit) to take payment from.
+      properties:
+        name:
+          type: string
+          description: Cardholder's full name as it appears on the card.
+          example: 'John Smith'
+          minLength: 4
+          maxLength: 128
+        number:
+          type: string
+          description: The card number, as a string without any separators. On read all but the last four digits will be masked for security.
+          example: '************4242'
+          minLength: 15
+          maxLength: 19
+        address:
+          $ref: '#/components/schemas/Address'
+    BankReceipt:
+      type: object
+      required:
+        - name
+        - number
+        - accountType
+        - bankName
+        - country
+      description: A bank account to take payment from. Must be able to make payments in the currency specified in the payment.
+      properties:
+        name:
+          type: string
+          description: The name of the bank account holder.
+          example: 'John Doe'
+          minLength: 4
+          maxLength: 128
+        number:
+          type: string
+          description: The account number (IBAN) for the bank account, in string form. Must be a current account.
+          example: 'IE29AIBK93115212345678'
+          minLength: 22
+          maxLength: 22
+        sortCode:
+          type: string
+          description: The sort code for the bank account, in string form. Must be a six-digit number.
+          example: '000123'
+          minLength: 6
+          maxLength: 6
+        accountType:
+          type: string
+          description: The type of entity that holds the account. This can be either `INDIVIDUAL` or `COMPANY`.
+          example: 'INDIVIDUAL'
+          minLength: 8
+          maxLength: 10
+        bankName:
+          type: string
+          description: The name of the bank associated with the routing number.
+          example: 'Bank of Ireland'
+          minLength: 3
+          maxLength: 100
+        country:
+          type: string
+          description: Two-letter country code (ISO 3166-1 alpha-2).
+          example: 'ie'
+          minLength: 2
+          maxLength: 2
+    Address:
+      type: object
+      description: A users full address
+      required:
+        - country
+      properties:
+        addressLine1:
+          type: string
+          description: First line of home address.
+          writeOnly: true
+          example: 'Grafton Street'
+          minLength: 3
+          maxLength: 80
+        addressLine2:
+          type: string
+          description: Second line of home address.
+          writeOnly: true
+          example: 'Floor 4'
+          minLength: 3
+          maxLength: 80
+        city:
+          type: string
+          description: The home address city.
+          example: 'Dublin'
+          minLength: 2
+          maxLength: 28
+        country:
+          type: string
+          description: Two-letter country code (ISO 3166-1 alpha-2).
+          example: 'ie'
+          minLength: 2
+          maxLength: 2
+        postCode:
+          type: string
+          description: The home address post code.
+          example: 'D11DC80'
+          minLength: 3
+          maxLength: 10
+    CardDetails:
+      type: object
+      required:
+        - name
+        - number
+        - cvc
+        - expMonth
+        - expYear
+      description: A card (debit or credit) to take payment from.
+      properties:
+        name:
+          type: string
+          description: Cardholder's full name as it appears on the card.
+          example: 'John Smith'
+          minLength: 4
+          maxLength: 128
+        number:
+          type: string
+          description: The card number, as a string without any separators. On read all but the last four digits will be masked for security.
+          example: '4242424242424242'
+          minLength: 15
+          maxLength: 19
+        cvc:
+          type: string
+          description: Card security code, 3 or 4 digits usually found on the back of the card.
+          minLength: 3
+          maxLength: 4
+          writeOnly: true
+          example: '123'
+        expMonth:
+          type: integer
+          format: int64
+          description: Two-digit number representing the card's expiration month.
+          example: 12
+          minimum: 1
+          maximum: 12
+        expYear:
+          type: string
+          description: Four-digit number representing the card's expiration year.
+          example: '2025'
+          minLength: 4
+          maxLength: 4
+        address:
+          $ref: '#/components/schemas/Address'
+    BankDetails:
+      type: object
+      required:
+        - name
+        - number
+        - accountType
+        - bankName
+        - country
+      description: A bank account to take payment from. Must be able to make payments in the currency specified in the payment.
+      properties:
+        name:
+          type: string
+          description: The name of the bank account holder.
+          example: 'John Doe'
+          minLength: 4
+          maxLength: 128
+        number:
+          type: string
+          description: The account number (IBAN) for the bank account, in string form. Must be a current account.
+          example: 'IE29AIBK93115212345678'
+          minLength: 22
+          maxLength: 22
+        sortCode:
+          type: string
+          description: The sort code for the bank account, in string form. Must be a six-digit number.
+          example: '000123'
+          minLength: 6
+          maxLength: 6
+        accountType:
+          type: string
+          description: The type of entity that holds the account. This can be either `INDIVIDUAL` or `COMPANY`.
+          example: 'INDIVIDUAL'
+          minLength: 8
+          maxLength: 10
+        bankName:
+          type: string
+          description: The name of the bank associated with the routing number.
+          example: Bank of Ireland
+          minLength: 3
+          maxLength: 100
+        country:
+          type: string
+          description: Two-letter country code (ISO 3166-1 alpha-2).
+          example: ie
+          minLength: 2
+          maxLength: 2
+    PaymentStatus:
+      description: The status of the payment, one of `PENDING`, `SUCCEEDED`, or `FAILED`.
+      type: string
+      minLength: 6
+      maxLength: 9
+      example: SUCCEEDED
+      readOnly: true
+    Link:
+      description: A successful payment link.
+      type: string
+      minLength: 8
+      maxLength: 100
+      format: uri
+      example: https://pay.petstore.com/pid_4gw7vp5cFbBxdLqeUU
+    PetStatus:
+      description: A status for the pet.
+      type: object
+      required:
+        - value
+      properties:
+        value:
+          $ref: '#/components/schemas/PetStatusValue'
+    PetStatusValue:
+      type: string
+      description: A status value.
+      minLength: 2
+      maxLength: 200
+      pattern: ^(AVAILABLE|RESERVED|UNDER_EXAMINATION)
+      example: AVAILABLE
+    BasePet:
+      description: Properties common to all pets.
+      type: object
+      required:
+        - status
+        - gender
+        - breed
+        - color
+      properties:
+        status:
+          $ref: '#/components/schemas/PetStatus'
+        name:
+          description: The pet's name.
+          type: string
+          minLength: 2
+          maxLength: 600
+          example: Luna
+        breed:
+          description: The pet's breed.
+          type: string
+          minLength: 2
+          maxLength: 200
+          example: Jack Russell Terrier
+        color:
+          description: The pet's color.
+          type: string
+          minLength: 2
+          maxLength: 200
+          example: White
+        gender:
+          description: The pet's gender.
+          type: string
+          minLength: 4
+          maxLength: 6
+          pattern: ^(MALE|FEMALE)
+          example: FEMALE
+        birthdate:
+          $ref: '#/components/schemas/Birthdate'
+    Pet:
+      description: The full representation of a pet.
+      type: object
+      required:
+        - category
+        - id
+        - status
+        - gender
+        - breed
+        - color
+      allOf:
+        - $ref: '#/components/schemas/BaseResource'
+        - $ref: '#/components/schemas/BasePet'
+        - type: object
+          properties:
+            category:
+              $ref: '#/components/schemas/PetCategory'
+    NewDog:
+      description: The partial representation of a dog arriving to the pet store.
+      required:
+        - dogProperty2
+      allOf:
+        - $ref: '#/components/schemas/BasePet'
+        - type: object
+          properties:
+            dogProperty1:
+              description: Placeholder for something optional only dogs have.
+              type: object
+              additionalProperties: true
+              example:
+                value: Something optional only dogs have
+            dogProperty2:
+              description: Placeholder for something mandatory only dogs have.
+              type: object
+              additionalProperties: true
+              example:
+                value: Something mandatory only dogs have
+    Dog:
+      description: The full representation of a dog.
+      required:
+        - dogProperty3
+      allOf:
+        - $ref: '#/components/schemas/BaseResource'
+        - $ref: '#/components/schemas/NewDog'
+        - type: object
+          properties:
+            dogProperty3:
+              description: >-
+                Placeholder for something only dogs have and retrieved as part
+                of adding a dog.
+              type: object
+              additionalProperties: true
+              example:
+                value: Something computed as part of adding the dog
+    NewCat:
+      description: The partial representation of a cat arriving to the pet store.
+      allOf:
+        - $ref: '#/components/schemas/BasePet'
+        - type: object
+          properties:
+            catProperty1:
+              description: A placeholder for something optional only cats have.
+              type: object
+              additionalProperties: true
+              example:
+                value: Something optional only cats have
+    Cat:
+      description: The full representation of a cat.
+      required:
+        - catProperty2
+      allOf:
+        - $ref: '#/components/schemas/BaseResource'
+        - $ref: '#/components/schemas/NewCat'
+        - type: object
+          properties:
+            catProperty2:
+              description: >-
+                Placeholder for something only cats have and retrieved as part
+                of adding a cat.
+              type: object
+              additionalProperties: true
+              example:
+                value: Something computed as part of adding the cat
+    NewAdoption:
+      description: A new adoption record.
+      type: object
+      required:
+        - petId
+      properties:
+        petId:
+          $ref: '#/components/schemas/ResourceIdentifier'
+        adoptionDate:
+          $ref: '#/components/schemas/FullDate'
+        owner:
+          $ref: '#/components/schemas/Owner'
+    Adoption:
+      description: An adoption record.
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/BaseResource'
+        - $ref: '#/components/schemas/NewAdoption'
+        - type: object
+          properties:
+            adoptionDate:
+              $ref: '#/components/schemas/FullDate'
+            pet:
+              $ref: '#/components/schemas/Pet'
+    Owner:
+      description: A customer adopting a pet.
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/Person'
+    AdoptionSearchCriteria:
+      description: A search for pet adoptions within a date range.
+      type: object
+      required:
+        - fromDate
+        - toDate
+      properties:
+        fromDate:
+          $ref: '#/components/schemas/FullDate'
+        toDate:
+          $ref: '#/components/schemas/FullDate'
+        petCategory:
+          $ref: '#/components/schemas/PetCategory'
+        petIdentifier:
+          $ref: '#/components/schemas/ResourceIdentifier'
+    AdoptionSearch:
+      description: An adoption search with search results.
+      allOf:
+        - $ref: '#/components/schemas/AdoptionSearchCriteria'
+        - type: object
+          required:
+            - searchResults
+          properties:
+            searchResults:
+              $ref: '#/components/schemas/SearchResults'
+    AdoptionWrapper:
+      description: A wrapper object containing an adoption record along with its encrypted contents.
+      type: object
+      properties:
+        adoption:
+          $ref: '#/components/schemas/Adoption'
+    EmployeeSearch:
+      description: A search for an employee with the given SSN.
+      type: object
+      properties:
+        ssn:
+          $ref: '#/components/schemas/SocialSecurityNumber'
+    SocialSecurityNumber:
+      description: 'The person''s [Social Security number](https://en.wikipedia.org/wiki/Social_Security_number)'
+      type: string
+      pattern: '^\d{3}-\d{2}-\d{4}$'
+      example: 123-45-6789
+    ErrorWrapper:
+      description: A top level object for errors.
+      type: object
+      required:
+        - Errors
+      properties:
+        Errors:
+          $ref: '#/components/schemas/Errors'
+    Errors:
+      description: Object that contains the list of errors.
+      type: object
+      required:
+        - Error
+      properties:
+        Error:
+          $ref: '#/components/schemas/ErrorList'
+    ErrorList:
+      description: The list of errors.
+      type: array
+      minItems: 1
+      items:
+        $ref: '#/components/schemas/Error'
+    Error:
+      description: A single error.
+      type: object
+      properties:
+        Source:
+          type: string
+          minLength: 0
+          maxLength: 200
+          description: Information about where the error happened.
+          example: PETSTORE_API
+        ReasonCode:
+          type: string
+          minLength: 0
+          maxLength: 200
+          description: An error code.
+          example: BAD_REQUEST
+        Description:
+          type: string
+          minLength: 0
+          maxLength: 10000
+          description: A description of the error.
+          example: We could not handle your request
+        Recoverable:
+          type: boolean
+          description: Indicates if the request can be presented again for processing.
+          example: false
+        Details:
+          type: string
+          minLength: 0
+          maxLength: 10000
+          description: More details about the error.
+          example: Invalid JSON payload
+  requestBodies:
+    AddDogRequest:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/NewDog'
+          examples:
+            AddBellaExample:
+              $ref: '#/components/examples/AddBellaExample'
+            AddCooperExample:
+              $ref: '#/components/examples/AddCooperExample'
+    AddCatRequest:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/NewCat'
+          examples:
+            AddKittyExample:
+              $ref: '#/components/examples/AddKittyExample'
+    UpdateDogRequest:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Dog'
+          examples:
+            UpdateBellaExample:
+              $ref: '#/components/examples/UpdateBellaExample'
+    UpdateCatRequest:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Cat'
+          examples:
+            UpdateKittyExample:
+              $ref: '#/components/examples/UpdateKittyExample'
+    UpdatePetStatusRequest:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/PetStatus'
+    AddPaymentRequest:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Payment'
+          examples:
+            AddPaymentExample:
+              $ref: '#/components/examples/AddCardPaymentExample'
+            AddBankAccountPaymentExample:
+              $ref: '#/components/examples/AddBankAccountPaymentExample'
+    AdoptPetRequest:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/NewAdoption'
+          examples:
+            AdoptPetExample:
+              $ref: '#/components/examples/AdoptPetExample'
+    UpdateAdoptionRequest:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/AdoptionWrapper'
+          examples:
+            UpdateAdoptionExample:
+              $ref: '#/components/examples/UpdateAdoptionExample'
+    AddEmployeesRequest:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/NewEmployeeData'
+          examples:
+            AddJohnAndAmandaExample:
+              $ref: '#/components/examples/AddJohnAndAmandaExample'
+    SearchEmployeeRequest:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/EmployeeSearch'
+          examples:
+            SearchEmployeeExample:
+              $ref: '#/components/examples/SearchEmployeeExample'
+    UpdateEmployeeRequest:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/EmployeeData'
+          examples:
+            UpdateJohnDoeExample:
+              $ref: '#/components/examples/UpdateJohnDoeExample'
+  responses:
+    AddDogResponse:
+      description: The dog was successfully added.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Dog'
+          examples:
+            AddBellaExample:
+              $ref: '#/components/examples/BellaExample'
+    AddCatResponse:
+      description: The cat was successfully added.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Cat'
+          examples:
+            AddKittyExample:
+              $ref: '#/components/examples/KittyExample'
+    GetDogResponse:
+      description: The dog was successfully retrieved.
+      headers:
+        ETag:
+          $ref: '#/components/headers/ETag'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Dog'
+          examples:
+            GetBellaExample:
+              $ref: '#/components/examples/BellaExample'
+    GetCatResponse:
+      description: The cat was successfully retrieved.
+      headers:
+        ETag:
+          $ref: '#/components/headers/ETag'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Cat'
+          examples:
+            GetKittyExample:
+              $ref: '#/components/examples/KittyExample'
+    UpdateDogResponse:
+      description: The dog was successfully updated.
+    UpdateCatResponse:
+      description: The cat was successfully updated.
+    DeletePetResponse:
+      description: The pet was successfully deleted.
+    PaymentResponse:
+      description: The payment was successful.
+      headers:
+        Rate-Limit:
+          $ref: '#/components/headers/Rate-Limit'
+        Retry-After:
+          $ref: '#/components/headers/Retry-After'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/PaymentDetails'
+          examples:
+            Card:
+              $ref: '#/components/examples/CardPaymentResponseExample'
+            Bank:
+              $ref: '#/components/examples/BankAccountResponseExample'
+    SearchPetsResponse:
+      description: A list of pets was successfully retrieved.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/PetList'
+          examples:
+            SearchPetsExample:
+              $ref: '#/components/examples/SearchPetsExample'
+    UpdatePetStatusResponse:
+      description: The pet status was successfully updated.
+    AdoptPetResponse:
+      description: 'The pet was successfully adopted, see `Location` header.'
+      headers:
+        Location:
+          schema:
+            type: string
+          description: The URI of the adoption resource.
+          example: >-
+            /adoptions/db038080-ddb2-4004-be59-78cc4e044dc7
+    UpdateAdoptionResponse:
+      description: The adoption record was successfully updated.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/AdoptionWrapper'
+          examples:
+            UpdatedAdoptionExample:
+              $ref: '#/components/examples/UpdatedAdoptionExample'
+    DeleteAdoptionResponse:
+      description: The adoption record was successfully deleted.
+    AddEmployeesResponse:
+      description: The employees were successfully added.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/EmployeeListData'
+          examples:
+            AddJohnAndAmandaExample:
+              $ref: '#/components/examples/JohnAndAmandaExample'
+    GetEmployeeResponse:
+      description: The employee was successfully retrieved.
+      headers:
+        ETag:
+          $ref: '#/components/headers/ETag'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/EmployeeData'
+          examples:
+            GetJohnDoeExample:
+              $ref: '#/components/examples/JohnDoeExample'
+    UpdateEmployeeResponse:
+      description: The employee was successfully updated.
+    RemoveEmployeeResponse:
+      description: The employee was successfully deleted.
+    SearchAdoptedPetsResponse:
+      description: The search was performed successfully.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/AdoptionSearch'
+          examples:
+            SearchLastMonthDogAdoptionsExample:
+              $ref: '#/components/examples/LastMonthDogAdoptionsExample'
+    SearchEmployeeResponse:
+      description: The search was performed successfully.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/EmployeeWrapper'
+          examples:
+            SearchEmployeeBySSNExample:
+              $ref: '#/components/examples/SearchJohnDoeExample'
+    GetAdoptionResponse:
+      description: The adoption record was successfully retrieved.
+      headers:
+        ETag:
+          $ref: '#/components/headers/ETag'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Adoption'
+          examples:
+            GetAdoptionExample:
+              $ref: '#/components/examples/AdoptionExample'
+    UnauthorizedErrorResponse:
+      description: Authentication information was missing or invalid.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorWrapper'
+          examples:
+            UnauthorizedExample:
+              $ref: '#/components/examples/UnauthorizedExample'
+    DogNotFoundErrorResponse:
+      description: The URI didn't match an existing resource.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorWrapper'
+          examples:
+            DogNotFoundExample:
+              $ref: '#/components/examples/DogNotFoundExample'
+    CatNotFoundErrorResponse:
+      description: The URI didn't match an existing resource.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorWrapper'
+          examples:
+            CatNotFoundExample:
+              $ref: '#/components/examples/CatNotFoundExample'
+    PetNotFoundErrorResponse:
+      description: The URI didn't match an existing resource.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorWrapper'
+          examples:
+            PetNotFoundExample:
+              $ref: '#/components/examples/PetNotFoundExample'
+    EmployeeNotFoundErrorResponse:
+      description: The URI didn't match an existing resource.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorWrapper'
+          examples:
+            EmployeeNotFoundExample:
+              $ref: '#/components/examples/EmployeeNotFoundExample'
+    AdoptionNotFoundErrorResponse:
+      description: The URI didn't match an existing resource.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorWrapper'
+          examples:
+            AdoptionNotFoundExample:
+              $ref: '#/components/examples/AdoptionNotFoundExample'
+    BadRequestErrorResponse:
+      description: Something was wrong with the request.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorWrapper'
+          examples:
+            BadRequestExample:
+              $ref: '#/components/examples/BadRequestExample'
+    ForbiddenErrorResponse:
+      description: Insufficient permissions for interacting with the resource.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorWrapper'
+          examples:
+            ForbiddenExample:
+              $ref: '#/components/examples/ForbiddenExample'
+    AdoptionConflictErrorResponse:
+      description: The resource seems to exist already.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorWrapper'
+          examples:
+            ConflictExample:
+              $ref: '#/components/examples/AdoptionConflictExample'
+    AdoptionConflictModifyErrorResponse:
+      description: The resource seems to exist already.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorWrapper'
+          examples:
+            ConflictExample:
+              $ref: '#/components/examples/AdoptionConflictModifyExample'
+    DogPreconditionFailedErrorResponse:
+      description: The target resource has been modified.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorWrapper'
+          examples:
+            PreconditionExample:
+              $ref: '#/components/examples/DogPreconditionExample'
+    CatPreconditionFailedErrorResponse:
+      description: The target resource has been modified.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorWrapper'
+          examples:
+            PreconditionExample:
+              $ref: '#/components/examples/CatPreconditionExample'
+    PetPreconditionFailedErrorResponse:
+      description: The target resource has been modified.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorWrapper'
+          examples:
+            PreconditionExample:
+              $ref: '#/components/examples/PetPreconditionExample'
+    AdoptionPreconditionFailedErrorResponse:
+      description: The target resource has been modified.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorWrapper'
+          examples:
+            PreconditionExample:
+              $ref: '#/components/examples/AdoptionPreconditionExample'
+    EmployeePreconditionFailedErrorResponse:
+      description: The target resource has been modified.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorWrapper'
+          examples:
+            PreconditionExample:
+              $ref: '#/components/examples/EmployeePreconditionExample'
+  headers:
+    ETag:
+      schema:
+        type: string
+      description: >-
+        A hash of a response body used to uniquely identify a particular version
+        of a resource. This value needs be passed as the 'If-Match' header to
+        PUT method of the same resource to ensure idempotency. See
+        [RFC7232](https://datatracker.ietf.org/doc/html/rfc7232) for details.
+      example: "0"
+    Rate-Limit:
+      schema:
+        type: string
+      description: |
+        The RateLimit header communicates quota policies. It contains a `limit` to
+        convey the expiring limit, `remaining` to convey the remaining quota units,
+        and `reset` to convey the time window reset time.
+      example: 'limit=10, remaining=0, reset=10'
+    Retry-After:
+      schema:
+        type: string
+      description: |
+        The RetryAfter header indicates how long, in seconds, the user agent should wait before making a follow-up request.
+      example: '120'
+  examples:
+    UnauthorizedExample:
+      value:
+        Errors:
+          Error:
+            - Source: PETSTORE_API
+              ReasonCode: UNAUTHORIZED
+              Description: We could not recognize you.
+              Recoverable: false
+              Details: >-
+                Full authentication is required to access this resource. See
+                also: https://mstr.cd/31YcrTi
+    BadRequestExample:
+      value:
+        Errors:
+          Error:
+            - Source: PETSTORE_API
+              ReasonCode: BAD_REQUEST
+              Description: We could not handle your request.
+              Recoverable: false
+              Details: Invalid JSON payload.
+    ForbiddenExample:
+      value:
+        Errors:
+          Error:
+            - Source: PETSTORE_API
+              ReasonCode: PERMISSION_DENIED
+              Description: You do not seem authorized to do that.
+              Recoverable: false
+              Details: The resource was processed and can't be updated anymore.
+    DogNotFoundExample:
+      value:
+        Errors:
+          Error:
+            - Source: PETSTORE_API
+              ReasonCode: NOT_FOUND
+              Description: You tried to perform an action on a resource that doesn't exist.
+              Recoverable: false
+              Details: Dog not found.
+    CatNotFoundExample:
+      value:
+        Errors:
+          Error:
+            - Source: PETSTORE_API
+              ReasonCode: NOT_FOUND
+              Description: You tried to perform an action on a resource that doesn't exist.
+              Recoverable: false
+              Details: Cat not found.
+    PetNotFoundExample:
+      value:
+        Errors:
+          Error:
+            - Source: PETSTORE_API
+              ReasonCode: NOT_FOUND
+              Description: You tried to perform an action on a resource that doesn't exist.
+              Recoverable: false
+              Details: Pet not found.
+    EmployeeNotFoundExample:
+      value:
+        Errors:
+          Error:
+            - Source: PETSTORE_API
+              ReasonCode: NOT_FOUND
+              Description: You tried to perform an action on a resource that doesn't exist.
+              Recoverable: false
+              Details: Employee not found.
+    AdoptionNotFoundExample:
+      value:
+        Errors:
+          Error:
+            - Source: PETSTORE_API
+              ReasonCode: NOT_FOUND
+              Description: You tried to perform an action on a resource that doesn't exist.
+              Recoverable: false
+              Details: Adoption record not found.
+    AdoptionConflictExample:
+      value:
+        Errors:
+          Error:
+            - Source: PETSTORE_API
+              ReasonCode: CONFLICT
+              Description: This pet has already been adopted.
+              Recoverable: false
+              Details: This adoption information already exists.
+    AdoptionConflictModifyExample:
+      value:
+        Errors:
+          Error:
+            - Source: PETSTORE_API
+              ReasonCode: CONFLICT
+              Description: >-
+                You cannot modify the pet in an existing adoption record.
+                To adopt another pet use POST /adoptions.
+                To rectify an incorrectly entered pet identifier, use DELETE /adoptions/{adoptions_id} for this adoption record,
+                followed by POST /adoptions with the correct pet identifier.
+    DogPreconditionExample:
+      value:
+        Errors:
+          Error:
+            - Source: PETSTORE_API
+              ReasonCode: PRECONDITION_FAILED
+              Description: The target resource has already been modified.
+              Recoverable: false
+              Details: This Dog resource has already been modified.
+    CatPreconditionExample:
+      value:
+        Errors:
+          Error:
+            - Source: PETSTORE_API
+              ReasonCode: PRECONDITION_FAILED
+              Description: The target resource has already been modified.
+              Recoverable: false
+              Details: This Cat resource has already been modified.
+    PetPreconditionExample:
+      value:
+        Errors:
+          Error:
+            - Source: PETSTORE_API
+              ReasonCode: PRECONDITION_FAILED
+              Description: The target resource has already been modified.
+              Recoverable: false
+              Details: This Pet resource has already been modified.
+    AdoptionPreconditionExample:
+      value:
+        Errors:
+          Error:
+            - Source: PETSTORE_API
+              ReasonCode: PRECONDITION_FAILED
+              Description: The target resource has already been modified.
+              Recoverable: false
+              Details: This Adoption resource has already been modified.
+    EmployeePreconditionExample:
+      value:
+        Errors:
+          Error:
+            - Source: PETSTORE_API
+              ReasonCode: PRECONDITION_FAILED
+              Description: The target resource has been modified.
+              Recoverable: false
+              Details: This Employee has already been modified.
+    AddBellaExample:
+      description: Bella is a dog ready to be adopted.
+      value:
+        name: Bella
+        breed: New Zealand Huntaway
+        color: Black
+        gender: FEMALE
+        birthdate:
+          year: 2021
+          month: 4
+          day: 12
+        dogProperty2:
+          value: Something mandatory only dogs have.
+        status:
+          value: AVAILABLE
+    AddCooperExample:
+      description: Cooper just arrived and is still examined by the vet.
+      value:
+        name: Cooper
+        breed: Beagle
+        color: Lemon
+        gender: MALE
+        birthdate:
+          year: 2018
+        dogProperty1:
+          value: Something optional only dogs have
+        dogProperty2:
+          value: Something mandatory only dogs have
+        status:
+          value: UNDER_EXAMINATION
+    BellaExample:
+      value:
+        id: 6d473178-343f-4174-b04b-50120b1b77dc
+        created: '2021-05-14T10:00:21Z'
+        updated: '2021-05-14T10:00:21Z'
+        name: Bella
+        breed: New Zealand Huntaway
+        color: Black
+        gender: FEMALE
+        birthdate:
+          year: 2021
+          month: 4
+          day: 12
+        dogProperty2:
+          value: Something mandatory only dogs have
+        dogProperty3:
+          value: Something computed as part of adding the dog
+        status:
+          value: AVAILABLE
+    UpdateBellaExample:
+      description: Updating Bella's color from 'Black' to 'Dark brindle'.
+      value:
+        id: f2123113-2626-492d-bf73-309a429bf67a
+        name: Bella
+        breed: New Zealand Huntaway
+        color: Dark brindle
+        gender: FEMALE
+        birthdate:
+          year: 2021
+          month: 4
+          day: 12
+        dogProperty2:
+          value: Something mandatory only dogs have
+        dogProperty3:
+          value: Something computed as part of adding the dog
+        status:
+          value: AVAILABLE
+    AddKittyExample:
+      description: Kitty is a cat ready to be adopted.
+      value:
+        name: Kitty
+        breed: Persian Longhair
+        color: White
+        gender: FEMALE
+        birthdate:
+          year: 2021
+          month: 1
+        status:
+          value: AVAILABLE
+    KittyExample:
+      value:
+        id: 6f93a031-d45a-4a38-9bdc-cf202541abcb
+        created: '2021-05-13T09:02:22Z'
+        updated: '2021-05-13T09:02:22Z'
+        name: Kitty
+        breed: Persian Longhair
+        color: White
+        gender: FEMALE
+        birthdate:
+          year: 2021
+          month: 1
+        catProperty2:
+          value: Something computed as part of adding the cat
+        status:
+          value: AVAILABLE
+    UpdateKittyExample:
+      description: Updating Kitty's date of birth
+      value:
+        id: f2573842-2515-445d-a364-7284981b233b
+        name: Kitty
+        breed: Persian Longhair
+        color: White
+        gender: FEMALE
+        birthdate:
+          year: 2021
+          month: 2
+          day: 15
+        catProperty2:
+          value: Something computed as part of adding the cat
+        status:
+          value: AVAILABLE
+    AddCardPaymentExample:
+      description: Add your card details.
+      value:
+        id: f2575226-50a1-4350-9163-2af1a5e38131
+        amount: 49.99
+        currency: EUR
+        source:
+          object: card
+          name: John Doe
+          number: '4242424242424242'
+          cvc: '123'
+          expMonth: 12
+          expYear: '2025'
+          address:
+            addressLine1: 12 Grafton Street
+            addressLine2: 4th Floor
+            city: Dublin
+            country: ie
+            postCode: N12 9XX
+    AddBankAccountPaymentExample:
+      description: Add your bank account details.
+      value:
+        id: f2575226-50a1-4350-9163-2af1a5e38131
+        amount: 100.50
+        currency: EUR
+        source:
+          object: bank_account
+          name: John Doe
+          number: 'IE29AIBK93115212345678'
+          sortCode: '000123'
+          accountType: INDIVIDUAL
+          bankName: Bank of Ireland
+          address:
+            country: ie
+    CardPaymentResponseExample:
+      summary: Card Payment
+      value:
+        id: 2e3b4f5a-6b7c-8d9e-0f1a-2b3c4d5e6f7a
+        amount: 49.99
+        currency: EUR
+        source:
+          object: card
+          name: John Doe
+          number: '************4242'
+          address:
+            country: ie
+            postCode: N12 9XX
+        status: SUCCEEDED
+        link: https://pay.petstore.com/pid_4gw7vp5cFbBxdLqeUU
+    BankAccountResponseExample:
+      summary: Bank Account Payment
+      value:
+        id: 3b3e2d4a-5e7d-8a4b-0b1c-2e3f4d5a3e6b
+        amount: 100.5
+        currency: EUR
+        source:
+          object: bank_account
+          name: John Doe
+          accountType: INDIVIDUAL
+          number: '******************5678'
+          sortCode: '000123'
+          bankName: Bank of Ireland
+          country: ie
+        status: SUCCEEDED
+        link: https://pay.petstore.com/pid_4gw7vp5cFbBxdLqeUU
+    SearchPetsExample:
+      value:
+        count: 2
+        offset: 0
+        limit: 25
+        total: 200
+        items:
+          - id: aed47c28-38d7-41d7-97a6-4796d973eebb
+            created: '2021-05-13T09:02:22Z'
+            updated: '2021-05-13T09:02:22Z'
+            category: CAT
+            name: Kitty
+            breed: Persian Longhair
+            color: White
+            gender: FEMALE
+            birthdate:
+              year: 2021
+              month: 1
+              day: 12
+            status:
+              value: AVAILABLE
+          - id: 8f242496-b71a-11eb-8529-0242ac130003
+            created: '2021-05-14T10:00:21Z'
+            updated: '2021-05-14T10:00:21Z'
+            category: DOG
+            name: Bella
+            breed: New Zealand Huntaway
+            color: Black
+            gender: FEMALE
+            birthdate:
+              year: 2021
+              month: 4
+              day: 12
+            status:
+              value: AVAILABLE
+    AddJohnAndAmandaExample:
+      value:
+        newEmployees:
+          - firstName: John
+            lastName: Doe
+            phoneNumber: '+6573437115596'
+            ssn: '123-45-6789'
+            allergies:
+              - Shellfish
+          - firstName: Amanda
+            lastName: Young
+            phoneNumber: '+1789283475846'
+            ssn: '555-90-6789'
+            allergies: []
+    JohnAndAmandaExample:
+      value:
+        employees:
+          - id: 44871c36-d99d-11eb-b8bc-0242ac130003
+            created: '2021-06-30T13:18:22Z'
+            updated: '2021-06-30T13:18:22Z'
+            firstName: John
+            lastName: Doe
+            phoneNumber: '+6573437115596'
+            ssn: '123-45-6789'
+            username: john_doe
+            email: 'john.doe@petstore.com'
+            accountStatus: ACTIVE
+            allergies: []
+          - id: 774b1dfb-934a-4a22-93f3-3642a16e8550
+            created: '2021-06-30T13:18:23Z'
+            updated: '2021-06-30T13:18:23Z'
+            firstName: Amanda
+            lastName: Young
+            phoneNumber: '+1789283475846'
+            ssn: '555-90-6789'
+            username: amanda_y
+            email: 'amanda.young@petstore.com'
+            accountStatus: ACTIVE
+            allergies:
+              - Shellfish
+            encryptedFirstName: 'ey1wec143...'
+            encryptedLastName: 'eyr56c143...'
+            encryptedPhoneNumber: 'eru9acc143...'
+            encryptedSsn: 'ey1fcyy143...'
+            encryptedUsername: 'ey97tt143...'
+            encryptedEmail: 'ey344t43...'
+    JohnDoeExample:
+      value:
+        employee:
+          id: 44871c36-d99d-11eb-b8bc-0242ac130003
+          created: '2021-06-30T13:18:22Z'
+          updated: '2021-06-30T13:18:22Z'
+          firstName: John
+          lastName: Doe
+          phoneNumber: '+6573437115596'
+          ssn: '123-45-6789'
+          username: john_doe
+          email: 'john.doe@petstore.com'
+          accountStatus: ACTIVE
+          allergies:
+            - Shellfish
+    SearchJohnDoeExample:
+      value:
+        id: 44871c36-d99d-11eb-b8bc-0242ac130003
+        created: '2021-06-30T13:18:22Z'
+        updated: '2021-06-30T13:18:22Z'
+        firstName: John
+        lastName: Doe
+        phoneNumber: '+6573437115596'
+        ssn: '123-45-6789'
+        username: john_doe
+        email: 'john.doe@petstore.com'
+        encryptedFirstName: 'ey1wec143...'
+        encryptedLastName: 'eyr56c143...'
+        encryptedPhoneNumber: 'eru9acc143...'
+        encryptedSsn: 'ey1fcyy143...'
+        encryptedUsername: 'ey97tt143...'
+        encryptedEmail: 'ey344t43...'
+        accountStatus: ACTIVE
+        allergies:
+          - Shellfish
+    UpdateJohnDoeExample:
+      description: Updating John's phone number.
+      value:
+        employee:
+          id: 44871c36-d99d-11eb-b8bc-0242ac130003
+          created: '2021-06-30T13:18:22Z'
+          updated: '2021-06-30T13:18:22Z'
+          firstName: John
+          lastName: Doe
+          ssn: '123-45-6789'
+          phoneNumber: '+6573454542316'
+          username: john_doe
+          email: 'john.doe@petstore.com'
+          accountStatus: ACTIVE
+          allergies:
+            - Shellfish
+    LastMonthDogAdoptionsExample:
+      value:
+        fromDate: '2021-05-01'
+        toDate: '2022-12-31'
+        petCategory: DOG
+        searchResults:
+          - id: 36d3d01f-2afc-47b6-a542-c5f097715f6y
+            created: '2021-06-30T13:18:22Z'
+            updated: '2021-06-30T13:18:22Z'
+            adoptionDate: '2021-06-30'
+            petId: 29d3d01f-2afc-47b6-a542-c5f097715fc4
+            owner:
+              firstName: Hayden
+              lastName: Smith
+              phoneNumber: '+7509287096053'
+              ssn: '987-45-1234'
+          - id: 49d3d01f-2afc-47b6-a542-c5f097715fpd
+            created: '2022-09-01T13:18:22Z'
+            updated: '2022-09-01T13:18:22Z'
+            adoptionDate: '2022-09-01'
+            petId: 9u53d01f-2afc-47b6-a542-c5f0977158h3
+            owner:
+              firstName: Marie
+              lastName: Curie
+              phoneNumber: '+7509287096222'
+              ssn: '686-45-1234'
+    SearchEmployeeExample:
+      value:
+        ssn: '123-45-6789'
+    AdoptPetExample:
+      value:
+        petId: 54a96d5f-026b-4f41-853d-fa8a892f743e
+        owner:
+          firstName: Hayden
+          lastName: Smith
+          phoneNumber: '+7509287096053'
+          ssn: '987-45-1234'
+    AdoptionExample:
+      value:
+        id: f2575226-50a1-4350-9163-2af1a5e38131
+        petId: 29d3d01f-2afc-47b6-a542-c5f097715fc4
+        created: '2022-09-01T13:18:22Z'
+        updated: '2022-09-01T13:18:22Z'
+        adoptionDate: '2022-09-01'
+        owner:
+          firstName: Hayden
+          lastName: Smith
+          phoneNumber: '+7509287096053'
+          ssn: '987-45-1234'
+    UpdateAdoptionExample:
+      description: Updating adoption date.
+      value:
+        adoption:
+          id:  f2575226-50a1-4350-9163-2af1a5e38131
+          petId: 29d3d01f-2afc-47b6-a542-c5f097715fc4
+          adoptionDate: '2022-09-01'
+          owner:
+            firstName: Hayden
+            lastName: Smith
+            phoneNumber: '+7509287096053'
+            ssn: '987-45-1234'
+    UpdatedAdoptionExample:
+      value:
+        adoption:
+          id: f2575226-50a1-4350-9163-2af1a5e38131
+          petId: 29d3d01f-2afc-47b6-a542-c5f097715fc4
+          created: '2022-09-01T13:18:22Z'
+          updated: '2022-09-01T13:18:22Z'
+          adoptionDate: '2022-09-01'
+          owner:
+            firstName: Hayden
+            lastName: Smith
+            phoneNumber: '+7509287096053'
+            ssn: '987-45-1234'
