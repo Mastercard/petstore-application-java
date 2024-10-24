@@ -1,0 +1,12 @@
+{
+  "artifacts": [
+    {
+      "group": "releases/com/petstore/app",
+      "name": "petstore-reference-app.jar",
+      "componentOf" : {
+        "uuid": "aeaa515f-fcaa-3ca1-b84c-33a86f5f43f8",
+        "type": "Technical Asset"
+      }
+    }
+  ]
+}
