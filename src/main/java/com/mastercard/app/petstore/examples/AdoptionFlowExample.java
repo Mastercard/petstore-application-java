@@ -1,34 +1,22 @@
-package com.mastercard.app.petstore.flow;
+package com.mastercard.app.petstore.examples;
 
-import com.mastercard.app.petstore.TestMockBuilders;
 import com.mastercard.app.petstore.services.AdoptionsService;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.Mock;
+import com.mastercard.app.petstore.utils.MockDataBuilders;
 import org.openapitools.client.ApiException;
 import org.openapitools.client.model.Adoption;
 import org.openapitools.client.model.AdoptionWrapper;
 import org.openapitools.client.model.NewAdoption;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.core.env.Environment;
-import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.junit4.SpringRunner;
-
-import java.lang.reflect.Array;
-
-import static org.mockito.Mockito.when;
 
 /**
- * The type Adoption flow test.
+ * The type Adoption flow example.
  */
-@SpringBootTest()
-@RunWith(SpringRunner.class)
-@ActiveProfiles({"oauth"})
+
 @ComponentScan(basePackages = {"com.mastercard.app.petstore.utils"})
-public class AdoptionFlowTest {
+public class AdoptionFlowExample {
 
     /**
      * The Base path. Set in application.properties
@@ -36,7 +24,6 @@ public class AdoptionFlowTest {
     @Value("${mastercard.basePath}")
     String basePath;
 
-    @Mock
     private Environment environment;
 
     @Autowired
@@ -47,7 +34,6 @@ public class AdoptionFlowTest {
      *
      * @throws ApiException the api exception
      */
-    @Test
     public void adoptionUseCase() throws ApiException {
 
         //Skipping test if applications.properties isn't set
@@ -55,7 +41,7 @@ public class AdoptionFlowTest {
             return;
         }
         //Create adoption
-        NewAdoption newAdoption = TestMockBuilders.buildNewAdoptionObject();
+        NewAdoption newAdoption = MockDataBuilders.buildNewAdoptionObject();
         adoptionsService.adoptPet(newAdoption);
 
         //Get Adoption

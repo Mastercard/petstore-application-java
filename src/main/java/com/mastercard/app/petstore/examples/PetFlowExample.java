@@ -1,29 +1,18 @@
-package com.mastercard.app.petstore.flow;
+package com.mastercard.app.petstore.examples;
 
-import com.mastercard.app.petstore.TestMockBuilders;
 import com.mastercard.app.petstore.services.CatService;
 import com.mastercard.app.petstore.services.PetService;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import com.mastercard.app.petstore.utils.MockDataBuilders;
 import org.openapitools.client.ApiException;
-import org.openapitools.client.api.CatsApi;
-import org.openapitools.client.api.PetsApi;
 import org.openapitools.client.model.Cat;
 import org.openapitools.client.model.NewCat;
 import org.openapitools.client.model.PetStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.ComponentScan;
-import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.junit4.SpringRunner;
 
-@SpringBootTest()
-@RunWith(SpringRunner.class)
-@ActiveProfiles({"oauth"})
 @ComponentScan(basePackages = {"com.mastercard.app.petstore.utils"})
-public class PetFlowTest {
+public class PetFlowExample {
 
     /**
      * The Base path.
@@ -41,7 +30,6 @@ public class PetFlowTest {
      *
      * @throws ApiException the api exception
      */
-    @Test
     public void petUseCaseFlow () throws ApiException {
         //Skipping test if applications.properties isn't set
         if(basePath == null){
@@ -49,7 +37,7 @@ public class PetFlowTest {
         }
 
         //Add pet
-        NewCat newCat = TestMockBuilders.buildNewCat();
+        NewCat newCat = MockDataBuilders.buildNewCat();
         Cat cat = catService.addCat(newCat);
         cat = catService.getCat(cat.getId().toString());
 

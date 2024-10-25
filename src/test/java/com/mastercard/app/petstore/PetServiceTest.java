@@ -1,9 +1,10 @@
-package com.mastercard.app.petstore.unit;
+package com.mastercard.app.petstore;
 
-import com.mastercard.app.petstore.TestMockBuilders;
 import com.mastercard.app.petstore.services.PetService;
-import org.junit.Before;
-import org.junit.Test;
+import com.mastercard.app.petstore.utils.MockDataBuilders;
+
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.BeforeEach;
 import org.mockito.InjectMocks;
 import org.openapitools.client.ApiException;
 import org.openapitools.client.api.PetsApi;
@@ -24,7 +25,7 @@ public class PetServiceTest {
     @InjectMocks
     PetService petService;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         petsApi = mock(PetsApi.class);
         petService = new PetService(petsApi);
@@ -32,8 +33,8 @@ public class PetServiceTest {
 
     @Test
     public void updatePet_shouldUpdateAPet() throws ApiException {
-        Pet pet = TestMockBuilders.buildPet();
-        PetStatus petStatus = TestMockBuilders.buildPetStatus();
+        Pet pet = MockDataBuilders.buildPet();
+        PetStatus petStatus = MockDataBuilders.buildPetStatus();
         String etag = "33a64df551425f";
 
         doNothing().when(petsApi).updatePetStatus(pet.getId(), etag, petStatus);
@@ -46,7 +47,7 @@ public class PetServiceTest {
     @Test
     public void searchForPets_shouldReturnAListofPets() throws ApiException {
         String status = "RESERVED";
-        List<Pet> petCollection = Collections.singletonList(TestMockBuilders.buildPet());
+        List<Pet> petCollection = Collections.singletonList(MockDataBuilders.buildPet());
         PetList pets = new PetList();
         pets.setItems(petCollection);
         pets.setLimit(10);
@@ -63,7 +64,7 @@ public class PetServiceTest {
 
     @Test
     public void removePet_shouldRemoveAPet() throws ApiException {
-        Pet pet = TestMockBuilders.buildPet();
+        Pet pet = MockDataBuilders.buildPet();
 
         doNothing().when(petsApi).deletePet(pet.getId());
 

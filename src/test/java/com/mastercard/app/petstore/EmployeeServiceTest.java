@@ -1,9 +1,9 @@
-package com.mastercard.app.petstore.unit;
+package com.mastercard.app.petstore;
 
-import com.mastercard.app.petstore.TestMockBuilders;
 import com.mastercard.app.petstore.services.EmployeeService;
-import org.junit.Before;
-import org.junit.Test;
+import com.mastercard.app.petstore.utils.MockDataBuilders;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.openapitools.client.ApiException;
 import org.openapitools.client.api.EmployeesApi;
@@ -25,7 +25,7 @@ public class EmployeeServiceTest {
     @InjectMocks
     EmployeeService employeeService;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         employeesApi = mock(EmployeesApi.class);
         employeesApiEncryptedForBody = mock(EmployeesApi.class);
@@ -35,9 +35,9 @@ public class EmployeeServiceTest {
 
     @Test
     public void createEmployee_shouldCreateAnEmployee() throws ApiException {
-        NewEmployee newEmployee = TestMockBuilders.buildNewEmployee();
+        NewEmployee newEmployee = MockDataBuilders.buildNewEmployee();
         NewEmployeeData newEmployeeData = new NewEmployeeData().addNewEmployeesItem(newEmployee);
-        Employee employee = TestMockBuilders.buildEmployee();
+        Employee employee = MockDataBuilders.buildEmployee();
         EmployeeListData employeeData = new EmployeeListData().addEmployeesItem(employee);
 
         when(employeesApiEncryptedForBody.addEmployees(newEmployeeData)).thenReturn(employeeData);
@@ -49,7 +49,7 @@ public class EmployeeServiceTest {
 
     @Test
     public void returnEmployee_shouldReturnAnEmployee() throws ApiException {
-        Employee employee = TestMockBuilders.buildEmployee();
+        Employee employee = MockDataBuilders.buildEmployee();
         EmployeeData employeeData = new EmployeeData();
         employeeData.setEmployee(employee);
         when(employeesApiEncryptedForFLE.getEmployee(employee.getUsername())).thenReturn(employeeData);

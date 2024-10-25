@@ -1,28 +1,19 @@
-package com.mastercard.app.petstore.flow;
+package com.mastercard.app.petstore.examples;
 
-import com.mastercard.app.petstore.TestMockBuilders;
 import com.mastercard.app.petstore.services.EmployeeService;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import com.mastercard.app.petstore.utils.MockDataBuilders;
 import org.openapitools.client.ApiException;
-import org.openapitools.client.api.EmployeesApi;
 import org.openapitools.client.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.ComponentScan;
-import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.junit4.SpringRunner;
 
 /**
- * The type Employee flow test.
+ * The type Employee flow example.
  */
-@SpringBootTest()
-@RunWith(SpringRunner.class)
-@ActiveProfiles({"oauth"})
+
 @ComponentScan(basePackages = {"com.mastercard.app.petstore.utils"})
-public class EmployeeFlowTest {
+public class EmployeeFlowExample {
 
     /**
      * The Base path. Set in application.properties
@@ -38,14 +29,13 @@ public class EmployeeFlowTest {
      *
      * @throws ApiException the api exception
      */
-    @Test
     public void employeeUseCase() throws ApiException {
         //Skipping test if applications.properties isn't set
         if(basePath == null){
             return;
         }
         //Add employee
-        NewEmployee newEmployee = TestMockBuilders.buildNewEmployee();
+        NewEmployee newEmployee = MockDataBuilders.buildNewEmployee();
         NewEmployeeData newEmployeeData = new NewEmployeeData().addNewEmployeesItem(newEmployee);
         Employee employee = employeeService.createEmployee(newEmployeeData).getEmployees().get(0);
 

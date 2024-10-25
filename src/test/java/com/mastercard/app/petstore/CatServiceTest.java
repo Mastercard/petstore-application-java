@@ -1,9 +1,9 @@
-package com.mastercard.app.petstore.unit;
+package com.mastercard.app.petstore;
 
-import com.mastercard.app.petstore.TestMockBuilders;
 import com.mastercard.app.petstore.services.CatService;
-import org.junit.Before;
-import org.junit.Test;
+import com.mastercard.app.petstore.utils.MockDataBuilders;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.openapitools.client.ApiException;
 import org.openapitools.client.api.CatsApi;
@@ -20,7 +20,7 @@ public class CatServiceTest {
     @InjectMocks
     CatService catService;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         catsApi = mock(CatsApi.class);
         catService = new CatService(catsApi);
@@ -28,8 +28,8 @@ public class CatServiceTest {
 
     @Test
     public void addCat_shouldReturnACat() throws ApiException {
-        NewCat newCat = TestMockBuilders.buildNewCat();
-        Cat expectedCat = TestMockBuilders.buildCat();
+        NewCat newCat = MockDataBuilders.buildNewCat();
+        Cat expectedCat = MockDataBuilders.buildCat();
 
         when(catsApi.addCat(any())).thenReturn(expectedCat);
 
@@ -40,7 +40,7 @@ public class CatServiceTest {
 
     @Test
     public void getCat_shouldReturnACat() throws ApiException {
-        Cat cat = TestMockBuilders.buildCat();
+        Cat cat = MockDataBuilders.buildCat();
         when(catsApi.getCat(any())).thenReturn(cat);
 
         Cat returnedCat = catService.getCat(cat.getId().toString());
@@ -50,7 +50,7 @@ public class CatServiceTest {
 
     @Test
     public void updateCat_shouldUpdateACat() throws ApiException {
-        Cat cat = TestMockBuilders.buildCat();
+        Cat cat = MockDataBuilders.buildCat();
         String etag = "33a64df551425f";
 
         doNothing().when(catsApi).updateCat(cat.getId(), etag, cat);

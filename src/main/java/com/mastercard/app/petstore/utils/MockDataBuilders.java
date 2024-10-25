@@ -1,4 +1,4 @@
-package com.mastercard.app.petstore;
+package com.mastercard.app.petstore.utils;
 
 import org.openapitools.client.model.*;
 
@@ -9,7 +9,7 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.UUID;
 
-public class TestMockBuilders {
+public class MockDataBuilders {
 
     public static NewCat buildNewCat(){
         NewCat newCat = new NewCat();
