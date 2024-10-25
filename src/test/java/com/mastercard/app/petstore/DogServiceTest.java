@@ -1,9 +1,9 @@
-package com.mastercard.app.petstore.unit;
+package com.mastercard.app.petstore;
 
-import com.mastercard.app.petstore.TestMockBuilders;
 import com.mastercard.app.petstore.services.DogService;
-import org.junit.Before;
-import org.junit.Test;
+import com.mastercard.app.petstore.utils.MockDataBuilders;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.openapitools.client.ApiException;
 import org.openapitools.client.api.DogsApi;
@@ -20,7 +20,7 @@ public class DogServiceTest {
     @InjectMocks
     DogService dogService;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         dogsApi = mock(DogsApi.class);
         dogService = new DogService(dogsApi);
@@ -28,8 +28,8 @@ public class DogServiceTest {
 
     @Test
     public void addDog_shouldReturnADog() throws ApiException {
-        NewDog newDog = TestMockBuilders.buildNewDog();
-        Dog expectedDog = TestMockBuilders.buildDog();
+        NewDog newDog = MockDataBuilders.buildNewDog();
+        Dog expectedDog = MockDataBuilders.buildDog();
 
         when(dogsApi.addDog(any())).thenReturn(expectedDog);
 
@@ -40,7 +40,7 @@ public class DogServiceTest {
 
     @Test
     public void getDog_shouldReturnADog() throws ApiException {
-        Dog dog = TestMockBuilders.buildDog();
+        Dog dog = MockDataBuilders.buildDog();
         when(dogsApi.getDog(any())).thenReturn(dog);
 
         Dog returnedDog = dogService.getDog(dog.getId().toString());
@@ -50,7 +50,7 @@ public class DogServiceTest {
 
     @Test
     public void updateDog_shouldUpdateADog() throws ApiException {
-        Dog dog = TestMockBuilders.buildDog();
+        Dog dog = MockDataBuilders.buildDog();
         String etag = "33a64df551425f";
 
         doNothing().when(dogsApi).updateDog(dog.getId(), etag, dog);
