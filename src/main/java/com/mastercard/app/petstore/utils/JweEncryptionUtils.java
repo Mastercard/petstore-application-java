@@ -29,9 +29,9 @@ public class JweEncryptionUtils {
      * Sets field level encryption config for employees.
      *
      * @return the field level encryption config for employees
-     * @throws EncryptionException      the encryption exception. Will trigger if keys fail to get extracted
-     * @throws GeneralSecurityException the general security exception
-     * @throws IOException              the io exception
+     * @throws EncryptionException      the encryption exception. Will trigger if there's an issue with encryption
+     * @throws GeneralSecurityException the general security exception. Covers other issues with security not covered by EncryptionException
+     * @throws IOException              the io exception. Will trigger on fail to load files
      */
     @Bean
     public EncryptionConfig fieldLevelEncryptionConfigForEmployees() throws EncryptionException, GeneralSecurityException, IOException {
@@ -55,9 +55,9 @@ public class JweEncryptionUtils {
      * Sets field level encryption config for adoptions.
      *
      * @return the field level encryption config for adoptions
-     * @throws EncryptionException      the encryption exception. Will trigger if keys fail to get extracted
-     * @throws GeneralSecurityException the general security exception
-     * @throws IOException              the io exception
+     * @throws EncryptionException      the encryption exception. Will trigger if there's an issue with encryption
+     * @throws GeneralSecurityException the general security exception. Covers other issues with security not covered by EncryptionException
+     * @throws IOException              the io exception. Will trigger on fail to load files
      */
     @Bean
     public EncryptionConfig fieldLevelEncryptionConfigForAdoptions() throws EncryptionException, GeneralSecurityException, IOException {
@@ -76,9 +76,9 @@ public class JweEncryptionUtils {
      * Sets full body encryption config. The entire payload will be encrypted
      *
      * @return the full body encryption config
-     * @throws EncryptionException      the encryption exception
-     * @throws GeneralSecurityException the general security exception
-     * @throws IOException              the io exception
+     * @throws EncryptionException      the encryption exception. Will trigger if there's an issue with encryption
+     * @throws GeneralSecurityException the general security exception. Covers other issues with security not covered by EncryptionException
+     * @throws IOException              the io exception. Will trigger on fail to load files
      */
     @Bean
     public EncryptionConfig fullBodyEncryptionConfig() throws EncryptionException, GeneralSecurityException, IOException {

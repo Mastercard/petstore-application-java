@@ -60,7 +60,7 @@ public class OAuthUtils {
     /**
      * Sets an oAuth api client with encryption. This will be used to send authenticated requests to the server.
      *
-     * @param config the encryption config
+     * @param fullBodyEncryptionConfig the config used to determine how encryption will work inside the api
      * @return the oAuth api client
      */
     @Bean

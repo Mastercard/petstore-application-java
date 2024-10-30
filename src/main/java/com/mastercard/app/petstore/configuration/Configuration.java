@@ -1,5 +1,7 @@
 package com.mastercard.app.petstore.configuration;
 
+import com.mastercard.app.petstore.services.AdoptionsService;
+import com.mastercard.app.petstore.services.CatService;
 import org.openapitools.client.ApiClient;
 import org.openapitools.client.api.AdoptionsApi;
 import org.openapitools.client.api.CatsApi;
@@ -50,6 +52,4 @@ public class Configuration {
     public EmployeesApi employeesApiEncryptedForBody(ApiClient apiClientEncryption) {
         return new EmployeesApi(apiClientEncryption);
     }
-
-
 }

@@ -49,12 +49,12 @@ public class MtlsUtils {
      * Sets mTLS api client. This will be used to send authenticated requests to the server.
      *
      * @return the mTLS api client
-     * @throws IOException               the io exception
-     * @throws KeyStoreException         the key store exception
-     * @throws NoSuchAlgorithmException  the no such algorithm exception
-     * @throws KeyManagementException    the key management exception
-     * @throws CertificateException      the certificate exception
-     * @throws UnrecoverableKeyException the unrecoverable key exception
+     * @throws IOException               the io exception. Will trigger on fail to load file
+     * @throws KeyStoreException         the key store exception. Will trigger on failure to extract keys, typically through bad password
+     * @throws NoSuchAlgorithmException  the no such algorithm exception. Will trigger is specified algorithm is not found
+     * @throws KeyManagementException    the key management exception. Will trigger when not able to use keys correctly
+     * @throws CertificateException      the certificate exception. Will trigger when not able to use cert correctly
+     * @throws UnrecoverableKeyException the unrecoverable key exception. Will trigger when keys are corrupted
      */
     @Bean
     public ApiClient apiClient() throws IOException, KeyStoreException, NoSuchAlgorithmException, KeyManagementException, CertificateException, UnrecoverableKeyException {
@@ -83,14 +83,14 @@ public class MtlsUtils {
     /**
      * Sets mTLS api client with encryption. This will be used to send authenticated requests to the server.
      *
-     * @param config the config
-     * @return the mtls api client
-     * @throws IOException               the io exception
-     * @throws KeyStoreException         the key store exception
-     * @throws NoSuchAlgorithmException  the no such algorithm exception
-     * @throws KeyManagementException    the key management exception
-     * @throws CertificateException      the certificate exception
-     * @throws UnrecoverableKeyException the unrecoverable key exception
+     * @param fullBodyEncryptionConfig the config used to determine how encryption will work inside the api
+     * @return the mTLS api client
+     * @throws IOException               the io exception. Will trigger on fail to load file
+     * @throws KeyStoreException         the key store exception. Will trigger on failure to extract keys, typically through bad password
+     * @throws NoSuchAlgorithmException  the no such algorithm exception. Will trigger is specified algorithm is not found
+     * @throws KeyManagementException    the key management exception. Will trigger when not able to use keys correctly
+     * @throws CertificateException      the certificate exception. Will trigger when not able to use cert correctly
+     * @throws UnrecoverableKeyException the unrecoverable key exception. Will trigger when keys are corrupted
      */
     @Bean
     public ApiClient apiClientEncryption(EncryptionConfig fullBodyEncryptionConfig) throws IOException, KeyStoreException, NoSuchAlgorithmException, KeyManagementException, CertificateException, UnrecoverableKeyException {
