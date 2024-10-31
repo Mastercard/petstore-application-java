@@ -1,9 +1,9 @@
-package com.mastercard.app.petstore.unit;
+package com.mastercard.app.petstore;
 
-import com.mastercard.app.petstore.TestMockBuilders;
 import com.mastercard.app.petstore.services.AdoptionsService;
-import org.junit.Before;
-import org.junit.Test;
+import com.mastercard.app.petstore.utils.MockDataBuilders;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.openapitools.client.ApiException;
 import org.openapitools.client.api.AdoptionsApi;
@@ -27,7 +27,7 @@ public class AdoptionsServiceTest {
     @InjectMocks
     AdoptionsService adoptionsService;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         adoptionsApiFle = mock(AdoptionsApi.class);
         adoptionsApiFullBody = mock(AdoptionsApi.class);
@@ -36,7 +36,7 @@ public class AdoptionsServiceTest {
 
     @Test
     public void adoptPet_shouldRun() throws ApiException {
-        NewAdoption newAdoption = TestMockBuilders.buildNewAdoptionObject();
+        NewAdoption newAdoption = MockDataBuilders.buildNewAdoptionObject();
         doNothing().when(adoptionsApiFle).adoptPet(newAdoption);
 
         adoptionsService.adoptPet(newAdoption);
@@ -46,7 +46,7 @@ public class AdoptionsServiceTest {
 
     @Test
     public void getAdoption_shouldReturnAnAdoption() throws ApiException {
-        Adoption adoption = TestMockBuilders.buildAdoptionObject();
+        Adoption adoption = MockDataBuilders.buildAdoptionObject();
         when(adoptionsApiFle.getAdoption(any())).thenReturn(adoption);
 
         Adoption returnedAdoption = adoptionsService.getAdoption(adoption.getId().toString());
@@ -56,7 +56,7 @@ public class AdoptionsServiceTest {
 
     @Test
     public void searchAdoption_shouldReturnAnAdoptionSearch() throws ApiException {
-        AdoptionSearch adoptionSearch = TestMockBuilders.buildAdoptionSearch();
+        AdoptionSearch adoptionSearch = MockDataBuilders.buildAdoptionSearch();
 
         when(adoptionsApiFle.searchAdoptedPets(adoptionSearch.getFromDate(), adoptionSearch.getToDate(), adoptionSearch.getPetCategory(), adoptionSearch.getPetIdentifier())).thenReturn(adoptionSearch);
 
@@ -67,8 +67,8 @@ public class AdoptionsServiceTest {
 
     @Test
     public void adoptionPayment_shouldReturnAnAdoptionPayment() throws ApiException {
-        Payment payment = TestMockBuilders.buildPayment();
-        PaymentDetails paymentDetails = TestMockBuilders.buildPaymentDetailsFromPayment(payment);
+        Payment payment = MockDataBuilders.buildPayment();
+        PaymentDetails paymentDetails = MockDataBuilders.buildPaymentDetailsFromPayment(payment);
         UUID id = UUID.randomUUID();
 
         when(adoptionsApiFullBody.adoptionPayment(id, payment)).thenReturn(paymentDetails);
