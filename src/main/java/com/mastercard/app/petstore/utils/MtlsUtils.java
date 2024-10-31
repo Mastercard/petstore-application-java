@@ -40,9 +40,18 @@ public class MtlsUtils {
             @Value("${mastercard.mtls.keyPassword}") String mtlsKeystorePassword,
             @Value("${mastercard.basePath}") String basePath
     ) {
-        this.mtlsPkcs12KeyFilePath = mtlsPkcs12KeyFilePath;
-        this.mtlsKeystorePassword = mtlsKeystorePassword;
+        if (basePath.isEmpty()){
+            throw new IllegalArgumentException("basePath in application.properties is empty");
+        }
         this.basePath = basePath;
+        if (mtlsPkcs12KeyFilePath.isEmpty()){
+            throw new IllegalArgumentException("pfxKeyFile in application-mtls.properties is empty");
+        }
+        this.mtlsPkcs12KeyFilePath = mtlsPkcs12KeyFilePath;
+        if (mtlsKeystorePassword.isEmpty()){
+            throw new IllegalArgumentException("keyPassword in application.properties is empty");
+        }
+        this.mtlsKeystorePassword = mtlsKeystorePassword;
     }
 
     /**

@@ -6,7 +6,7 @@ info:
     This API uses OAuth 1.0a for authenticating client applications. For
     that, please refer to [Using OAuth 1.0a to Access Mastercard
     APIs](https://mstr.cd/31YcrTi).
-  version: 1.0.0
+  version: 1.0.2
   title: Mastercard Pet Store API
   contact:
     name: API Support
@@ -575,7 +575,7 @@ components:
     SortParameter:
       name: sort
       in: query
-      description: The fields by which to sort the results. Prefix with '-' for descending order and '+' for asscending order.
+      description: The fields by which to sort the results. Use '-' for descending order and '+' for asscending order.
       required: false
       schema:
         type: string
@@ -638,7 +638,7 @@ components:
       minimum: 0
       maximum: 100
     Offset:
-      description: The number of items the start of the list is off setted from.
+      description: The number of items the start of the list is offset from.
       type: integer
       minimum: 0
       maximum: 1000
@@ -677,8 +677,6 @@ components:
     BaseResource:
       description: Properties common to all resources.
       type: object
-      required:
-        - id
       properties:
         id:
           $ref: '#/components/schemas/ResourceIdentifier'
@@ -849,9 +847,7 @@ components:
       example: EUR
     PaymentSource:
       description: The payment source to take the payment from. This can be a card or a bank account.
-      anyOf:
-        - $ref: '#/components/schemas/CardDetails'
-        - $ref: '#/components/schemas/BankDetails'
+      $ref: '#/components/schemas/CardDetails'
     PaymentDetails:
       description: The payment information for purchasing a pet.
       type: object
@@ -875,9 +871,7 @@ components:
           $ref: '#/components/schemas/Link'
     PaymentReceipt:
       description: The payment receipt. This can be a receipt of a card or a bank account payment.
-      anyOf:
-        - $ref: '#/components/schemas/CardReceipt'
-        - $ref: '#/components/schemas/BankReceipt'
+      $ref: '#/components/schemas/CardReceipt'
     CardReceipt:
       type: object
       required:
@@ -989,9 +983,6 @@ components:
       required:
         - name
         - number
-        - cvc
-        - expMonth
-        - expYear
       description: A card (debit or credit) to take payment from.
       properties:
         name:
@@ -1004,8 +995,8 @@ components:
           type: string
           description: The card number, as a string without any separators. On read all but the last four digits will be masked for security.
           example: '4242424242424242'
-          minLength: 15
-          maxLength: 19
+          minLength: 12
+          maxLength: 22
         cvc:
           type: string
           description: Card security code, 3 or 4 digits usually found on the back of the card.
@@ -1033,9 +1024,6 @@ components:
       required:
         - name
         - number
-        - accountType
-        - bankName
-        - country
       description: A bank account to take payment from. Must be able to make payments in the currency specified in the payment.
       properties:
         name:
@@ -1048,7 +1036,7 @@ components:
           type: string
           description: The account number (IBAN) for the bank account, in string form. Must be a current account.
           example: 'IE29AIBK93115212345678'
-          minLength: 22
+          minLength: 12
           maxLength: 22
         sortCode:
           type: string
@@ -1101,7 +1089,7 @@ components:
       description: A status value.
       minLength: 2
       maxLength: 200
-      pattern: ^(AVAILABLE|RESERVED|UNDER_EXAMINATION)
+      pattern: ^(AVAILABLE|RESERVED|UNDER_EXAMINATION|ADOPTED)
       example: AVAILABLE
     BasePet:
       description: Properties common to all pets.
@@ -1403,8 +1391,6 @@ components:
           examples:
             AddPaymentExample:
               $ref: '#/components/examples/AddCardPaymentExample'
-            AddBankAccountPaymentExample:
-              $ref: '#/components/examples/AddBankAccountPaymentExample'
     AdoptPetRequest:
       required: true
       content:
@@ -1513,8 +1499,6 @@ components:
           examples:
             Card:
               $ref: '#/components/examples/CardPaymentResponseExample'
-            Bank:
-              $ref: '#/components/examples/BankAccountResponseExample'
     SearchPetsResponse:
       description: A list of pets was successfully retrieved.
       content:
@@ -2030,21 +2014,6 @@ components:
             city: Dublin
             country: ie
             postCode: N12 9XX
-    AddBankAccountPaymentExample:
-      description: Add your bank account details.
-      value:
-        id: f2575226-50a1-4350-9163-2af1a5e38131
-        amount: 100.50
-        currency: EUR
-        source:
-          object: bank_account
-          name: John Doe
-          number: 'IE29AIBK93115212345678'
-          sortCode: '000123'
-          accountType: INDIVIDUAL
-          bankName: Bank of Ireland
-          address:
-            country: ie
     CardPaymentResponseExample:
       summary: Card Payment
       value:
@@ -2058,22 +2027,6 @@ components:
           address:
             country: ie
             postCode: N12 9XX
-        status: SUCCEEDED
-        link: https://pay.petstore.com/pid_4gw7vp5cFbBxdLqeUU
-    BankAccountResponseExample:
-      summary: Bank Account Payment
-      value:
-        id: 3b3e2d4a-5e7d-8a4b-0b1c-2e3f4d5a3e6b
-        amount: 100.5
-        currency: EUR
-        source:
-          object: bank_account
-          name: John Doe
-          accountType: INDIVIDUAL
-          number: '******************5678'
-          sortCode: '000123'
-          bankName: Bank of Ireland
-          country: ie
         status: SUCCEEDED
         link: https://pay.petstore.com/pid_4gw7vp5cFbBxdLqeUU
     SearchPetsExample:
@@ -2151,12 +2104,6 @@ components:
             accountStatus: ACTIVE
             allergies:
               - Shellfish
-            encryptedFirstName: 'ey1wec143...'
-            encryptedLastName: 'eyr56c143...'
-            encryptedPhoneNumber: 'eru9acc143...'
-            encryptedSsn: 'ey1fcyy143...'
-            encryptedUsername: 'ey97tt143...'
-            encryptedEmail: 'ey344t43...'
     JohnDoeExample:
       value:
         employee:
@@ -2183,12 +2130,6 @@ components:
         ssn: '123-45-6789'
         username: john_doe
         email: 'john.doe@petstore.com'
-        encryptedFirstName: 'ey1wec143...'
-        encryptedLastName: 'eyr56c143...'
-        encryptedPhoneNumber: 'eru9acc143...'
-        encryptedSsn: 'ey1fcyy143...'
-        encryptedUsername: 'ey97tt143...'
-        encryptedEmail: 'ey344t43...'
         accountStatus: ACTIVE
         allergies:
           - Shellfish

@@ -21,7 +21,7 @@ public class DogService {
     /**
      * Gets information on a dog.
      *
-     * @param id the id of a dog. In UUID format
+     * @param id            the id of a dog. In UUID format
      * @return the dog. containing information about a dog, extends pet.
      * @throws ApiException thrown whenever there is an issue sending a request
      */
@@ -32,8 +32,8 @@ public class DogService {
     /**
      * Adds a new dog.
      *
-     * @param dog a NewCat object containing information about a dog, extends pet
-     * @return the dog. containing information about a dog, extends pet. Has extra fields set by the server
+     * @param dog            a NewCat object containing information about a dog, extends pet
+     * @return the dog. Containing information about a dog, extends pet. Has extra fields set by the server
      * @throws ApiException thrown whenever there is an issue sending a request
      */
     public Dog addDog(NewDog dog) throws ApiException {
@@ -43,8 +43,8 @@ public class DogService {
     /**
      * Update dog data.
      *
-     * @param dog contains information about a dog, extends pet. Will update the dog
-     * @param etag the etag. Cat be found in getCat
+     * @param dog           contains information about a dog, extends pet. Will update the dog
+     * @param etag          the etag. Cat be found in getCat
      * @throws ApiException thrown whenever there is an issue sending a request
      */
     public void updateDog(Dog dog, String etag) throws ApiException {

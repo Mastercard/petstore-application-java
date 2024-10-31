@@ -33,11 +33,26 @@ public class OAuthUtils {
             @Value("${mastercard.oauth.consumerKey}") String consumerKey,
             @Value("${mastercard.basePath}") String basePath
     ) {
-        this.signingKeyContainer = signingKeyContainer;
-        this.signingKeyAlias = signingKeyAlias;
-        this.signingKeyPassword = signingKeyPassword;
-        this.consumerKey = consumerKey;
+        if (basePath.isEmpty()){
+            throw new IllegalArgumentException("basePath in application.properties is empty");
+        }
         this.basePath = basePath;
+        if (signingKeyContainer.isEmpty()){
+            throw new IllegalArgumentException("pkcs12KeyFile in application-oauth.properties is empty");
+        }
+        this.signingKeyContainer = signingKeyContainer;
+        if (consumerKey.isEmpty()){
+            throw new IllegalArgumentException("consumerKey in application-oauth.properties is empty");
+        }
+        this.consumerKey = consumerKey;
+        if (signingKeyAlias.isEmpty()){
+            throw new IllegalArgumentException("keyAlias in application.properties is empty");
+        }
+        this.signingKeyAlias = signingKeyAlias;
+        if (signingKeyPassword.isEmpty()){
+            throw new IllegalArgumentException("keyPassword in application.properties is empty");
+        }
+        this.signingKeyPassword = signingKeyPassword;
     }
 
     /**
@@ -60,7 +75,7 @@ public class OAuthUtils {
     /**
      * Sets an oAuth api client with encryption. This will be used to send authenticated requests to the server.
      *
-     * @param fullBodyEncryptionConfig the config used to determine how encryption will work inside the api
+     * @param  fullBodyEncryptionConfig the config used to determine how encryption will work inside the api
      * @return the oAuth api client
      */
     @Bean

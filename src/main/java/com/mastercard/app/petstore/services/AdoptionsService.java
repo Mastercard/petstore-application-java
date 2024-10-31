@@ -45,7 +45,7 @@ public class AdoptionsService {
     /**
      * Gets an existing adoption.
      *
-     * @param id    the id of the adoption
+     * @param id            the id of the adoption
      * @return an adoption object containing information of the adoption
      * @throws ApiException thrown whenever there is an issue sending a request
      */
@@ -96,7 +96,7 @@ public class AdoptionsService {
      *
      * @param id                the adoption id. In UUID format
      * @param payment           the payment. The payment information for purchasing a pet
-     * @return paymentDetails   the payment details. Receipt containing information on payment and if it was a success
+     * @return paymentDetails the payment details. Receipt containing information on payment and if it was a success
      * @throws ApiException     thrown whenever there is an issue sending a request
      */
     public PaymentDetails adoptionPayment(String id, Payment payment) throws ApiException {

@@ -32,9 +32,11 @@ public class JweEncryptionUtils {
      * @throws EncryptionException      the encryption exception. Will trigger if there's an issue with encryption
      * @throws GeneralSecurityException the general security exception. Covers other issues with security not covered by EncryptionException
      * @throws IOException              the io exception. Will trigger on fail to load files
+     * @throws IllegalArgumentException the illegal argument exception. Will trigger when not all fields in applications.properties are set
      */
     @Bean
     public EncryptionConfig fieldLevelEncryptionConfigForEmployees() throws EncryptionException, GeneralSecurityException, IOException {
+        checkProperties();
         Certificate encryptionCertificate = EncryptionUtils.loadEncryptionCertificate(encryptionCertificateFilePath);
         PrivateKey decryptionKey = EncryptionUtils.loadDecryptionKey(decryptionKeyFilePath, decryptionKeyAlias, decryptionKeyPassword);
 
@@ -58,9 +60,11 @@ public class JweEncryptionUtils {
      * @throws EncryptionException      the encryption exception. Will trigger if there's an issue with encryption
      * @throws GeneralSecurityException the general security exception. Covers other issues with security not covered by EncryptionException
      * @throws IOException              the io exception. Will trigger on fail to load files
+     * @throws IllegalArgumentException the illegal argument exception. Will trigger when not all fields in applications.properties are set
      */
     @Bean
     public EncryptionConfig fieldLevelEncryptionConfigForAdoptions() throws EncryptionException, GeneralSecurityException, IOException {
+        checkProperties();
         Certificate encryptionCertificate = EncryptionUtils.loadEncryptionCertificate(encryptionCertificateFilePath);
         PrivateKey decryptionKey = EncryptionUtils.loadDecryptionKey(decryptionKeyFilePath, decryptionKeyAlias, decryptionKeyPassword);
 
@@ -79,9 +83,11 @@ public class JweEncryptionUtils {
      * @throws EncryptionException      the encryption exception. Will trigger if there's an issue with encryption
      * @throws GeneralSecurityException the general security exception. Covers other issues with security not covered by EncryptionException
      * @throws IOException              the io exception. Will trigger on fail to load files
+     * @throws IllegalArgumentException the illegal argument exception. Will trigger when not all fields in applications.properties are set
      */
     @Bean
     public EncryptionConfig fullBodyEncryptionConfig() throws EncryptionException, GeneralSecurityException, IOException {
+        checkProperties();
         Certificate encryptionCertificate = EncryptionUtils.loadEncryptionCertificate(encryptionCertificateFilePath);
         PrivateKey decryptionKey = EncryptionUtils.loadDecryptionKey(decryptionKeyFilePath, decryptionKeyAlias, decryptionKeyPassword);
 
@@ -92,4 +98,18 @@ public class JweEncryptionUtils {
                 .build();
     }
 
+    private void checkProperties() {
+        if (encryptionCertificateFilePath.isEmpty()){
+            throw new IllegalArgumentException("encryptionCert in application.properties is empty");
+        }
+        if (decryptionKeyFilePath.isEmpty()){
+            throw new IllegalArgumentException("decryptionKeys in application.properties is empty");
+        }
+        if (decryptionKeyAlias.isEmpty()){
+            throw new IllegalArgumentException("decryptionKeyAlias in application.properties is empty");
+        }
+        if (decryptionKeyPassword.isEmpty()){
+            throw new IllegalArgumentException("decryptionKeyPassword in application.properties is empty");
+        }
+    }
 }

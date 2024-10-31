@@ -22,7 +22,7 @@ public class CatService {
     /**
      * Gets information on a cat.
      *
-     * @param id the id of a cat. In UUID format
+     * @param id            the id of a cat. In UUID format
      * @return the cat. containing information about a cat, extends pet.
      * @throws ApiException thrown whenever there is an issue sending a request
      */

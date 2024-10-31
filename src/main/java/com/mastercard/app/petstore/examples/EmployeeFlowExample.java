@@ -17,25 +17,15 @@ import org.springframework.stereotype.Component;
 @Component("EmployeeFlowExample")
 public class EmployeeFlowExample {
 
-    /**
-     * The Base path. Set in application.properties
-     */
-    @Value("${mastercard.basePath}")
-    String basePath;
-
     @Autowired
     private EmployeeService employeeService;
 
     /**
      * Employee use case. Show add a new employee, searching for their information, then removing them.
      *
-     * @throws ApiException the api exception
+     * @throws ApiException thrown whenever there is an issue sending a request
      */
     public void employeeUseCase() throws ApiException {
-        //Skipping test if applications.properties isn't set
-        if(basePath == null){
-            return;
-        }
         //Add employee
         NewEmployee newEmployee = MockDataBuilders.buildNewEmployee();
         NewEmployeeData newEmployeeData = new NewEmployeeData().addNewEmployeesItem(newEmployee);

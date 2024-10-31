@@ -23,9 +23,9 @@ public class EmployeeService {
     /**
      * Instantiates a new Employee service.
      *
-     * @param employeesApi the employees api for unencrypted calls
-     * @param employeesApiEncryptedForFLE the employees api encrypted for field level encryption. Only certain will be encrypted
-     * @param employeesApiEncryptedForBody the employees api encrypted for full payload encryption
+     * @param employeesApi                  the employees api for unencrypted calls
+     * @param employeesApiEncryptedForFLE   the employees api encrypted for field level encryption. Only certain will be encrypted
+     * @param employeesApiEncryptedForBody  the employees api encrypted for full payload encryption
      */
     @Autowired
     public EmployeeService(EmployeesApi employeesApi, EmployeesApi employeesApiEncryptedForFLE, EmployeesApi employeesApiEncryptedForBody) {
@@ -37,7 +37,7 @@ public class EmployeeService {
     /**
      * Add new employees. Uses encryption on certain fields
      *
-     * @param newEmployees the list of new employees to be added
+     * @param newEmployees  the list of new employees to be added
      * @return the employeeListData. Contain a list of employee object
      * @throws ApiException thrown whenever there is an issue sending a request
      */
@@ -50,7 +50,7 @@ public class EmployeeService {
      *
      * @param employeeSearch the employee search. Uses an employee's SSN
      * @return the employee list wrapper. A wrapped employee object
-     * @throws ApiException thrown whenever there is an issue sending a request
+     * @throws ApiException  thrown whenever there is an issue sending a request
      */
     public EmployeeWrapper searchEmployee(EmployeeSearch employeeSearch) throws ApiException {
         return employeesApiEncryptedForFLE.searchEmployee(employeeSearch);
@@ -59,7 +59,7 @@ public class EmployeeService {
     /**
      * Gets information on a single employee.
      *
-     * @param username the employees username. Can be found in the employee object on the username field
+     * @param username      the employees username. Can be found in the employee object on the username field
      * @return the employee. Contain information about an employee
      * @throws ApiException thrown whenever there is an issue sending a request
      */
@@ -70,8 +70,8 @@ public class EmployeeService {
     /**
      * Update employee.
      *
-     * @param etag the etag. Can be found in getEmployee
-     * @param employee the employee. Contain information about an employee
+     * @param etag          the etag. Can be found in getEmployee
+     * @param employee      the employee. Contain information about an employee
      * @throws ApiException thrown whenever there is an issue sending a request
      */
     public void updateEmployee(String etag, Employee employee) throws ApiException {
@@ -83,7 +83,7 @@ public class EmployeeService {
     /**
      * Delete employee.
      *
-     * @param id an employees id. In UUID format
+     * @param id            an employees id. In UUID format
      * @throws ApiException thrown whenever there is an issue sending a request
      */
     public void deleteEmployee(String id) throws ApiException {

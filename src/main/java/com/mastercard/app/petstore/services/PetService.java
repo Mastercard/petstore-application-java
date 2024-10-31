@@ -21,13 +21,13 @@ public class PetService {
     /**
      * Update pet status.
      *
-     * @param id the pets id
-     * @param status the adoption status of the pet. Can be
-     *     AVAILABLE,
-     *     RESERVED,
-     *     ADOPTED,
-     *     UNDER_EXAMINATION;
-     * @param etag the etag
+     * @param id        the pets id
+     * @param status    the adoption status of the pet. Can be
+     *                  AVAILABLE,
+     *                  RESERVED,
+     *                  ADOPTED,
+     *                  UNDER_EXAMINATION;
+     * @param etag      the etag
      * @throws ApiException thrown whenever there is an issue sending a request
      */
     public void updatePetStatus(UUID id, PetStatus status, String etag) throws ApiException {
@@ -37,11 +37,11 @@ public class PetService {
     /**
      * Search for multiple pets based on status.
      *
-     * @param status the adoption status of the pet. Can be
-     *           AVAILABLE,
-     *           RESERVED,
-     *           ADOPTED,
-     *           UNDER_EXAMINATION;
+     * @param status        the adoption status of the pet. Can be
+     *                      AVAILABLE,
+     *                      RESERVED,
+     *                      ADOPTED,
+     *                      UNDER_EXAMINATION;
      * @return the list of pets that match the status
      * @throws ApiException thrown whenever there is an issue sending a request
      */
@@ -52,8 +52,8 @@ public class PetService {
     /**
      * Remove pet.
      *
-     * @param id the id of the pet to be deleted. In UUID format
-     * @throws ApiException thrown whenever there is an issue sending a request
+     * @param id             the id of the pet to be deleted. In UUID format
+     * @throws ApiException  thrown whenever there is an issue sending a request
      */
     public void removePet(UUID id) throws ApiException {
         petsApi.deletePet(id);
