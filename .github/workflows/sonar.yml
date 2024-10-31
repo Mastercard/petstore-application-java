@@ -32,8 +32,8 @@ jobs:
         run: echo "Unsecure PR, must be labelled with the 'safe' label, then run the workflow again" && exit 1
 
       - name: Build with Maven
-        
-          mvn clean install
+        run: >-
+          mvn clean install -Dgpg.signature.skip=true
       
       - name: Sonar Scan
         env:
@@ -46,4 +46,3 @@ jobs:
           -Dsonar.organization=mastercard -Dsonar.host.url=https://sonarcloud.io
           -Dsonar.login=$SONAR_TOKEN -Dsonar.cpd.exclusions=**/OkHttp*.java
           -Dsonar.exclusions=**/*.xml -Dgpg.signature.skip=true
-
