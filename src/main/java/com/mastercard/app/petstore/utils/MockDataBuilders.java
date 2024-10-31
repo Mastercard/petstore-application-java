@@ -17,7 +17,7 @@ public class MockDataBuilders {
         newCat.setBreed("Tabby");
         newCat.setColor("White with black spots");
         newCat.setGender("FEMALE");
-        newCat.birthdate(new Birthdate().year(2022).month(04).day(17));
+        newCat.birthdate(new Birthdate().year(2022).month(4).day(17));
         newCat.putCatProperty1Item("Intelligence", "9");
         newCat.setStatus(new PetStatus().value("AVAILABLE"));
         return newCat;
@@ -29,7 +29,7 @@ public class MockDataBuilders {
         cat.setBreed("Tabby");
         cat.setColor("White with black spots");
         cat.setGender("FEMALE");
-        cat.birthdate(new Birthdate().year(2022).month(04).day(17));
+        cat.birthdate(new Birthdate().year(2022).month(4).day(17));
         cat.putCatProperty1Item("Intelligence", "9");
         cat.setStatus(new PetStatus().value("AVAILABLE"));
         return cat;
@@ -41,7 +41,7 @@ public class MockDataBuilders {
         newDog.setBreed("Tabby");
         newDog.setColor("White with black spots");
         newDog.setGender("FEMALE");
-        newDog.birthdate(new Birthdate().year(2022).month(04).day(17));
+        newDog.birthdate(new Birthdate().year(2022).month(4).day(17));
         newDog.putDogProperty1Item("Intelligence", "9");
         newDog.setStatus(new PetStatus().value("AVAILABLE"));
         return newDog;
@@ -53,7 +53,7 @@ public class MockDataBuilders {
         dog.setBreed("Tabby");
         dog.setColor("White with black spots");
         dog.setGender("FEMALE");
-        dog.birthdate(new Birthdate().year(2022).month(04).day(17));
+        dog.birthdate(new Birthdate().year(2022).month(4).day(17));
         dog.putDogProperty1Item("Intelligence", "9");
         dog.setStatus(new PetStatus().value("AVAILABLE"));
         return dog;
@@ -65,14 +65,13 @@ public class MockDataBuilders {
         pet.setBreed("Tabby");
         pet.setColor("White with black spots");
         pet.setGender("FEMALE");
-        pet.birthdate(new Birthdate().year(2022).month(04).day(17));
+        pet.birthdate(new Birthdate().year(2022).month(4).day(17));
         pet.setStatus(new PetStatus().value("AVAILABLE"));
         return pet;
     }
 
     public static PetStatus buildPetStatus(){
-        PetStatus petStatus = new PetStatus().value("RESERVED");
-        return petStatus;
+        return new PetStatus().value("RESERVED");
     }
 
     public static NewAdoption buildNewAdoptionObject(){
