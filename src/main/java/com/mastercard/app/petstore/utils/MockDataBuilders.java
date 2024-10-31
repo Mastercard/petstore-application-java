@@ -141,9 +141,7 @@ public class MockDataBuilders {
         cardDetails.setExpYear("2030");
         cardDetails.setAddress(buildAddress());
 
-        PaymentSource paymentSource = new PaymentSource();
-        paymentSource.setActualInstance(cardDetails);
-        payment.setSource(paymentSource);
+        payment.setSource(cardDetails);
 
         return payment;
     }
@@ -163,7 +161,7 @@ public class MockDataBuilders {
         paymentDetails.setAmount(payment.getAmount());
         paymentDetails.setCurrency(payment.getCurrency());
         try {
-            String uriString = "https://pay.petstore.com/pid_" + new UUID(6, 8).randomUUID().toString();
+            String uriString = "https://pay.petstore.com/pid_" + UUID.randomUUID().toString();
             paymentDetails.setLink(new URI(uriString));
         } catch (URISyntaxException uriError) {
             //Do nothing

@@ -846,7 +846,7 @@ components:
       maxLength: 3
       example: EUR
     PaymentSource:
-      description: The payment source to take the payment from. This can be a card or a bank account.
+      description: The payment source to take the payment from.
       $ref: '#/components/schemas/CardDetails'
     PaymentDetails:
       description: The payment information for purchasing a pet.
@@ -870,7 +870,7 @@ components:
         link:
           $ref: '#/components/schemas/Link'
     PaymentReceipt:
-      description: The payment receipt. This can be a receipt of a card or a bank account payment.
+      description: The card payment receipt.
       $ref: '#/components/schemas/CardReceipt'
     CardReceipt:
       type: object
@@ -894,52 +894,6 @@ components:
           maxLength: 19
         address:
           $ref: '#/components/schemas/Address'
-    BankReceipt:
-      type: object
-      required:
-        - name
-        - number
-        - accountType
-        - bankName
-        - country
-      description: A bank account to take payment from. Must be able to make payments in the currency specified in the payment.
-      properties:
-        name:
-          type: string
-          description: The name of the bank account holder.
-          example: 'John Doe'
-          minLength: 4
-          maxLength: 128
-        number:
-          type: string
-          description: The account number (IBAN) for the bank account, in string form. Must be a current account.
-          example: 'IE29AIBK93115212345678'
-          minLength: 22
-          maxLength: 22
-        sortCode:
-          type: string
-          description: The sort code for the bank account, in string form. Must be a six-digit number.
-          example: '000123'
-          minLength: 6
-          maxLength: 6
-        accountType:
-          type: string
-          description: The type of entity that holds the account. This can be either `INDIVIDUAL` or `COMPANY`.
-          example: 'INDIVIDUAL'
-          minLength: 8
-          maxLength: 10
-        bankName:
-          type: string
-          description: The name of the bank associated with the routing number.
-          example: 'Bank of Ireland'
-          minLength: 3
-          maxLength: 100
-        country:
-          type: string
-          description: Two-letter country code (ISO 3166-1 alpha-2).
-          example: 'ie'
-          minLength: 2
-          maxLength: 2
     Address:
       type: object
       description: A users full address
@@ -1019,49 +973,6 @@ components:
           maxLength: 4
         address:
           $ref: '#/components/schemas/Address'
-    BankDetails:
-      type: object
-      required:
-        - name
-        - number
-      description: A bank account to take payment from. Must be able to make payments in the currency specified in the payment.
-      properties:
-        name:
-          type: string
-          description: The name of the bank account holder.
-          example: 'John Doe'
-          minLength: 4
-          maxLength: 128
-        number:
-          type: string
-          description: The account number (IBAN) for the bank account, in string form. Must be a current account.
-          example: 'IE29AIBK93115212345678'
-          minLength: 12
-          maxLength: 22
-        sortCode:
-          type: string
-          description: The sort code for the bank account, in string form. Must be a six-digit number.
-          example: '000123'
-          minLength: 6
-          maxLength: 6
-        accountType:
-          type: string
-          description: The type of entity that holds the account. This can be either `INDIVIDUAL` or `COMPANY`.
-          example: 'INDIVIDUAL'
-          minLength: 8
-          maxLength: 10
-        bankName:
-          type: string
-          description: The name of the bank associated with the routing number.
-          example: Bank of Ireland
-          minLength: 3
-          maxLength: 100
-        country:
-          type: string
-          description: Two-letter country code (ISO 3166-1 alpha-2).
-          example: ie
-          minLength: 2
-          maxLength: 2
     PaymentStatus:
       description: The status of the payment, one of `PENDING`, `SUCCEEDED`, or `FAILED`.
       type: string
