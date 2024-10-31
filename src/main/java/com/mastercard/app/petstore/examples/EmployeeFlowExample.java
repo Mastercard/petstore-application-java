@@ -7,12 +7,14 @@ import org.openapitools.client.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.stereotype.Component;
 
 /**
  * The type Employee flow example.
  */
 
 @ComponentScan(basePackages = {"com.mastercard.app.petstore.utils"})
+@Component("EmployeeFlowExample")
 public class EmployeeFlowExample {
 
     /**

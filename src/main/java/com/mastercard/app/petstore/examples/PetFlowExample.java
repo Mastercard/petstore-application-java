@@ -10,8 +10,10 @@ import org.openapitools.client.model.PetStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.stereotype.Component;
 
 @ComponentScan(basePackages = {"com.mastercard.app.petstore.utils"})
+@Component("PetFlowExample")
 public class PetFlowExample {
 
     /**
@@ -31,11 +33,6 @@ public class PetFlowExample {
      * @throws ApiException the api exception
      */
     public void petUseCaseFlow () throws ApiException {
-        //Skipping test if applications.properties isn't set
-        if(basePath == null){
-            return;
-        }
-
         //Add pet
         NewCat newCat = MockDataBuilders.buildNewCat();
         Cat cat = catService.addCat(newCat);

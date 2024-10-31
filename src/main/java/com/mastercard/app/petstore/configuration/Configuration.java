@@ -9,8 +9,10 @@ import org.openapitools.client.api.DogsApi;
 import org.openapitools.client.api.EmployeesApi;
 import org.openapitools.client.api.PetsApi;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 
 @org.springframework.context.annotation.Configuration
+@ComponentScan("com.mastercard.app.petstore")
 public class Configuration {
 
     @Bean

@@ -10,12 +10,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.core.env.Environment;
+import org.springframework.stereotype.Component;
 
 /**
  * The type Adoption flow example.
  */
 
 @ComponentScan(basePackages = {"com.mastercard.app.petstore.utils"})
+@Component("AdoptionFLowExample")
 public class AdoptionFlowExample {
 
     /**
