@@ -4,7 +4,6 @@ import com.mastercard.app.petstore.services.AdoptionsService;
 import com.mastercard.app.petstore.utils.MockDataBuilders;
 import org.openapitools.client.ApiException;
 import org.openapitools.client.model.Adoption;
-import org.openapitools.client.model.AdoptionWrapper;
 import org.openapitools.client.model.NewAdoption;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;

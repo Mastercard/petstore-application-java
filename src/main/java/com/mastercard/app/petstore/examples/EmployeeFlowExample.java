@@ -5,7 +5,6 @@ import com.mastercard.app.petstore.utils.MockDataBuilders;
 import org.openapitools.client.ApiException;
 import org.openapitools.client.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Component;
 

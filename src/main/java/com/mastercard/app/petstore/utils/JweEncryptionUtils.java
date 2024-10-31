@@ -6,7 +6,6 @@ import com.mastercard.developer.encryption.JweConfigBuilder;
 import com.mastercard.developer.utils.EncryptionUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
-import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.security.GeneralSecurityException;
