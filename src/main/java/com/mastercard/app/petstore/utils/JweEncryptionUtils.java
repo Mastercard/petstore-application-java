@@ -42,13 +42,15 @@ public class JweEncryptionUtils {
         return JweConfigBuilder.aJweEncryptionConfig()
                 .withEncryptionCertificate(encryptionCertificate)
                 .withDecryptionKey(decryptionKey)
+                .withEncryptionPath("$.newEmployees", "$")
                 .withEncryptionPath("$.ssn","$")
-                .withDecryptionPath("$.encryptedSsn","$.ssn")
-                .withDecryptionPath("$.encryptedFirstName","$.firstName")
-                .withDecryptionPath("$.encryptedLastName","$.lastName")
-                .withDecryptionPath("$.encryptedPhoneNumber","$.phoneNumber")
-                .withDecryptionPath("$.encryptedEmail","$.email")
-                .withDecryptionPath("$.encryptedUsername","$.username")
+                .withDecryptionPath("$.encryptedSsn.encryptedData","$.ssn")
+//                .withDecryptionPath("$.encryptedFirstName.encryptedData","$.firstName")
+//                .withDecryptionPath("$.encryptedLastName.encryptedData","$.lastName")
+//                .withDecryptionPath("$.encryptedPhoneNumber.encryptedData","$.phoneNumber")
+//                .withDecryptionPath("$.encryptedEmail.encryptedData","$.email")
+//                .withDecryptionPath("$.encryptedUsername.encryptedData","$.username")
+//                .withDecryptionPath("$.encryptedAccountStatus.encryptedData","$.accountStatus")
                 .build();
     }
 
@@ -70,8 +72,8 @@ public class JweEncryptionUtils {
         return JweConfigBuilder.aJweEncryptionConfig()
                 .withEncryptionCertificate(encryptionCertificate)
                 .withDecryptionKey(decryptionKey)
-                .withEncryptionPath("$.owner","$.encryptedOwner")
-                .withDecryptionPath("$.encryptedOwner","$.owner")
+                .withEncryptionPath("$.owner","$")
+                .withDecryptionPath("$.encryptedData","$.owner")
                 .build();
     }
 

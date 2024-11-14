@@ -42,7 +42,7 @@ public class EmployeeService {
      * @throws ApiException thrown whenever there is an issue sending a request
      */
     public EmployeeListData createEmployee(NewEmployeeData newEmployees) throws ApiException {
-        return employeesApiEncryptedForBody.addEmployees(newEmployees);
+        return employeesApi.addEmployees(newEmployees);
     }
 
     /**
@@ -83,11 +83,11 @@ public class EmployeeService {
     /**
      * Delete employee.
      *
-     * @param id            an employees id. In UUID format
+     * @param username            an employees id. In UUID format
      * @throws ApiException thrown whenever there is an issue sending a request
      */
-    public void deleteEmployee(String id) throws ApiException {
-        employeesApi.removeEmployee(id);
+    public void deleteEmployee(String username) throws ApiException {
+        employeesApi.removeEmployee(username);
     }
 
 

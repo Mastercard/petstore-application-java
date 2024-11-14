@@ -1,6 +1,7 @@
 package com.mastercard.app.petstore.services;
 
 import org.openapitools.client.ApiException;
+import org.openapitools.client.ApiResponse;
 import org.openapitools.client.api.AdoptionsApi;
 import org.openapitools.client.model.Adoption;
 import org.openapitools.client.model.AdoptionSearch;
@@ -12,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.TreeMap;
 import java.util.UUID;
 
 @Service
@@ -37,9 +39,11 @@ public class AdoptionsService {
      *
      * @param adoption          a NewAdoption object. Contains information about the pet that will be adopted
      * @throws ApiException     thrown whenever there is an issue sending a request
+     * return a string with a link to the adoption
      */
-    public void adoptPet(NewAdoption adoption) throws ApiException {
-        adoptionsApiFle.adoptPet(adoption);
+    public String adoptPet(NewAdoption adoption) throws ApiException {
+        ApiResponse<Void> response = adoptionsApiFle.adoptPetWithHttpInfo(adoption);
+        return response.getHeaders().get("location").get(0);
     }
 
     /**

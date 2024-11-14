@@ -1,6 +1,7 @@
 package com.mastercard.app.petstore.services;
 
 import org.openapitools.client.ApiException;
+import org.openapitools.client.ApiResponse;
 import org.openapitools.client.api.CatsApi;
 import org.openapitools.client.model.Cat;
 import org.openapitools.client.model.NewCat;

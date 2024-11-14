@@ -74,6 +74,12 @@ public class MockDataBuilders {
         return new PetStatus().value("RESERVED");
     }
 
+    public static NewAdoption buildNewAdoptionObject(UUID petId){
+        NewAdoption newAdoption = new NewAdoption(petId);
+        newAdoption.setOwner(buildOwnerObject("Bob"));
+        return newAdoption;
+    }
+
     public static NewAdoption buildNewAdoptionObject(){
         NewAdoption newAdoption = new NewAdoption(UUID.randomUUID());
         newAdoption.setOwner(buildOwnerObject("Bob"));
@@ -110,8 +116,8 @@ public class MockDataBuilders {
         NewEmployee newEmployee = new NewEmployee();
         newEmployee.setFirstName("Bob");
         newEmployee.setLastName("Bobson");
-        newEmployee.setPhoneNumber("+123-1234-1234");
-        newEmployee.setSsn("123-123-123");
+        newEmployee.setPhoneNumber("+6573437115596");
+        newEmployee.setSsn("123-12-1234");
         return newEmployee;
     }
 
@@ -119,11 +125,9 @@ public class MockDataBuilders {
         Employee employee = new Employee();
         employee.setFirstName("Bob");
         employee.setLastName("Bobson");
-        employee.setPhoneNumber("+123-1234-1234");
-        employee.setSsn("123-123-123");
+        employee.setPhoneNumber("+6573437115596");
+        employee.setSsn("123-13-1234");
         employee.setUsername("Bob123");
-        employee.email("bob@pet.store");
-        employee.setAccountStatus("ALIVE");
         return employee;
     }
 
@@ -132,15 +136,15 @@ public class MockDataBuilders {
         payment.setAmount(new BigDecimal(50));
         payment.setCurrency("USD");
 
-        CardDetails cardDetails = new CardDetails();
-        cardDetails.setName("Bob Bobson");
-        cardDetails.setNumber("1234 1234 1234 1234");
-        cardDetails.cvc("123");
-        cardDetails.setExpMonth(1L);
-        cardDetails.setExpYear("2030");
-        cardDetails.setAddress(buildAddress());
+        PaymentSource paymentSource = new PaymentSource();
+        paymentSource.setName("Bob Bobson");
+        paymentSource.setNumber("1234 1234 1234 1234");
+        paymentSource.cvc("123");
+        paymentSource.setExpMonth(1L);
+        paymentSource.setExpYear("2030");
+        paymentSource.setAddress(buildAddress());
 
-        payment.setSource(cardDetails);
+        payment.setSource(paymentSource);
 
         return payment;
     }

@@ -25,11 +25,15 @@ public class PetFlowExample {
      *
      * @throws ApiException thrown whenever there is an issue sending a request
      */
-    public void petUseCaseFlow () throws ApiException {
+    public void petUseCaseFlow() throws ApiException {
         //Add pet
         NewCat newCat = MockDataBuilders.buildNewCat();
         Cat cat = catService.addCat(newCat);
         cat = catService.getCat(cat.getId().toString());
+
+        //Update cats name
+        cat.setName("Catso");
+        catService.updateCat(cat, "0");
 
         //Set pet status
         PetStatus status = new PetStatus().value("RESERVED");

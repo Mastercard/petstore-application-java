@@ -28,13 +28,13 @@ public class PetstoreApplication {
     }
 
     @Bean
-    AdoptionFlowExample adoptionFlowExample() {
+    AdoptionFlowExample adoptionFlowExample() throws ApiException {
         adoptionFlowExample = new AdoptionFlowExample();
         return adoptionFlowExample;
     }
 
     @Bean
-    EmployeeFlowExample employeeFlowExample() {
+    EmployeeFlowExample employeeFlowExample() throws ApiException {
         employeeFlowExample = new EmployeeFlowExample();
         return employeeFlowExample;
     }
@@ -43,8 +43,8 @@ public class PetstoreApplication {
     public CommandLineRunner commandLineRunner(ApplicationContext ctx)  {
 
         return args -> {
-            petFlowExample.petUseCaseFlow();
-            adoptionFlowExample.adoptionUseCase();
+//            petFlowExample.petUseCaseFlow();
+//            adoptionFlowExample.adoptionUseCase();
             employeeFlowExample.employeeUseCase();
         };
     }

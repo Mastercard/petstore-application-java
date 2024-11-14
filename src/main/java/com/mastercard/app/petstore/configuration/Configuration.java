@@ -1,7 +1,5 @@
 package com.mastercard.app.petstore.configuration;
 
-import com.mastercard.app.petstore.services.AdoptionsService;
-import com.mastercard.app.petstore.services.CatService;
 import org.openapitools.client.ApiClient;
 import org.openapitools.client.api.AdoptionsApi;
 import org.openapitools.client.api.CatsApi;
@@ -16,12 +14,12 @@ import org.springframework.context.annotation.ComponentScan;
 public class Configuration {
 
     @Bean
-    public AdoptionsApi adoptionsApiFle(ApiClient apiClientEncryption) throws Exception {
-        return new AdoptionsApi(apiClientEncryption);
+    public AdoptionsApi adoptionsApiFle(ApiClient apiClientEncryptionAdoptionFle) {
+        return new AdoptionsApi(apiClientEncryptionAdoptionFle);
     }
 
     @Bean
-    public AdoptionsApi adoptionsApiFullBody(ApiClient apiClientEncryption) throws Exception {
+    public AdoptionsApi adoptionsApiFullBody(ApiClient apiClientEncryption) {
         return new AdoptionsApi(apiClientEncryption);
     }
 
@@ -46,8 +44,8 @@ public class Configuration {
     }
 
     @Bean
-    public EmployeesApi employeesApiEncryptedForFLE(ApiClient apiClientEncryption) {
-        return new EmployeesApi(apiClientEncryption);
+    public EmployeesApi employeesApiEncryptedForFLE(ApiClient apiClientEncryptionEmployeeFle) {
+        return new EmployeesApi(apiClientEncryptionEmployeeFle);
     }
 
     @Bean

@@ -79,11 +79,25 @@ public class OAuthUtils {
      */
     @Bean
     public ApiClient apiClientEncryption(EncryptionConfig fullBodyEncryptionConfig) {
+        return buildApiClientEncryption(fullBodyEncryptionConfig);
+    }
+
+    @Bean
+    public ApiClient apiClientEncryptionAdoptionFle(EncryptionConfig fieldLevelEncryptionConfigForAdoptions) {
+        return buildApiClientEncryption(fieldLevelEncryptionConfigForAdoptions);
+    }
+
+    @Bean
+    public ApiClient apiClientEncryptionEmployeeFle(EncryptionConfig fieldLevelEncryptionConfigForEmployees) {
+        return buildApiClientEncryption(fieldLevelEncryptionConfigForEmployees);
+    }
+
+    private ApiClient buildApiClientEncryption(EncryptionConfig config){
         Interceptor encryptionInterceptor;
-        if (fullBodyEncryptionConfig.getScheme() == EncryptionConfig.Scheme.JWE) {
-            encryptionInterceptor = new OkHttpJweInterceptor(fullBodyEncryptionConfig);
+        if (config.getScheme() == EncryptionConfig.Scheme.JWE) {
+            encryptionInterceptor = new OkHttpJweInterceptor(config);
         } else {
-            encryptionInterceptor = new OkHttpFieldLevelEncryptionInterceptor(fullBodyEncryptionConfig);
+            encryptionInterceptor = new OkHttpFieldLevelEncryptionInterceptor(config);
         }
 
         ApiClient client = newGenericClient();
@@ -97,6 +111,7 @@ public class OAuthUtils {
         return client;
     }
 
+
     private PrivateKey getSigningKey() {
         PrivateKey signingKey = null;
         try {
@@ -109,6 +124,7 @@ public class OAuthUtils {
 
     private ApiClient newGenericClient() {
         ApiClient client = new ApiClient();
+        client.setLenientOnJson(true);
         client.setBasePath(basePath);
         client.setDebugging(false);
         return client;

@@ -13,9 +13,9 @@ info:
     email: apisupport@mastercard.com
     url: 'https://developer.mastercard.com/support'
 servers:
-  - url: 'https://sandbox.api.mastercard.com/oauth-petstore'
+  - url: 'https://sandbox.api.mastercard.com/petstore'
     description: Sandbox environment
-  - url: 'https://api.mastercard.com/oauth-petstore'
+  - url: 'https://api.mastercard.com/petstore'
     description: Production environment
 tags:
   - name: Dogs
@@ -847,7 +847,8 @@ components:
       example: EUR
     PaymentSource:
       description: The payment source to take the payment from.
-      $ref: '#/components/schemas/CardDetails'
+      allOf:
+        - $ref: '#/components/schemas/CardDetails'
     PaymentDetails:
       description: The payment information for purchasing a pet.
       type: object
@@ -871,7 +872,8 @@ components:
           $ref: '#/components/schemas/Link'
     PaymentReceipt:
       description: The card payment receipt.
-      $ref: '#/components/schemas/CardReceipt'
+      allOf:
+        - $ref: '#/components/schemas/CardReceipt'
     CardReceipt:
       type: object
       required:

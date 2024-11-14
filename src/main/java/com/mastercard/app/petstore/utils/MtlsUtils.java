@@ -70,6 +70,7 @@ public class MtlsUtils {
         ApiClient client = new ApiClient();
         OkHttpClient.Builder httpClientBuilder = client.getHttpClient().newBuilder();
         client.setBasePath(basePath);
+        client.setLenientOnJson(true);
 
         KeyStore pkcs12KeyStore = KeyStore.getInstance("PKCS12");
         pkcs12KeyStore.load(new FileInputStream(mtlsPkcs12KeyFilePath), mtlsKeystorePassword.toCharArray());
@@ -106,6 +107,7 @@ public class MtlsUtils {
         ApiClient client = new ApiClient();
         OkHttpClient.Builder httpClientBuilder = client.getHttpClient().newBuilder();
         client.setBasePath(basePath);
+        client.setLenientOnJson(true);
 
         KeyStore pkcs12KeyStore = KeyStore.getInstance("PKCS12");
         pkcs12KeyStore.load(new FileInputStream(mtlsPkcs12KeyFilePath), mtlsKeystorePassword.toCharArray());
