@@ -1,4 +1,4 @@
-### petstore-reference-app
+### Mastercard Petstore Application
 
 Mastercard Petstore API
 - API version: 1.0.0
