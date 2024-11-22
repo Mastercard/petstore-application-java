@@ -42,7 +42,7 @@ public class EmployeeService {
      * @throws ApiException thrown whenever there is an issue sending a request
      */
     public EmployeeListData createEmployee(NewEmployeeData newEmployees) throws ApiException {
-        return employeesApi.addEmployees(newEmployees);
+        return employeesApiEncryptedForBody.addEmployees(newEmployees);
     }
 
     /**

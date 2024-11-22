@@ -1,7 +1,6 @@
 package com.mastercard.app.petstore.utils;
 
 import com.mastercard.developer.encryption.EncryptionConfig;
-import com.mastercard.developer.interceptors.OkHttpFieldLevelEncryptionInterceptor;
 import com.mastercard.developer.interceptors.OkHttpJweInterceptor;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
@@ -120,12 +119,7 @@ public class MtlsUtils {
         SSLContext sslContext = SSLContext.getInstance("TLS");
         sslContext.init(keyManagerFactory.getKeyManagers(), null, new SecureRandom());
 
-        Interceptor encryptionInterceptor;
-        if (fullBodyEncryptionConfig.getScheme() == EncryptionConfig.Scheme.JWE) {
-            encryptionInterceptor = new OkHttpJweInterceptor(fullBodyEncryptionConfig);
-        } else {
-            encryptionInterceptor = new OkHttpFieldLevelEncryptionInterceptor(fullBodyEncryptionConfig);
-        }
+        Interceptor encryptionInterceptor = new OkHttpJweInterceptor(fullBodyEncryptionConfig);
 
         client.setHttpClient(
                 httpClientBuilder

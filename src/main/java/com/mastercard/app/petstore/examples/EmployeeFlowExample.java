@@ -26,13 +26,13 @@ public class EmployeeFlowExample {
      */
     public void employeeUseCase() throws ApiException {
         //Add employee
-//        NewEmployee newEmployee = MockDataBuilders.buildNewEmployee();
-//        NewEmployeeData newEmployeeData = new NewEmployeeData().addNewEmployeesItem(newEmployee);
-//        Employee employee = employeeService.createEmployee(newEmployeeData).getEmployees().get(0);
+        NewEmployee newEmployee = MockDataBuilders.buildNewEmployee();
+        NewEmployeeData newEmployeeData = new NewEmployeeData().addNewEmployeesItem(newEmployee);
+        Employee employee = employeeService.createEmployee(newEmployeeData).getEmployees().get(0);
 
         //Search for employee
         EmployeeSearch employeeSearch = new EmployeeSearch();
-        employeeSearch.setSsn("123-45-2222");
+        employeeSearch.setSsn(employee.getSsn());
         EmployeeWrapper employeeWrapper = employeeService.searchEmployee(employeeSearch);
 
         //Remove employee

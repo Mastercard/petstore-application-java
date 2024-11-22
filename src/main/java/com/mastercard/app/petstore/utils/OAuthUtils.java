@@ -1,7 +1,6 @@
 package com.mastercard.app.petstore.utils;
 
 import com.mastercard.developer.encryption.EncryptionConfig;
-import com.mastercard.developer.interceptors.OkHttpFieldLevelEncryptionInterceptor;
 import com.mastercard.developer.interceptors.OkHttpJweInterceptor;
 import com.mastercard.developer.interceptors.OkHttpOAuth1Interceptor;
 import com.mastercard.developer.utils.AuthenticationUtils;
@@ -93,12 +92,7 @@ public class OAuthUtils {
     }
 
     private ApiClient buildApiClientEncryption(EncryptionConfig config){
-        Interceptor encryptionInterceptor;
-        if (config.getScheme() == EncryptionConfig.Scheme.JWE) {
-            encryptionInterceptor = new OkHttpJweInterceptor(config);
-        } else {
-            encryptionInterceptor = new OkHttpFieldLevelEncryptionInterceptor(config);
-        }
+        Interceptor encryptionInterceptor = new OkHttpJweInterceptor(config);
 
         ApiClient client = newGenericClient();
         client.setHttpClient(

@@ -8,6 +8,7 @@ import java.net.URISyntaxException;
 import java.util.Collections;
 import java.util.Date;
 import java.util.UUID;
+import java.util.Random;
 
 public class MockDataBuilders {
 
@@ -99,7 +100,7 @@ public class MockDataBuilders {
         owner.setFirstName(firstName);
         owner.setLastName("Billson");
         owner.setPhoneNumber("+7509287096053");
-        owner.setSsn("987-45-1234");
+        owner.setSsn(generateRandomSsn());
         return owner;
     }
 
@@ -114,20 +115,21 @@ public class MockDataBuilders {
 
     public static NewEmployee buildNewEmployee(){
         NewEmployee newEmployee = new NewEmployee();
-        newEmployee.setFirstName("Bob");
-        newEmployee.setLastName("Bobson");
+        newEmployee.setFirstName(generateRandomName());
+        newEmployee.setLastName(generateRandomName());
         newEmployee.setPhoneNumber("+6573437115596");
-        newEmployee.setSsn("123-12-1234");
+        newEmployee.setSsn(generateRandomSsn());
         return newEmployee;
     }
 
     public static Employee buildEmployee(){
+        String firstName = generateRandomName();
         Employee employee = new Employee();
-        employee.setFirstName("Bob");
-        employee.setLastName("Bobson");
+        employee.setFirstName(firstName);
+        employee.setLastName(generateRandomName());
         employee.setPhoneNumber("+6573437115596");
-        employee.setSsn("123-13-1234");
-        employee.setUsername("Bob123");
+        employee.setSsn(generateRandomSsn());
+        employee.setUsername(firstName+"123");
         return employee;
     }
 
@@ -164,11 +166,30 @@ public class MockDataBuilders {
         paymentDetails.setAmount(payment.getAmount());
         paymentDetails.setCurrency(payment.getCurrency());
         try {
-            String uriString = "https://pay.petstore.com/pid_" + UUID.randomUUID().toString();
+            String uriString = "https://pay.petstore.com/pid_" + UUID.randomUUID();
             paymentDetails.setLink(new URI(uriString));
         } catch (URISyntaxException uriError) {
             //Do nothing
         }
         return paymentDetails;
+    }
+
+    private static String generateRandomSsn(){
+        Random rand = new Random();
+        String threeDigits = String.valueOf(rand.nextInt(100, 999));
+        String twoDigits = String.valueOf(rand.nextInt(10, 99));
+        String fourDigits = String.valueOf(rand.nextInt(1000, 9999));
+        return threeDigits + "-" + twoDigits + "-" + fourDigits;
+    }
+
+    private static String generateRandomName(){
+        Random rand=new Random();
+        String aToZ="abcedefghidklmnopqurstuvwxz"; // 36 letter.
+        StringBuilder res=new StringBuilder();
+        for (int i = 0; i < 20; i++) {
+            int randIndex=rand.nextInt(aToZ.length());
+            res.append(aToZ.charAt(randIndex));
+        }
+        return res.toString();
     }
 }
