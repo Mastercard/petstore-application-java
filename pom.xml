@@ -114,7 +114,7 @@
             <plugin>
                 <groupId>org.openapitools</groupId>
                 <artifactId>openapi-generator-maven-plugin</artifactId>
-                <version>7.5.0</version>
+                <version>7.9.0</version>
                 <executions>
                     <execution>
                         <id>Petstore REST Client</id>
@@ -124,12 +124,14 @@
                         <configuration>
                             <inputSpec>${project.basedir}/src/main/resources/petstore.yaml</inputSpec>
                             <generatorName>java</generatorName>
-                            <library>okhttp-gson</library>
                             <configurationFile>${project.basedir}/src/main/resources/openapi-config.json</configurationFile>
                             <generateApiTests>false</generateApiTests>
                             <generateModelTests>false</generateModelTests>
                             <configOptions>
                                 <sourceFolder>src/gen/java/main</sourceFolder>
+                                <library>okhttp-gson</library>
+                                <serializationLibrary>jackson</serializationLibrary>
+                                <failOnUnknownProperties>false</failOnUnknownProperties>
                             </configOptions>
                         </configuration>
                     </execution>

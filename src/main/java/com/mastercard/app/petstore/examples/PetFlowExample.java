@@ -8,19 +8,12 @@ import org.openapitools.client.model.Cat;
 import org.openapitools.client.model.NewCat;
 import org.openapitools.client.model.PetStatus;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Component;
 
 @ComponentScan(basePackages = {"com.mastercard.app.petstore.utils"})
 @Component("PetFlowExample")
 public class PetFlowExample {
-
-    /**
-     * The Base path.
-     */
-    @Value("${mastercard.basePath}")
-    String basePath;
 
     @Autowired
     private CatService catService;
@@ -30,13 +23,17 @@ public class PetFlowExample {
     /**
      * Pet use case flow. Shows creating a cat, updating their status and then removing them
      *
-     * @throws ApiException the api exception
+     * @throws ApiException thrown whenever there is an issue sending a request
      */
-    public void petUseCaseFlow () throws ApiException {
+    public void petUseCaseFlow() throws ApiException {
         //Add pet
         NewCat newCat = MockDataBuilders.buildNewCat();
         Cat cat = catService.addCat(newCat);
         cat = catService.getCat(cat.getId().toString());
+
+        //Update cats name
+        cat.setName("Catso");
+        catService.updateCat(cat, "0");
 
         //Set pet status
         PetStatus status = new PetStatus().value("RESERVED");

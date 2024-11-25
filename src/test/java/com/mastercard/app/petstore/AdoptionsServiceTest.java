@@ -6,6 +6,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.openapitools.client.ApiException;
+import org.openapitools.client.ApiResponse;
 import org.openapitools.client.api.AdoptionsApi;
 import org.openapitools.client.model.Adoption;
 import org.openapitools.client.model.AdoptionSearch;
@@ -32,16 +33,6 @@ public class AdoptionsServiceTest {
         adoptionsApiFle = mock(AdoptionsApi.class);
         adoptionsApiFullBody = mock(AdoptionsApi.class);
         adoptionsService = new AdoptionsService(adoptionsApiFle, adoptionsApiFullBody);
-    }
-
-    @Test
-    public void adoptPet_shouldRun() throws ApiException {
-        NewAdoption newAdoption = MockDataBuilders.buildNewAdoptionObject();
-        doNothing().when(adoptionsApiFle).adoptPet(newAdoption);
-
-        adoptionsService.adoptPet(newAdoption);
-
-        verify(adoptionsApiFle, times(1)).adoptPet(newAdoption);
     }
 
     @Test

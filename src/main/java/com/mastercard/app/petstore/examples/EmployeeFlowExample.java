@@ -5,7 +5,6 @@ import com.mastercard.app.petstore.utils.MockDataBuilders;
 import org.openapitools.client.ApiException;
 import org.openapitools.client.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Component;
 
@@ -17,25 +16,15 @@ import org.springframework.stereotype.Component;
 @Component("EmployeeFlowExample")
 public class EmployeeFlowExample {
 
-    /**
-     * The Base path. Set in application.properties
-     */
-    @Value("${mastercard.basePath}")
-    String basePath;
-
     @Autowired
     private EmployeeService employeeService;
 
     /**
      * Employee use case. Show add a new employee, searching for their information, then removing them.
      *
-     * @throws ApiException the api exception
+     * @throws ApiException thrown whenever there is an issue sending a request
      */
     public void employeeUseCase() throws ApiException {
-        //Skipping test if applications.properties isn't set
-        if(basePath == null){
-            return;
-        }
         //Add employee
         NewEmployee newEmployee = MockDataBuilders.buildNewEmployee();
         NewEmployeeData newEmployeeData = new NewEmployeeData().addNewEmployeesItem(newEmployee);
@@ -47,6 +36,7 @@ public class EmployeeFlowExample {
         EmployeeWrapper employeeWrapper = employeeService.searchEmployee(employeeSearch);
 
         //Remove employee
-        employeeService.deleteEmployee(employee.getId().toString());
+        employeeService.deleteEmployee(employeeWrapper.getUsername());
     }
+
 }

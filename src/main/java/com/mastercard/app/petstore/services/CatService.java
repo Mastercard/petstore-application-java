@@ -1,6 +1,7 @@
 package com.mastercard.app.petstore.services;
 
 import org.openapitools.client.ApiException;
+import org.openapitools.client.ApiResponse;
 import org.openapitools.client.api.CatsApi;
 import org.openapitools.client.model.Cat;
 import org.openapitools.client.model.NewCat;
@@ -22,9 +23,9 @@ public class CatService {
     /**
      * Gets information on a cat.
      *
-     * @param id the id
-     * @return the cat
-     * @throws ApiException the api exception
+     * @param id            the id of a cat. In UUID format
+     * @return the cat. containing information about a cat, extends pet.
+     * @throws ApiException thrown whenever there is an issue sending a request
      */
     public Cat getCat(String id) throws ApiException {
         return catsApi.getCat(UUID.fromString(id));
@@ -33,9 +34,9 @@ public class CatService {
     /**
      * Adds a new cat.
      *
-     * @param cat the cat
-     * @return the cat
-     * @throws ApiException the api exception
+     * @param cat a NewCat object containing information about a cat, extends pet
+     * @return the cat. containing information about a cat, extends pet. Has extra fields set by the server
+     * @throws ApiException thrown whenever there is an issue sending a request
      */
     public Cat addCat(NewCat cat) throws ApiException {
         return catsApi.addCat(cat);
@@ -44,9 +45,9 @@ public class CatService {
     /**
      * Update cat data.
      *
-     * @param cat  the cat
+     * @param cat contains information about a cat, extends pet. Will update the cat
      * @param etag the etag. Cat be found in getCat
-     * @throws ApiException the api exception
+     * @throws ApiException thrown whenever there is an issue sending a request
      */
     public void updateCat(Cat cat, String etag) throws ApiException {
         catsApi.updateCat(cat.getId(), etag, cat);

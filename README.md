@@ -22,13 +22,13 @@ Please follow the instruction below to begin
 mvn clean install
 ```
 
-This will generate all required files as defined in [petstore.yaml](src/main/resources/petstore.yaml). They should be built into the target folder.
+This will generate all required files as defined in [petstore.yaml](src/main/resources/petstore.yaml) using the [OpenAPI Generator](https://openapi-generator.tech/) plugin. They should be built into the target folder.
 
 ## Getting Started
 
 Set properties in [application.properties](src/main/resources/application.properties)
 
-The authentication mode (MTLS or OAuth1.0a) must be set using 
+The authentication mode (mTLS or OAuth1.0a) must be set using 
 ```
 -Dspring.profiles.active=oauth
 -Dspring.profiles.active=mtls
@@ -40,7 +40,7 @@ mastercard.oauth.consumerKey
 mastercard.oauth.keyAlias
 mastercard.oauth.keyPassword
 ```
-If using the API in MTLS mode the following are required in [application-mtls.properties](src/main/resources/application-mtls.properties)
+If using the API in mTLS mode the following are required in [application-mtls.properties](src/main/resources/application-mtls.properties)
 ```
 mastercard.mtls.pfxKeyFile
 mastercard.mtls.keyPassword

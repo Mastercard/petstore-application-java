@@ -14,12 +14,12 @@ import org.springframework.context.annotation.ComponentScan;
 public class Configuration {
 
     @Bean
-    public AdoptionsApi adoptionsApiFle(ApiClient apiClientEncryption) throws Exception {
-        return new AdoptionsApi(apiClientEncryption);
+    public AdoptionsApi adoptionsApiFle(ApiClient apiClientEncryptionAdoptionFle) {
+        return new AdoptionsApi(apiClientEncryptionAdoptionFle);
     }
 
     @Bean
-    public AdoptionsApi adoptionsApiFullBody(ApiClient apiClientEncryption) throws Exception {
+    public AdoptionsApi adoptionsApiFullBody(ApiClient apiClientEncryption) {
         return new AdoptionsApi(apiClientEncryption);
     }
 
@@ -44,14 +44,12 @@ public class Configuration {
     }
 
     @Bean
-    public EmployeesApi employeesApiEncryptedForFLE(ApiClient apiClientEncryption) {
-        return new EmployeesApi(apiClientEncryption);
+    public EmployeesApi employeesApiEncryptedForFLE(ApiClient apiClientEncryptionEmployeeFle) {
+        return new EmployeesApi(apiClientEncryptionEmployeeFle);
     }
 
     @Bean
     public EmployeesApi employeesApiEncryptedForBody(ApiClient apiClientEncryption) {
         return new EmployeesApi(apiClientEncryption);
     }
-
-
 }

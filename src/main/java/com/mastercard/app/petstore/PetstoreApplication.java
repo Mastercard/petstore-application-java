@@ -22,7 +22,7 @@ public class PetstoreApplication {
     EmployeeFlowExample employeeFlowExample;
 
     @Bean
-    PetFlowExample petFlowExample() throws ApiException {
+    PetFlowExample petFlowExample() {
         petFlowExample = new PetFlowExample();
         return petFlowExample;
     }
