@@ -147,7 +147,6 @@ public class MockDataBuilders {
         paymentSource.setAddress(buildAddress());
 
         payment.setSource(paymentSource);
-
         return payment;
     }
 
