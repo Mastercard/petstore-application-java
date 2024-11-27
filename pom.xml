@@ -130,8 +130,6 @@
                             <configOptions>
                                 <sourceFolder>src/gen/java/main</sourceFolder>
                                 <library>okhttp-gson</library>
-                                <serializationLibrary>jackson</serializationLibrary>
-                                <failOnUnknownProperties>false</failOnUnknownProperties>
                             </configOptions>
                         </configuration>
                     </execution>
