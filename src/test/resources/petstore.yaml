@@ -89,7 +89,7 @@ paths:
           $ref: '#/components/responses/ForbiddenErrorResponse'
         '404':
           $ref: '#/components/responses/DogNotFoundErrorResponse'
-        '412':
+        '422':
           $ref: '#/components/responses/DogPreconditionFailedErrorResponse'
   /cats:
     post:
@@ -151,7 +151,7 @@ paths:
           $ref: '#/components/responses/ForbiddenErrorResponse'
         '404':
           $ref: '#/components/responses/CatNotFoundErrorResponse'
-        '412':
+        '422':
           $ref: '#/components/responses/CatPreconditionFailedErrorResponse'
   '/pets/{pet_id}/status':
     put:
@@ -174,7 +174,7 @@ paths:
           $ref: '#/components/responses/UnauthorizedErrorResponse'
         '403':
           $ref: '#/components/responses/ForbiddenErrorResponse'
-        '412':
+        '422':
           $ref: '#/components/responses/PetPreconditionFailedErrorResponse'
   /pets:
     get:
@@ -241,7 +241,7 @@ paths:
           $ref: '#/components/responses/ForbiddenErrorResponse'
         '404':
           $ref: '#/components/responses/PetNotFoundErrorResponse'
-        '409':
+        '422':
           $ref: '#/components/responses/AdoptionConflictErrorResponse'
     get:
       tags:
@@ -331,10 +331,8 @@ paths:
           $ref: '#/components/responses/ForbiddenErrorResponse'
         '404':
           $ref: '#/components/responses/AdoptionNotFoundErrorResponse'
-        '409':
-          $ref: '#/components/responses/AdoptionConflictModifyErrorResponse'
-        '412':
-          $ref: '#/components/responses/AdoptionPreconditionFailedErrorResponse'
+        '422':
+          $ref: '#/components/responses/AdoptionModifyErrorResponse'
     delete:
       tags:
         - Adoptions
@@ -436,7 +434,7 @@ paths:
           $ref: '#/components/responses/ForbiddenErrorResponse'
         '404':
           $ref: '#/components/responses/EmployeeNotFoundErrorResponse'
-        '412':
+        '422':
           $ref: '#/components/responses/EmployeePreconditionFailedErrorResponse'
     delete:
       tags:
@@ -1596,7 +1594,7 @@ components:
           examples:
             ConflictExample:
               $ref: '#/components/examples/AdoptionConflictExample'
-    AdoptionConflictModifyErrorResponse:
+    AdoptionModifyErrorResponse:
       description: The resource seems to exist already.
       content:
         application/json:
@@ -1605,8 +1603,10 @@ components:
           examples:
             ConflictExample:
               $ref: '#/components/examples/AdoptionConflictModifyExample'
+            PreconditionFailedExample:
+              $ref: '#/components/examples/AdoptionPreconditionExample'
     DogPreconditionFailedErrorResponse:
-      description: The target resource has been modified.
+      description: This target resource version has already been modified.
       content:
         application/json:
           schema:
@@ -1615,7 +1615,7 @@ components:
             PreconditionExample:
               $ref: '#/components/examples/DogPreconditionExample'
     CatPreconditionFailedErrorResponse:
-      description: The target resource has been modified.
+      description: This target resource version has already been modified.
       content:
         application/json:
           schema:
@@ -1624,7 +1624,7 @@ components:
             PreconditionExample:
               $ref: '#/components/examples/CatPreconditionExample'
     PetPreconditionFailedErrorResponse:
-      description: The target resource has been modified.
+      description: This target resource version has already been modified.
       content:
         application/json:
           schema:
@@ -1632,17 +1632,8 @@ components:
           examples:
             PreconditionExample:
               $ref: '#/components/examples/PetPreconditionExample'
-    AdoptionPreconditionFailedErrorResponse:
-      description: The target resource has been modified.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorWrapper'
-          examples:
-            PreconditionExample:
-              $ref: '#/components/examples/AdoptionPreconditionExample'
     EmployeePreconditionFailedErrorResponse:
-      description: The target resource has been modified.
+      description: This target resource version has already been modified.
       content:
         application/json:
           schema:
@@ -1754,17 +1745,18 @@ components:
         Errors:
           Error:
             - Source: PETSTORE_API
-              ReasonCode: CONFLICT
-              Description: This pet has already been adopted.
+              ReasonCode: Unprocessable Entity
+              Description: Resource already exists.
               Recoverable: false
-              Details: This adoption information already exists.
+              Details: This pet has already been adopted.
     AdoptionConflictModifyExample:
       value:
         Errors:
           Error:
             - Source: PETSTORE_API
-              ReasonCode: CONFLICT
-              Description: >-
+              ReasonCode: Unprocessable Entity
+              Description: Resource already exists.
+              Details: >-
                 You cannot modify the pet in an existing adoption record.
                 To adopt another pet use POST /adoptions.
                 To rectify an incorrectly entered pet identifier, use DELETE /adoptions/{adoptions_id} for this adoption record,
@@ -1774,46 +1766,46 @@ components:
         Errors:
           Error:
             - Source: PETSTORE_API
-              ReasonCode: PRECONDITION_FAILED
-              Description: The target resource has already been modified.
+              ReasonCode: Unprocessable Entity
+              Description: This target resource version has already been modified.
               Recoverable: false
-              Details: This Dog resource has already been modified.
+              Details: This Dog resource version has already been modified.
     CatPreconditionExample:
       value:
         Errors:
           Error:
             - Source: PETSTORE_API
-              ReasonCode: PRECONDITION_FAILED
-              Description: The target resource has already been modified.
+              ReasonCode: Unprocessable Entity
+              Description: This target resource version has already been modified.
               Recoverable: false
-              Details: This Cat resource has already been modified.
+              Details: This Cat resource version has already been modified.
     PetPreconditionExample:
       value:
         Errors:
           Error:
             - Source: PETSTORE_API
-              ReasonCode: PRECONDITION_FAILED
-              Description: The target resource has already been modified.
+              ReasonCode: Unprocessable Entity
+              Description: This target resource version has already been modified.
               Recoverable: false
-              Details: This Pet resource has already been modified.
+              Details: This Pet resource version has already been modified.
     AdoptionPreconditionExample:
       value:
         Errors:
           Error:
             - Source: PETSTORE_API
-              ReasonCode: PRECONDITION_FAILED
-              Description: The target resource has already been modified.
+              ReasonCode: Unprocessable Entity
+              Description: This target resource version has already been modified.
               Recoverable: false
-              Details: This Adoption resource has already been modified.
+              Details: This Adoption record version has already been modified.
     EmployeePreconditionExample:
       value:
         Errors:
           Error:
             - Source: PETSTORE_API
-              ReasonCode: PRECONDITION_FAILED
-              Description: The target resource has been modified.
+              ReasonCode: Unprocessable Entity
+              Description: This target resource version has already been modified.
               Recoverable: false
-              Details: This Employee has already been modified.
+              Details: This Employee resource version has already been modified.
     AddBellaExample:
       description: Bella is a dog ready to be adopted.
       value:

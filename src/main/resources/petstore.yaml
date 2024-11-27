@@ -1606,7 +1606,7 @@ components:
             PreconditionFailedExample:
               $ref: '#/components/examples/AdoptionPreconditionExample'
     DogPreconditionFailedErrorResponse:
-      description: The target resource has been modified.
+      description: This target resource version has already been modified.
       content:
         application/json:
           schema:
@@ -1615,7 +1615,7 @@ components:
             PreconditionExample:
               $ref: '#/components/examples/DogPreconditionExample'
     CatPreconditionFailedErrorResponse:
-      description: The target resource has been modified.
+      description: This target resource version has already been modified.
       content:
         application/json:
           schema:
@@ -1624,7 +1624,7 @@ components:
             PreconditionExample:
               $ref: '#/components/examples/CatPreconditionExample'
     PetPreconditionFailedErrorResponse:
-      description: The target resource has been modified.
+      description: This target resource version has already been modified.
       content:
         application/json:
           schema:
@@ -1633,7 +1633,7 @@ components:
             PreconditionExample:
               $ref: '#/components/examples/PetPreconditionExample'
     EmployeePreconditionFailedErrorResponse:
-      description: The target resource has been modified.
+      description: This target resource version has already been modified.
       content:
         application/json:
           schema:
@@ -1767,45 +1767,45 @@ components:
           Error:
             - Source: PETSTORE_API
               ReasonCode: Unprocessable Entity
-              Description: The target resource has been modified.
+              Description: This target resource version has already been modified.
               Recoverable: false
-              Details: This Dog resource has been modified.
+              Details: This Dog resource version has already been modified.
     CatPreconditionExample:
       value:
         Errors:
           Error:
             - Source: PETSTORE_API
               ReasonCode: Unprocessable Entity
-              Description: The target resource has been modified.
+              Description: This target resource version has already been modified.
               Recoverable: false
-              Details: This Cat resource has been modified.
+              Details: This Cat resource version has already been modified.
     PetPreconditionExample:
       value:
         Errors:
           Error:
             - Source: PETSTORE_API
               ReasonCode: Unprocessable Entity
-              Description: The target resource has been modified.
+              Description: This target resource version has already been modified.
               Recoverable: false
-              Details: This Pet resource has been modified.
+              Details: This Pet resource version has already been modified.
     AdoptionPreconditionExample:
       value:
         Errors:
           Error:
             - Source: PETSTORE_API
               ReasonCode: Unprocessable Entity
-              Description: The target resource has been modified.
+              Description: This target resource version has already been modified.
               Recoverable: false
-              Details: This Adoption record has been modified.
+              Details: This Adoption record version has already been modified.
     EmployeePreconditionExample:
       value:
         Errors:
           Error:
             - Source: PETSTORE_API
               ReasonCode: Unprocessable Entity
-              Description: The target resource has been modified.
+              Description: This target resource version has already been modified.
               Recoverable: false
-              Details: This Employee has been modified.
+              Details: This Employee resource version has already been modified.
     AddBellaExample:
       description: Bella is a dog ready to be adopted.
       value:
