@@ -3,8 +3,6 @@ package com.mastercard.app.petstore;
 import com.mastercard.app.petstore.examples.AdoptionFlowExample;
 import com.mastercard.app.petstore.examples.EmployeeFlowExample;
 import com.mastercard.app.petstore.examples.PetFlowExample;
-import org.openapitools.client.ApiException;
-import org.openapitools.client.model.Adoption;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;

@@ -5,16 +5,12 @@ import com.mastercard.app.petstore.services.CatService;
 import com.mastercard.app.petstore.utils.MockDataBuilders;
 import org.openapitools.client.ApiException;
 import org.openapitools.client.model.Adoption;
-import org.openapitools.client.model.AdoptionSearch;
 import org.openapitools.client.model.Cat;
 import org.openapitools.client.model.NewAdoption;
 import org.openapitools.client.model.NewCat;
-import org.openapitools.client.model.PetStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Component;
-
-import java.util.Date;
 
 /**
  * The type Adoption flow example.

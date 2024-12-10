@@ -6,11 +6,9 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.openapitools.client.ApiException;
-import org.openapitools.client.ApiResponse;
 import org.openapitools.client.api.AdoptionsApi;
 import org.openapitools.client.model.Adoption;
 import org.openapitools.client.model.AdoptionSearch;
-import org.openapitools.client.model.NewAdoption;
 import org.openapitools.client.model.Payment;
 import org.openapitools.client.model.PaymentDetails;
 
