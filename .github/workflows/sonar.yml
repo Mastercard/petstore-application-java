@@ -41,8 +41,8 @@ jobs:
           SONAR_TOKEN: '${{ secrets.SONAR_TOKEN }}'
         run: >-
           mvn org.sonarsource.scanner.maven:sonar-maven-plugin:sonar
-          -Dsonar.projectName=client-encryption-java
-          -Dsonar.projectKey=Mastercard_client-encryption-java
+          -Dsonar.projectName=petstore-application-java
+          -Dsonar.projectKey=Mastercard_petstore-application-java
           -Dsonar.organization=mastercard -Dsonar.host.url=https://sonarcloud.io
           -Dsonar.login=$SONAR_TOKEN -Dsonar.cpd.exclusions=**/OkHttp*.java
           -Dsonar.exclusions=**/*.xml -Dgpg.signature.skip=true
