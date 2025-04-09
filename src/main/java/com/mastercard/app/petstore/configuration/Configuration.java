@@ -1,11 +1,7 @@
 package com.mastercard.app.petstore.configuration;
 
 import org.openapitools.client.ApiClient;
-import org.openapitools.client.api.AdoptionsApi;
-import org.openapitools.client.api.CatsApi;
-import org.openapitools.client.api.DogsApi;
-import org.openapitools.client.api.EmployeesApi;
-import org.openapitools.client.api.PetsApi;
+import org.openapitools.client.api.*;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 
@@ -41,6 +37,11 @@ public class Configuration {
     @Bean
     public EmployeesApi employeesApi(ApiClient apiClient) {
         return new EmployeesApi(apiClient);
+    }
+
+    @Bean
+    public AuthenticationApi authenticationApi(ApiClient apiClient) {
+        return new AuthenticationApi(apiClient);
     }
 
     @Bean

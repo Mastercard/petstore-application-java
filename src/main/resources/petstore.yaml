@@ -28,7 +28,45 @@ tags:
     description: Pets leaving or having left the store.
   - name: Employees
     description: Manage store employees.
+  - name: Authentication
+    description: Operations specific to OAuth2 authentication
 paths:
+  /oauth2/token:
+    post:
+      tags:
+        - Authentication
+      summary: Create authentication token
+      description: Send a `NewDog` to add a dog to the pet store.
+      operationId: createToken
+      responses:
+        '200':
+          $ref: '#/components/responses/TokenResponse'
+        '400':
+          $ref: '#/components/responses/BadRequestErrorResponse'
+        '401':
+          $ref: '#/components/responses/UnauthorizedErrorResponse'
+        '403':
+          $ref: '#/components/responses/ForbiddenErrorResponse'
+
+  /oauth2/test-resource:
+    get:
+      tags:
+        - Authentication
+      summary: Resource endpoint used to test OAuth2
+      description: Test endpoint
+      operationId: getTestResource
+      parameters:
+        - $ref: '#/components/parameters/AccessTokenParameter'
+      responses:
+        '200':
+          $ref: '#/components/responses/ResourceResponse'
+        '400':
+          $ref: '#/components/responses/BadRequestErrorResponse'
+        '401':
+          $ref: '#/components/responses/UnauthorizedErrorResponse'
+        '403':
+          $ref: '#/components/responses/ForbiddenErrorResponse'
+
   /dogs:
     post:
       tags:
@@ -457,6 +495,46 @@ paths:
           $ref: '#/components/responses/EmployeeNotFoundErrorResponse'
 components:
   parameters:
+    DpopParameter:
+      name: DPoP
+      in: header
+      description: Dpop header from the client for proof of posession
+      required: true
+      schema:
+        type: string
+      example: "eyJ0eXAiOiJkcG9wK2p3dCIsImFsZyI6IkVTMjU2IiwiandrIjp7Imt0eSI6Ik..."
+    ClientAssertionParameter:
+      name: client_assertion
+      in: header
+      description: Dpop header from the client for proof of posession
+      required: true
+      schema:
+        type: string
+      example: "eyJ0eXAiOiJkcG9wK2p3dCIsImFsZyI6IkVTMjU2IiwiandrIjp7Imt0eSI6Ik..."
+    AccessTokenParameter:
+      name: Authorization
+      in: header
+      description: Dpop header from the client for proof of possession
+      required: true
+      schema:
+        type: string
+      example: "Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6Ikp..."
+    GrantTypeParameter:
+      name: grant_type
+      in: header
+      description: The type of grant
+      required: true
+      schema:
+        type: string
+      example: "client_credentials"
+    ClientAssertionTypeParameter:
+      name: client_assertion_type
+      in: header
+      description: The type of client assertion to be performed
+      required: true
+      schema:
+        type: string
+      example: "urn:ietf:params:oauth:client-assertion-type:jwt-bearer"
     PetIdParameter:
       name: pet_id
       in: path
@@ -582,6 +660,20 @@ components:
         minLength: 1
       example: '+'
   schemas:
+    Token:
+      description: An access token required to authenticate
+      type: object
+      properties:
+        accessToken:
+          type: string
+          example: "123"
+    TestResource:
+      description: A test resource consisting of a single property for testing purposes
+      type: object
+      properties:
+        status:
+          type: string
+          example: "200"
     PetList:
       description: A result for searching for pets
       type: object
@@ -1365,6 +1457,18 @@ components:
             UpdateJohnDoeExample:
               $ref: '#/components/examples/UpdateJohnDoeExample'
   responses:
+    ResourceResponse:
+      description: Test resource response
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/TestResource'
+    TokenResponse:
+      description: The token was successfully created.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Token'
     AddDogResponse:
       description: The dog was successfully added.
       content:
