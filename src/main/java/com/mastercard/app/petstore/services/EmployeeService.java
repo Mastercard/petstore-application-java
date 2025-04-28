@@ -17,21 +17,18 @@ import org.springframework.stereotype.Service;
 @Service
 public class EmployeeService {
     private final EmployeesApi employeesApi;
-    private final EmployeesApi employeesApiEncryptedForFLE;
     private final EmployeesApi employeesApiEncryptedForBody;
 
     /**
      * Instantiates a new Employee service.
      *
      * @param employeesApi                  the employees api for unencrypted calls
-     * @param employeesApiEncryptedForFLE   the employees api encrypted for field level encryption. Only certain will be encrypted
      * @param employeesApiEncryptedForBody  the employees api encrypted for full payload encryption
      */
     @Autowired
-    public EmployeeService(EmployeesApi employeesApi, EmployeesApi employeesApiEncryptedForFLE, EmployeesApi employeesApiEncryptedForBody) {
+    public EmployeeService(EmployeesApi employeesApi, EmployeesApi employeesApiEncryptedForBody) {
         this.employeesApi = employeesApi;
         this.employeesApiEncryptedForBody = employeesApiEncryptedForBody;
-        this.employeesApiEncryptedForFLE = employeesApiEncryptedForFLE;
     }
 
     /**
@@ -53,7 +50,7 @@ public class EmployeeService {
      * @throws ApiException  thrown whenever there is an issue sending a request
      */
     public EmployeeWrapper searchEmployee(EmployeeSearch employeeSearch) throws ApiException {
-        return employeesApiEncryptedForFLE.searchEmployee(employeeSearch);
+        return employeesApiEncryptedForBody.searchEmployee(employeeSearch);
     }
 
     /**
@@ -64,7 +61,7 @@ public class EmployeeService {
      * @throws ApiException thrown whenever there is an issue sending a request
      */
     public EmployeeData getEmployee(String username) throws ApiException {
-        return employeesApiEncryptedForFLE.getEmployee(username);
+        return employeesApiEncryptedForBody.getEmployee(username);
     }
 
     /**
