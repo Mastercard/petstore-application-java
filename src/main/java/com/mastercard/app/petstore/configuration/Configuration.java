@@ -44,11 +44,6 @@ public class Configuration {
     }
 
     @Bean
-    public EmployeesApi employeesApiEncryptedForFLE(ApiClient apiClientEncryptionEmployeeFle) {
-        return new EmployeesApi(apiClientEncryptionEmployeeFle);
-    }
-
-    @Bean
     public EmployeesApi employeesApiEncryptedForBody(ApiClient apiClientEncryption) {
         return new EmployeesApi(apiClientEncryption);
     }
