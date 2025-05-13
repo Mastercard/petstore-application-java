@@ -1,12 +1,10 @@
 package com.mastercard.app.petstore.oauth2;
 
-import com.mastercard.developer.utils.AuthenticationUtils;
 import org.openapitools.client.ApiClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Profile;
-import java.security.PrivateKey;
 
 @Profile({"oauth2"})
 @org.springframework.context.annotation.Configuration
@@ -56,19 +54,8 @@ public class Dpop {
         client.setHttpClient(
                 client.getHttpClient()
                         .newBuilder()
-                        .addInterceptor(new OAuth2Interceptor(getSigningKey(), keyAlias, keyId, audience, clientId, basepath))
                         .build()
         );
         return client;
-    }
-
-    private PrivateKey getSigningKey() {
-        PrivateKey signingKey = null;
-        try {
-            signingKey = AuthenticationUtils.loadSigningKey(privateSigningKey, keyAlias, keyPassword);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return signingKey;
     }
 }

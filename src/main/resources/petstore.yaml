@@ -31,13 +31,17 @@ tags:
   - name: Authentication
     description: Operations specific to OAuth2 authentication
 paths:
-  /oauth2/token:
+  /token:
     post:
       tags:
         - Authentication
       summary: Create authentication token
       description: Send a `NewDog` to add a dog to the pet store.
       operationId: createToken
+      requestBody:
+        $ref: '#/components/requestBodies/CreateTokenRequest'
+      parameters:
+        - $ref: '#/components/parameters/DpopParameter'
       responses:
         '200':
           $ref: '#/components/responses/TokenResponse'
@@ -48,8 +52,8 @@ paths:
         '403':
           $ref: '#/components/responses/ForbiddenErrorResponse'
 
-  /oauth2/test-resource:
-    get:
+  /me:
+    post:
       tags:
         - Authentication
       summary: Resource endpoint used to test OAuth2
@@ -57,6 +61,9 @@ paths:
       operationId: getTestResource
       parameters:
         - $ref: '#/components/parameters/AccessTokenParameter'
+        - $ref: '#/components/parameters/ClientIdParameter'
+        - $ref: '#/components/parameters/ResponseTypeParameter'
+        - $ref: '#/components/parameters/DpopParameter'
       responses:
         '200':
           $ref: '#/components/responses/ResourceResponse'
@@ -511,6 +518,22 @@ components:
       schema:
         type: string
       example: "eyJ0eXAiOiJkcG9wK2p3dCIsImFsZyI6IkVTMjU2IiwiandrIjp7Imt0eSI6Ik..."
+    ClientIdParameter:
+      name: client_id
+      in: query
+      description: Client ID from the client for proof of possession
+      required: true
+      schema:
+        type: string
+      example: "123"
+    ResponseTypeParameter:
+      name: response_type
+      in: query
+      description: Client ID from the client for proof of possession
+      required: true
+      schema:
+        type: string
+      example: "none"
     AccessTokenParameter:
       name: Authorization
       in: header
@@ -660,13 +683,35 @@ components:
         minLength: 1
       example: '+'
   schemas:
+    CreateToken:
+      description: Request body required to create an access token
+      type: object
+      properties:
+        client_id:
+          type: string
+          example: "123"
+        client_assertion:
+          type: string
+          example: "123"
+        grant_type:
+          type: string
+          example: "123"
+        client_assertion_type:
+          type: string
+          example: "123"
     Token:
       description: An access token required to authenticate
       type: object
       properties:
-        accessToken:
+        access_token:
           type: string
-          example: "123"
+          example: "6_hzXXx-ifVIFWkRrxqti3gjrJXlPDLfP-Yr28r18ZJ"
+        expires_in:
+          type: integer
+          example: 600
+        token_type:
+          type: string
+          example: "Bearer"
     TestResource:
       description: A test resource consisting of a single property for testing purposes
       type: object
@@ -1358,6 +1403,12 @@ components:
           description: More details about the error.
           example: Invalid JSON payload
   requestBodies:
+    CreateTokenRequest:
+      required: true
+      content:
+        application/x-www-form-urlencoded:
+          schema:
+            $ref: '#/components/schemas/CreateToken'
     AddDogRequest:
       required: true
       content:
