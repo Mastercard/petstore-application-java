@@ -13,7 +13,7 @@ import org.springframework.context.annotation.Profile;
 
 import java.security.PrivateKey;
 
-@Profile({"oauth2"})
+@Profile({"oauth2", "oauth2local"})
 @org.springframework.context.annotation.Configuration
 public class OAuth2Utils {
 

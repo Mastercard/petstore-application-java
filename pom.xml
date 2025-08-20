@@ -98,6 +98,13 @@
             <version>1.5.3</version>
         </dependency>
         <dependency>
+            <groupId>com.mastercard.developer</groupId>
+            <artifactId>oauth2-signer</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/oauth2-signer/oauth2-signer-0.0.1-SNAPSHOT.jar</systemPath>
+        </dependency>
+        <dependency>
             <groupId>org.mockito</groupId>
             <artifactId>mockito-inline</artifactId>
             <version>4.2.0</version>
