@@ -1,0 +1,41 @@
+# To get started with Dependabot version updates, you'll need to specify which
+# package ecosystems to update and where the package manifests are located.
+# Please see the documentation for all configuration options:
+# https://docs.github.com/code-security/dependabot/dependabot-version-updates/configuration-options-for-the-dependabot.yml-file
+
+version: 2
+updates:
+  - package-ecosystem: "maven" # Maven package ecosystem
+    directory: "/" # Location of package manifests (pom.xml in root)
+    schedule:
+      interval: "weekly"
+    # Optional: Set a specific day and time
+    # schedule:
+    #   interval: "weekly"
+    #   day: "monday"
+    #   time: "09:00"
+    
+    # Optional: Group dependency updates by type
+    groups:
+      spring-boot:
+        patterns:
+          - "org.springframework.boot*"
+        
+      testing:
+        patterns:
+          - "org.junit.jupiter*"
+          - "org.mockito*"
+          
+      mastercard:
+        patterns:
+          - "com.mastercard.developer*"
+          
+      okhttp:
+        patterns:
+          - "com.squareup.okhttp3*"
+    
+    # Optional: Ignore specific dependencies that you don't want to update automatically
+    ignore:
+      # Example: ignore major version updates for stable dependencies
+      # - dependency-name: "com.google.code.gson:gson"
+      #   update-types: ["version-update:semver-major"]
