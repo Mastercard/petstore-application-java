@@ -13,9 +13,9 @@ info:
     email: apisupport@mastercard.com
     url: 'https://developer.mastercard.com/support'
 servers:
-  - url: 'https://sandbox.api.mastercard.com/petstore'
+  - url: 'https://sandbox.api.mastercard.com/oauth-petstore/petstore'
     description: Sandbox environment
-  - url: 'https://api.mastercard.com/petstore'
+  - url: 'https://api.mastercard.com/oauth-petstore/petstore'
     description: Production environment
 tags:
   - name: Dogs
@@ -687,8 +687,8 @@ components:
       type: string
       minLength: 2
       maxLength: 100
-      pattern: '^[a-z|_]+$'
-      example: john_k
+      pattern: '^[a-z|_]+[0-9]+$'
+      example: john_k12
     AccountStatus:
       description: A status for the employee account.
       type: string
@@ -2007,7 +2007,7 @@ components:
             lastName: Doe
             phoneNumber: '+6573437115596'
             ssn: '123-45-6789'
-            username: john_doe
+            username: john_doe12
             email: 'john.doe@petstore.com'
             accountStatus: ACTIVE
             allergies: []
@@ -2018,7 +2018,7 @@ components:
             lastName: Young
             phoneNumber: '+1789283475846'
             ssn: '555-90-6789'
-            username: amanda_y
+            username: amanda_y12
             email: 'amanda.young@petstore.com'
             accountStatus: ACTIVE
             allergies:
@@ -2033,7 +2033,7 @@ components:
           lastName: Doe
           phoneNumber: '+6573437115596'
           ssn: '123-45-6789'
-          username: john_doe
+          username: john_doe12
           email: 'john.doe@petstore.com'
           accountStatus: ACTIVE
           allergies:
@@ -2047,7 +2047,7 @@ components:
         lastName: Doe
         phoneNumber: '+6573437115596'
         ssn: '123-45-6789'
-        username: john_doe
+        username: john_doe12
         email: 'john.doe@petstore.com'
         accountStatus: ACTIVE
         allergies:
@@ -2063,7 +2063,7 @@ components:
           lastName: Doe
           ssn: '123-45-6789'
           phoneNumber: '+6573454542316'
-          username: john_doe
+          username: john_doe12
           email: 'john.doe@petstore.com'
           accountStatus: ACTIVE
           allergies:

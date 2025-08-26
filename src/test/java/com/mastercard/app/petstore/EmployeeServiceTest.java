@@ -20,7 +20,6 @@ public class EmployeeServiceTest {
 
     private EmployeesApi employeesApi;
     private EmployeesApi employeesApiEncryptedForBody;
-    private EmployeesApi employeesApiEncryptedForFLE;
 
     @InjectMocks
     EmployeeService employeeService;
@@ -29,8 +28,7 @@ public class EmployeeServiceTest {
     public void setUp() {
         employeesApi = mock(EmployeesApi.class);
         employeesApiEncryptedForBody = mock(EmployeesApi.class);
-        employeesApiEncryptedForFLE = mock(EmployeesApi.class);
-        employeeService = new EmployeeService(employeesApi, employeesApiEncryptedForFLE, employeesApiEncryptedForBody);
+        employeeService = new EmployeeService(employeesApi, employeesApiEncryptedForBody);
     }
 
     @Test
@@ -52,7 +50,7 @@ public class EmployeeServiceTest {
         Employee employee = MockDataBuilders.buildEmployee();
         EmployeeData employeeData = new EmployeeData();
         employeeData.setEmployee(employee);
-        when(employeesApiEncryptedForFLE.getEmployee(employee.getUsername())).thenReturn(employeeData);
+        when(employeesApiEncryptedForBody.getEmployee(employee.getUsername())).thenReturn(employeeData);
 
         EmployeeData returntedEmployeeData = employeeService.getEmployee(employee.getUsername());
 

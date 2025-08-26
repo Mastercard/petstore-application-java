@@ -25,35 +25,6 @@ public class JweEncryptionUtils {
     private String decryptionKeyPassword;
 
     /**
-     * Sets field level encryption config for employees.
-     *
-     * @return the field level encryption config for employees
-     * @throws EncryptionException      the encryption exception. Will trigger if there's an issue with encryption
-     * @throws GeneralSecurityException the general security exception. Covers other issues with security not covered by EncryptionException
-     * @throws IOException              the io exception. Will trigger on fail to load files
-     * @throws IllegalArgumentException the illegal argument exception. Will trigger when not all fields in applications.properties are set
-     */
-    @Bean
-    public EncryptionConfig fieldLevelEncryptionConfigForEmployees() throws EncryptionException, GeneralSecurityException, IOException {
-        checkProperties();
-        Certificate encryptionCertificate = EncryptionUtils.loadEncryptionCertificate(encryptionCertificateFilePath);
-        PrivateKey decryptionKey = EncryptionUtils.loadDecryptionKey(decryptionKeyFilePath, decryptionKeyAlias, decryptionKeyPassword);
-
-        return JweConfigBuilder.aJweEncryptionConfig()
-                .withEncryptionCertificate(encryptionCertificate)
-                .withDecryptionKey(decryptionKey)
-                .withEncryptionPath("$.ssn","$")
-                .withDecryptionPath("$.encryptedSsn.encryptedData","$.ssn")
-                .withDecryptionPath("$.encryptedFirstName.encryptedData","$.firstName")
-                .withDecryptionPath("$.encryptedLastName.encryptedData","$.lastName")
-                .withDecryptionPath("$.encryptedPhoneNumber.encryptedData","$.phoneNumber")
-                .withDecryptionPath("$.encryptedEmail.encryptedData","$.email")
-                .withDecryptionPath("$.encryptedUsername.encryptedData","$.username")
-                .withDecryptionPath("$.encryptedAccountStatus.encryptedData","$.accountStatus")
-                .build();
-    }
-
-    /**
      * Sets field level encryption config for adoptions.
      *
      * @return the field level encryption config for adoptions
@@ -73,6 +44,7 @@ public class JweEncryptionUtils {
                 .withDecryptionKey(decryptionKey)
                 .withEncryptionPath("$.owner","$.encryptedOwner")
                 .withDecryptionPath("$.encryptedOwner.encryptedData","$.owner")
+                .withDecryptionPath("$.adoption.encryptedOwner.encryptedData","$.adoption.owner")
                 .build();
     }
 
@@ -94,6 +66,7 @@ public class JweEncryptionUtils {
         return JweConfigBuilder.aJweEncryptionConfig()
                 .withEncryptionCertificate(encryptionCertificate)
                 .withEncryptionPath("$", "$")
+                .withDecryptionPath("$", "$")
                 .withDecryptionKey(decryptionKey)
                 .build();
     }
