@@ -1,8 +1,7 @@
 package com.mastercard.app.petstore.utils;
 
-import com.mastercard.developer.encryption.EncryptionConfig;
 import com.mastercard.developer.interceptors.OkHttpJweInterceptor;
-import com.mastercard.developer.oauth2.interceptors.OkHttpOAuth2Interceptor;
+import com.mastercard.developer.oauth2.interceptors.OkHttp3OAuth2Interceptor;
 import com.mastercard.developer.utils.AuthenticationUtils;
 import okhttp3.Interceptor;
 import org.openapitools.client.ApiClient;
@@ -13,7 +12,7 @@ import org.springframework.context.annotation.Profile;
 
 import java.security.PrivateKey;
 
-@Profile({"oauth2", "oauth2local"})
+@Profile({ "oauth2stage"})
 @org.springframework.context.annotation.Configuration
 public class OAuth2Utils {
 
@@ -99,47 +98,11 @@ public class OAuth2Utils {
         client.setHttpClient(
                 client.getHttpClient()
                         .newBuilder()
-                        .addInterceptor(new OkHttpOAuth2Interceptor(clientId, getSigningKey(), tokenUrl, audience, keyId, scope, dpopKeyType))
+                        .addInterceptor(new OkHttp3OAuth2Interceptor(clientId, getSigningKey(), tokenUrl, audience, keyId, scope, dpopKeyType))
                         .build()
         );
         return client;
     }
-
-    /**
-     * Sets an oAuth api client with encryption. This will be used to send authenticated requests to the server.
-     *
-     * @param  fullBodyEncryptionConfig the config used to determine how encryption will work inside the api
-     * @return the oAuth api client
-     */
-    @Bean
-    public ApiClient apiClientEncryption(EncryptionConfig fullBodyEncryptionConfig) {
-        return buildApiClientEncryption(fullBodyEncryptionConfig);
-    }
-
-    @Bean
-    public ApiClient apiClientEncryptionAdoptionFle(EncryptionConfig fieldLevelEncryptionConfigForAdoptions) {
-        return buildApiClientEncryption(fieldLevelEncryptionConfigForAdoptions);
-    }
-
-    @Bean
-    public ApiClient apiClientEncryptionEmployeeFle(EncryptionConfig fieldLevelEncryptionConfigForEmployees) {
-        return buildApiClientEncryption(fieldLevelEncryptionConfigForEmployees);
-    }
-
-    private ApiClient buildApiClientEncryption(EncryptionConfig config) {
-        Interceptor encryptionInterceptor = new OkHttpJweInterceptor(config);
-
-        ApiClient client = newGenericClient();
-        client.setHttpClient(
-                client.getHttpClient()
-                        .newBuilder()
-                        .addInterceptor(encryptionInterceptor)
-                        .addInterceptor(new OkHttpOAuth2Interceptor(clientId, getSigningKey(), tokenUrl, audience, keyId, scope, dpopKeyType))
-                        .build()
-        );
-        return client;
-    }
-
 
     private PrivateKey getSigningKey() {
         PrivateKey signingKey = null;
