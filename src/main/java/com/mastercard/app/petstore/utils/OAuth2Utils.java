@@ -39,54 +39,57 @@ public class OAuth2Utils {
             @Value("${mastercard.oauth2.keyId}") String keyId,
             @Value("${mastercard.oauth2.clientId}") String clientId,
             @Value("${mastercard.oauth2.scope}") String scope,
-            @Value("${mastercard.oauth2.dpopKeyType}") String dpopKeyType) {
+            @Value("${mastercard.oauth2.dpopKeyType}") String dpopSigningAlgorithm) {
 
-        if (basePath.isEmpty()) {
+        if (isNullOrEmpty(basePath)) {
             throw new IllegalArgumentException("basePath in application.properties is empty");
         }
         this.basePath = basePath;
-        if (signingKeyContainer.isEmpty()) {
+        if (isNullOrEmpty(signingKeyContainer)) {
             throw new IllegalArgumentException("pkcs12KeyFile in application-oauth2.properties is empty");
         }
         this.signingKeyContainer = signingKeyContainer;
-        if (clientId.isEmpty()) {
-            throw new IllegalArgumentException("client id  in application-oauth2.properties is empty");
+        if (isNullOrEmpty(clientId)) {
+            throw new IllegalArgumentException("client id in application-oauth2.properties is empty");
         }
         this.clientId = clientId;
-        if (signingKeyAlias.isEmpty()) {
+        if (isNullOrEmpty(signingKeyAlias)) {
             throw new IllegalArgumentException("keyAlias in application-oauth2.properties is empty");
         }
         this.signingKeyAlias = signingKeyAlias;
-        if (signingKeyPassword.isEmpty()) {
+        if (isNullOrEmpty(signingKeyPassword)) {
             throw new IllegalArgumentException("keyPassword in application-oauth2.properties is empty");
         }
         this.signingKeyPassword = signingKeyPassword;
 
-        if (tokentUri.isEmpty()) {
+        if (isNullOrEmpty(tokentUri)) {
             throw new IllegalArgumentException("tokentUri in application-oauth2.properties is empty");
         }
         this.tokenUrl = tokentUri;
-        if (audience.isEmpty()) {
+        if (isNullOrEmpty(audience)) {
             throw new IllegalArgumentException("audience in application-oauth2.properties is empty");
         }
         this.audience = audience;
 
-        if (keyId.isEmpty()) {
+        if (isNullOrEmpty(keyId)) {
             throw new IllegalArgumentException("keyId in application-oauth2.properties is empty");
         }
 
         this.keyId = keyId;
-        if (scope.isEmpty()) {
+        if (isNullOrEmpty(scope)) {
             throw new IllegalArgumentException("scope in application-oauth2.properties is empty");
         }
         this.scope = scope;
-        if (dpopKeyType.isEmpty()) {
-            this.dpopKeyType = "PS256";
+        if (isNullOrEmpty(dpopSigningAlgorithm)) {
+            this.dpopKeyType = "ES256";
         } else {
-            this.dpopKeyType = dpopKeyType;
+            this.dpopKeyType = dpopSigningAlgorithm;
         }
     }
 
+    private boolean isNullOrEmpty(String str) {
+        return str == null || str.isEmpty();
+    }
     /**
      * Sets an oAuth api client without encryption. This will be used to send authenticated requests to the server.
      *
