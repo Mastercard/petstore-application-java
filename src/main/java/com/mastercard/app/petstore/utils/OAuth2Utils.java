@@ -1,7 +1,7 @@
 package com.mastercard.app.petstore.utils;
 
-import com.mastercard.developer.oauth2.core.OAuth2Configuration;
-import com.mastercard.developer.oauth2.interceptors.OkHttp3OAuth2Interceptor;
+import com.mastercard.developer.oauth2.config.Configuration;
+import com.mastercard.developer.oauth2.interceptors.OkHttp3ClientCredentialInterceptor;
 import com.mastercard.developer.utils.AuthenticationUtils;
 import org.openapitools.client.ApiClient;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +22,6 @@ public class OAuth2Utils {
     private final String signingKeyPassword;
     private final String basePath;
     private final String tokenUrl;
-    private final String audience;
     private final String keyId;
     private final String clientId;
     private final String scope;
@@ -34,7 +33,6 @@ public class OAuth2Utils {
             @Value("${mastercard.oauth2.keyAlias}") String signingKeyAlias,
             @Value("${mastercard.oauth2.keyPassword}") String signingKeyPassword,
             @Value("${mastercard.basePath}") String basePath,
-            @Value("${mastercard.oauth2.audience}") String audience,
             @Value("${mastercard.oauth2.tokenUrl}") String tokentUri,
             @Value("${mastercard.oauth2.keyId}") String keyId,
             @Value("${mastercard.oauth2.clientId}") String clientId,
@@ -66,10 +64,7 @@ public class OAuth2Utils {
             throw new IllegalArgumentException("tokentUri in application-oauth2.properties is empty");
         }
         this.tokenUrl = tokentUri;
-        if (isNullOrEmpty(audience)) {
-            throw new IllegalArgumentException("audience in application-oauth2.properties is empty");
-        }
-        this.audience = audience;
+
 
         if (isNullOrEmpty(keyId)) {
             throw new IllegalArgumentException("keyId in application-oauth2.properties is empty");
@@ -99,12 +94,12 @@ public class OAuth2Utils {
     public ApiClient apiClient() {
         ApiClient client = newGenericClient();
         try {
-            var config = OAuth2Configuration.productionConfigWithConsoleLogging();
+            var config = Configuration.productionConfigWithConsoleLogging();
             client.setHttpClient(
                     client.getHttpClient()
                             .newBuilder()
                             .addInterceptor(
-                                    new OkHttp3OAuth2Interceptor(config, clientId, getSigningKey(), tokenUrl, keyId, scope))
+                                    new OkHttp3ClientCredentialInterceptor(config, clientId, getSigningKey(), tokenUrl, keyId, scope))
                             .build()
             );
 
