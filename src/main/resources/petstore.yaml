@@ -82,15 +82,13 @@ paths:
         '204':
           $ref: '#/components/responses/UpdateDogResponse'
         '400':
-          $ref: '#/components/responses/BadRequestErrorResponse'
+          $ref: '#/components/responses/ModifyDogErrorResponse'
         '401':
           $ref: '#/components/responses/UnauthorizedErrorResponse'
         '403':
           $ref: '#/components/responses/ForbiddenErrorResponse'
         '404':
           $ref: '#/components/responses/DogNotFoundErrorResponse'
-        '422':
-          $ref: '#/components/responses/DogPreconditionFailedErrorResponse'
   /cats:
     post:
       tags:
@@ -144,15 +142,13 @@ paths:
         '204':
           $ref: '#/components/responses/UpdateCatResponse'
         '400':
-          $ref: '#/components/responses/BadRequestErrorResponse'
+          $ref: '#/components/responses/ModifyCatErrorResponse'
         '401':
           $ref: '#/components/responses/UnauthorizedErrorResponse'
         '403':
           $ref: '#/components/responses/ForbiddenErrorResponse'
         '404':
           $ref: '#/components/responses/CatNotFoundErrorResponse'
-        '422':
-          $ref: '#/components/responses/CatPreconditionFailedErrorResponse'
   '/pets/{pet_id}/status':
     put:
       tags:
@@ -169,13 +165,11 @@ paths:
         '204':
           $ref: '#/components/responses/UpdatePetStatusResponse'
         '400':
-          $ref: '#/components/responses/BadRequestErrorResponse'
+          $ref: '#/components/responses/ModifyPetStatusErrorResponse'
         '401':
           $ref: '#/components/responses/UnauthorizedErrorResponse'
         '403':
           $ref: '#/components/responses/ForbiddenErrorResponse'
-        '422':
-          $ref: '#/components/responses/PetPreconditionFailedErrorResponse'
   /pets:
     get:
       tags:
@@ -234,15 +228,13 @@ paths:
         '201':
           $ref: '#/components/responses/AdoptPetResponse'
         '400':
-          $ref: '#/components/responses/BadRequestErrorResponse'
+          $ref: '#/components/responses/AdoptionBadRequestErrorResponse'
         '401':
           $ref: '#/components/responses/UnauthorizedErrorResponse'
         '403':
           $ref: '#/components/responses/ForbiddenErrorResponse'
         '404':
           $ref: '#/components/responses/PetNotFoundErrorResponse'
-        '422':
-          $ref: '#/components/responses/AdoptionConflictErrorResponse'
     get:
       tags:
         - Adoptions
@@ -324,15 +316,13 @@ paths:
         '200':
           $ref: '#/components/responses/UpdateAdoptionResponse'
         '400':
-          $ref: '#/components/responses/BadRequestErrorResponse'
+          $ref: '#/components/responses/ModifyAdoptionErrorResponse'
         '401':
           $ref: '#/components/responses/UnauthorizedErrorResponse'
         '403':
           $ref: '#/components/responses/ForbiddenErrorResponse'
         '404':
           $ref: '#/components/responses/AdoptionNotFoundErrorResponse'
-        '422':
-          $ref: '#/components/responses/AdoptionModifyErrorResponse'
     delete:
       tags:
         - Adoptions
@@ -427,15 +417,13 @@ paths:
         '204':
           $ref: '#/components/responses/UpdateEmployeeResponse'
         '400':
-          $ref: '#/components/responses/BadRequestErrorResponse'
+          $ref: '#/components/responses/ModifyEmployeeErrorResponse'
         '401':
           $ref: '#/components/responses/UnauthorizedErrorResponse'
         '403':
           $ref: '#/components/responses/ForbiddenErrorResponse'
         '404':
           $ref: '#/components/responses/EmployeeNotFoundErrorResponse'
-        '422':
-          $ref: '#/components/responses/EmployeePreconditionFailedErrorResponse'
     delete:
       tags:
         - Employees
@@ -1585,62 +1573,74 @@ components:
           examples:
             ForbiddenExample:
               $ref: '#/components/examples/ForbiddenExample'
-    AdoptionConflictErrorResponse:
+    AdoptionBadRequestErrorResponse:
       description: The resource seems to exist already.
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/ErrorWrapper'
           examples:
+            BadRequestExample:
+              $ref: '#/components/examples/BadRequestExample'
             ConflictExample:
               $ref: '#/components/examples/AdoptionConflictExample'
-    AdoptionModifyErrorResponse:
+    ModifyAdoptionErrorResponse:
       description: The resource seems to exist already.
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/ErrorWrapper'
           examples:
+            BadRequestExample:
+              $ref: '#/components/examples/BadRequestExample'
             ConflictExample:
               $ref: '#/components/examples/AdoptionConflictModifyExample'
             PreconditionFailedExample:
               $ref: '#/components/examples/AdoptionPreconditionExample'
-    DogPreconditionFailedErrorResponse:
+    ModifyEmployeeErrorResponse:
       description: This target resource version has already been modified.
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/ErrorWrapper'
           examples:
-            PreconditionExample:
-              $ref: '#/components/examples/DogPreconditionExample'
-    CatPreconditionFailedErrorResponse:
-      description: This target resource version has already been modified.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorWrapper'
-          examples:
-            PreconditionExample:
-              $ref: '#/components/examples/CatPreconditionExample'
-    PetPreconditionFailedErrorResponse:
-      description: This target resource version has already been modified.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorWrapper'
-          examples:
-            PreconditionExample:
-              $ref: '#/components/examples/PetPreconditionExample'
-    EmployeePreconditionFailedErrorResponse:
-      description: This target resource version has already been modified.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorWrapper'
-          examples:
-            PreconditionExample:
+            BadRequestExample:
+              $ref: '#/components/examples/BadRequestExample'
+            PreconditionFailedExample:
               $ref: '#/components/examples/EmployeePreconditionExample'
+    ModifyDogErrorResponse:
+      description: Something was wrong with the request.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorWrapper'
+          examples:
+            BadRequestExample:
+              $ref: '#/components/examples/BadRequestExample'
+            PreconditionFailedExample:
+              $ref: '#/components/examples/DogPreconditionExample'
+    ModifyCatErrorResponse:
+      description: Something was wrong with the request.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorWrapper'
+          examples:
+            BadRequestExample:
+              $ref: '#/components/examples/BadRequestExample'
+            PreconditionFailedExample:
+              $ref: '#/components/examples/CatPreconditionExample'
+    ModifyPetStatusErrorResponse:
+      description: Something was wrong with the request.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorWrapper'
+          examples:
+            BadRequestExample:
+              $ref: '#/components/examples/BadRequestExample'
+            PreconditionFailedExample:
+              $ref: '#/components/examples/PetPreconditionExample'
   headers:
     ETag:
       schema:
@@ -1745,7 +1745,7 @@ components:
         Errors:
           Error:
             - Source: PETSTORE_API
-              ReasonCode: Unprocessable Entity
+              ReasonCode: Bad Request
               Description: Resource already exists.
               Recoverable: false
               Details: This pet has already been adopted.
@@ -1754,7 +1754,7 @@ components:
         Errors:
           Error:
             - Source: PETSTORE_API
-              ReasonCode: Unprocessable Entity
+              ReasonCode: Bad Request
               Description: Resource already exists.
               Details: >-
                 You cannot modify the pet in an existing adoption record.
@@ -1766,7 +1766,7 @@ components:
         Errors:
           Error:
             - Source: PETSTORE_API
-              ReasonCode: Unprocessable Entity
+              ReasonCode: Bad Request
               Description: This target resource version has already been modified.
               Recoverable: false
               Details: This Dog resource version has already been modified.
@@ -1775,7 +1775,7 @@ components:
         Errors:
           Error:
             - Source: PETSTORE_API
-              ReasonCode: Unprocessable Entity
+              ReasonCode: Bad Request
               Description: This target resource version has already been modified.
               Recoverable: false
               Details: This Cat resource version has already been modified.
@@ -1784,7 +1784,7 @@ components:
         Errors:
           Error:
             - Source: PETSTORE_API
-              ReasonCode: Unprocessable Entity
+              ReasonCode: Bad Request
               Description: This target resource version has already been modified.
               Recoverable: false
               Details: This Pet resource version has already been modified.
@@ -1793,7 +1793,7 @@ components:
         Errors:
           Error:
             - Source: PETSTORE_API
-              ReasonCode: Unprocessable Entity
+              ReasonCode: Bad Request
               Description: This target resource version has already been modified.
               Recoverable: false
               Details: This Adoption record version has already been modified.
@@ -1802,7 +1802,7 @@ components:
         Errors:
           Error:
             - Source: PETSTORE_API
-              ReasonCode: Unprocessable Entity
+              ReasonCode: Bad Request
               Description: This target resource version has already been modified.
               Recoverable: false
               Details: This Employee resource version has already been modified.
@@ -2100,6 +2100,7 @@ components:
     AdoptPetExample:
       value:
         petId: 54a96d5f-026b-4f41-853d-fa8a892f743e
+        adoptionDate: '2022-09-01'
         owner:
           firstName: Hayden
           lastName: Smith
