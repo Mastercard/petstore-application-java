@@ -1,6 +1,5 @@
-package com.mastercard.app.petstore;
+package com.mastercard.app.petstore.services;
 
-import com.mastercard.app.petstore.services.EmployeeService;
 import com.mastercard.app.petstore.utils.MockDataBuilders;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -10,11 +9,19 @@ import org.openapitools.client.api.EmployeesApi;
 import org.openapitools.client.model.Employee;
 import org.openapitools.client.model.EmployeeData;
 import org.openapitools.client.model.EmployeeListData;
+import org.openapitools.client.model.EmployeeSearch;
+import org.openapitools.client.model.EmployeeWrapper;
 import org.openapitools.client.model.NewEmployee;
 import org.openapitools.client.model.NewEmployeeData;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.*;
+import static org.mockito.ArgumentMatchers.argThat;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 public class EmployeeServiceTest {
 
@@ -46,7 +53,19 @@ public class EmployeeServiceTest {
     }
 
     @Test
-    public void returnEmployee_shouldReturnAnEmployee() throws ApiException {
+    public void searchEmployee_shouldReturnAnEmployee() throws ApiException {
+        EmployeeSearch employeeSearch = MockDataBuilders.buildEmployeeSearch();
+        EmployeeWrapper employee = MockDataBuilders.buildEmployeeWrapper();
+
+        when(employeesApiEncryptedForBody.searchEmployee(employeeSearch)).thenReturn(employee);
+
+        EmployeeWrapper response = employeeService.searchEmployee(employeeSearch);
+
+        assertEquals(employee, response);
+    }
+
+    @Test
+    public void getEmployee_shouldReturnAnEmployee() throws ApiException {
         Employee employee = MockDataBuilders.buildEmployee();
         EmployeeData employeeData = new EmployeeData();
         employeeData.setEmployee(employee);
@@ -55,6 +74,24 @@ public class EmployeeServiceTest {
         EmployeeData returntedEmployeeData = employeeService.getEmployee(employee.getUsername());
 
         assertEquals(returntedEmployeeData.getEmployee().getUsername(), employee.getUsername());
+    }
+
+    @Test
+    public void updateEmployee_shouldUpdateAnEmployee() throws ApiException {
+        String etag = "33a64df551425f";
+        Employee employee = MockDataBuilders.buildEmployee();
+
+        doNothing().when(employeesApiEncryptedForBody).updateEmployee(
+                eq(employee.getId().toString()),
+                eq(etag),
+                argThat(data -> employee.equals(data.getEmployee())));
+
+        employeeService.updateEmployee(etag, employee);
+
+        verify(employeesApiEncryptedForBody, times(1)).updateEmployee(
+                eq(employee.getId().toString()),
+                eq(etag),
+                argThat(data -> employee.equals(data.getEmployee())));
     }
 
     @Test

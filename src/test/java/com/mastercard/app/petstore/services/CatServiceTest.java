@@ -1,6 +1,5 @@
-package com.mastercard.app.petstore;
+package com.mastercard.app.petstore.services;
 
-import com.mastercard.app.petstore.services.CatService;
 import com.mastercard.app.petstore.utils.MockDataBuilders;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
