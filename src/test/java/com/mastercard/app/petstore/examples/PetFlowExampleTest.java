@@ -24,7 +24,7 @@ import static org.mockito.Mockito.mockStatic;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-public class PetFlowExampleTest {
+class PetFlowExampleTest {
 
     @InjectMocks
     private PetFlowExample petFlowExample;
@@ -36,12 +36,12 @@ public class PetFlowExampleTest {
     private PetService petService;
 
     @BeforeEach
-    public void setup() {
+    void setup() {
         MockitoAnnotations.openMocks(this);
     }
 
     @Test
-    public void testPetUseCaseFlow() throws ApiException {
+    void testPetUseCaseFlow() throws ApiException {
         NewCat newCat = new NewCat();
         UUID catId = UUID.randomUUID();
         Cat cat = new Cat(catId, new Date(), new Date()).name("Whiskers");
@@ -64,7 +64,7 @@ public class PetFlowExampleTest {
     }
 
     @Test
-    public void testPetUseCaseFlowThrowsApiException() throws ApiException {
+    void testPetUseCaseFlowThrowsApiException() throws ApiException {
         NewCat newCat = new NewCat();
         when(catService.addCat(any(NewCat.class))).thenThrow(new ApiException("API error"));
 
