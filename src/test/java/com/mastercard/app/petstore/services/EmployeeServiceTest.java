@@ -1,6 +1,7 @@
 package com.mastercard.app.petstore.services;
 
 import com.mastercard.app.petstore.utils.MockDataBuilders;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -23,7 +24,7 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-public class EmployeeServiceTest {
+class EmployeeServiceTest {
 
     private EmployeesApi employeesApi;
     private EmployeesApi employeesApiEncryptedForBody;
@@ -32,14 +33,14 @@ public class EmployeeServiceTest {
     EmployeeService employeeService;
 
     @BeforeEach
-    public void setUp() {
+    void setUp() {
         employeesApi = mock(EmployeesApi.class);
         employeesApiEncryptedForBody = mock(EmployeesApi.class);
         employeeService = new EmployeeService(employeesApi, employeesApiEncryptedForBody);
     }
 
     @Test
-    public void createEmployee_shouldCreateAnEmployee() throws ApiException {
+    void createEmployee_shouldCreateAnEmployee() throws ApiException {
         NewEmployee newEmployee = MockDataBuilders.buildNewEmployee();
         NewEmployeeData newEmployeeData = new NewEmployeeData().addNewEmployeesItem(newEmployee);
         Employee employee = MockDataBuilders.buildEmployee();
@@ -49,11 +50,13 @@ public class EmployeeServiceTest {
 
         EmployeeListData returnEemployeeData = employeeService.createEmployee(newEmployeeData);
 
+        Assertions.assertNotNull(employeeData.getEmployees());
+        Assertions.assertNotNull(returnEemployeeData.getEmployees());
         assertEquals(employeeData.getEmployees().size(), returnEemployeeData.getEmployees().size());
     }
 
     @Test
-    public void searchEmployee_shouldReturnAnEmployee() throws ApiException {
+    void searchEmployee_shouldReturnAnEmployee() throws ApiException {
         EmployeeSearch employeeSearch = MockDataBuilders.buildEmployeeSearch();
         EmployeeWrapper employee = MockDataBuilders.buildEmployeeWrapper();
 
@@ -65,7 +68,7 @@ public class EmployeeServiceTest {
     }
 
     @Test
-    public void getEmployee_shouldReturnAnEmployee() throws ApiException {
+    void getEmployee_shouldReturnAnEmployee() throws ApiException {
         Employee employee = MockDataBuilders.buildEmployee();
         EmployeeData employeeData = new EmployeeData();
         employeeData.setEmployee(employee);
@@ -73,14 +76,16 @@ public class EmployeeServiceTest {
 
         EmployeeData returntedEmployeeData = employeeService.getEmployee(employee.getUsername());
 
+        Assertions.assertNotNull(returntedEmployeeData.getEmployee());
         assertEquals(returntedEmployeeData.getEmployee().getUsername(), employee.getUsername());
     }
 
     @Test
-    public void updateEmployee_shouldUpdateAnEmployee() throws ApiException {
+    void updateEmployee_shouldUpdateAnEmployee() throws ApiException {
         String etag = "33a64df551425f";
         Employee employee = MockDataBuilders.buildEmployee();
 
+        Assertions.assertNotNull(employee.getId());
         doNothing().when(employeesApiEncryptedForBody).updateEmployee(
                 eq(employee.getId().toString()),
                 eq(etag),
@@ -95,7 +100,7 @@ public class EmployeeServiceTest {
     }
 
     @Test
-    public void deleteEmployee_shouldJustRun() throws ApiException {
+    void deleteEmployee_shouldJustRun() throws ApiException {
         String id = "Bob123";
         doNothing().when(employeesApi).removeEmployee(id);
 

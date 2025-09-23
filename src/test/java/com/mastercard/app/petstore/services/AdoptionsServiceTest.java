@@ -1,6 +1,7 @@
 package com.mastercard.app.petstore.services;
 
 import com.mastercard.app.petstore.utils.MockDataBuilders;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -28,7 +29,7 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-public class AdoptionsServiceTest {
+class AdoptionsServiceTest {
 
     private AdoptionsApi adoptionsApiFle;
 
@@ -38,14 +39,14 @@ public class AdoptionsServiceTest {
     AdoptionsService adoptionsService;
 
     @BeforeEach
-    public void setUp() {
+    void setUp() {
         adoptionsApiFle = mock(AdoptionsApi.class);
         adoptionsApiFullBody = mock(AdoptionsApi.class);
         adoptionsService = new AdoptionsService(adoptionsApiFle, adoptionsApiFullBody);
     }
 
     @Test
-    public void adoptPet_shouldReturnALocation() throws ApiException {
+    void adoptPet_shouldReturnALocation() throws ApiException {
         Map<String, List<String>> headers =  Collections.singletonMap("location", Collections.singletonList("/adoptions/b1546cc7-a979-4c13-8817-40a8a0770868"));
         ApiResponse<Void> responseWithHeader = new ApiResponse<>(200, headers);
         when(adoptionsApiFle.adoptPetWithHttpInfo(any())).thenReturn(responseWithHeader);
@@ -56,28 +57,30 @@ public class AdoptionsServiceTest {
     }
 
     @Test
-    public void getAdoption_shouldReturnAnAdoption() throws ApiException {
+    void getAdoption_shouldReturnAnAdoption() throws ApiException {
         Adoption adoption = MockDataBuilders.buildAdoptionObject();
         when(adoptionsApiFle.getAdoption(any())).thenReturn(adoption);
 
+        Assertions.assertNotNull(adoption.getId());
         Adoption returnedAdoption = adoptionsService.getAdoption(adoption.getId().toString());
 
         assertEquals(adoption.getId(), returnedAdoption.getId());
     }
 
     @Test
-    public void searchAdoption_shouldReturnAnAdoptionSearch() throws ApiException {
+    void searchAdoption_shouldReturnAnAdoptionSearch() throws ApiException {
         AdoptionSearch adoptionSearch = MockDataBuilders.buildAdoptionSearch();
 
         when(adoptionsApiFle.searchAdoptedPets(adoptionSearch.getFromDate(), adoptionSearch.getToDate(), adoptionSearch.getPetCategory(), adoptionSearch.getPetIdentifier())).thenReturn(adoptionSearch);
 
+        Assertions.assertNotNull(adoptionSearch.getPetIdentifier());
         AdoptionSearch returnedAdoptionSearch = adoptionsService.searchAdoption(adoptionSearch.getFromDate(), adoptionSearch.getToDate(), adoptionSearch.getPetCategory(), adoptionSearch.getPetIdentifier().toString());
 
         assertEquals(adoptionSearch.getSearchResults().size(), returnedAdoptionSearch.getSearchResults().size());
     }
 
     @Test
-    public void updateAdoption_shouldUpdateAnAdoption() throws ApiException {
+    void updateAdoption_shouldUpdateAnAdoption() throws ApiException {
         Adoption adoption = MockDataBuilders.buildAdoptionObject();
         String etag = "33a64df551425f";
 
@@ -97,7 +100,7 @@ public class AdoptionsServiceTest {
     }
 
     @Test
-    public void deleteAdoption_shouldDeleteAnAdoption() throws ApiException {
+    void deleteAdoption_shouldDeleteAnAdoption() throws ApiException {
         UUID id = UUID.randomUUID();
         doNothing().when(adoptionsApiFle).deleteAdoption(id);
 
@@ -107,7 +110,7 @@ public class AdoptionsServiceTest {
     }
 
     @Test
-    public void adoptionPayment_shouldReturnAnAdoptionPayment() throws ApiException {
+    void adoptionPayment_shouldReturnAnAdoptionPayment() throws ApiException {
         Payment payment = MockDataBuilders.buildPayment();
         PaymentDetails paymentDetails = MockDataBuilders.buildPaymentDetailsFromPayment(payment);
         UUID id = UUID.randomUUID();

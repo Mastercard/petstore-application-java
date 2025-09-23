@@ -1,6 +1,7 @@
 package com.mastercard.app.petstore.services;
 
 import com.mastercard.app.petstore.utils.MockDataBuilders;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -12,7 +13,7 @@ import org.openapitools.client.model.NewCat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 
-public class CatServiceTest {
+class CatServiceTest {
 
     private CatsApi catsApi;
 
@@ -20,13 +21,13 @@ public class CatServiceTest {
     CatService catService;
 
     @BeforeEach
-    public void setUp() {
+    void setUp() {
         catsApi = mock(CatsApi.class);
         catService = new CatService(catsApi);
     }
 
     @Test
-    public void addCat_shouldReturnACat() throws ApiException {
+    void addCat_shouldReturnACat() throws ApiException {
         NewCat newCat = MockDataBuilders.buildNewCat();
         Cat expectedCat = MockDataBuilders.buildCat();
 
@@ -38,17 +39,18 @@ public class CatServiceTest {
     }
 
     @Test
-    public void getCat_shouldReturnACat() throws ApiException {
+    void getCat_shouldReturnACat() throws ApiException {
         Cat cat = MockDataBuilders.buildCat();
         when(catsApi.getCat(any())).thenReturn(cat);
 
+        Assertions.assertNotNull(cat.getId());
         Cat returnedCat = catService.getCat(cat.getId().toString());
 
         assertEquals(returnedCat.getId(), cat.getId());
     }
 
     @Test
-    public void updateCat_shouldUpdateACat() throws ApiException {
+    void updateCat_shouldUpdateACat() throws ApiException {
         Cat cat = MockDataBuilders.buildCat();
         String etag = "33a64df551425f";
 
