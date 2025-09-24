@@ -1,7 +1,7 @@
-package com.mastercard.app.petstore;
+package com.mastercard.app.petstore.services;
 
-import com.mastercard.app.petstore.services.DogService;
 import com.mastercard.app.petstore.utils.MockDataBuilders;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -13,7 +13,7 @@ import org.openapitools.client.model.NewDog;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 
-public class DogServiceTest {
+class DogServiceTest {
 
     private DogsApi dogsApi;
 
@@ -21,13 +21,13 @@ public class DogServiceTest {
     DogService dogService;
 
     @BeforeEach
-    public void setUp() {
+    void setUp() {
         dogsApi = mock(DogsApi.class);
         dogService = new DogService(dogsApi);
     }
 
     @Test
-    public void addDog_shouldReturnADog() throws ApiException {
+    void addDog_shouldReturnADog() throws ApiException {
         NewDog newDog = MockDataBuilders.buildNewDog();
         Dog expectedDog = MockDataBuilders.buildDog();
 
@@ -39,17 +39,18 @@ public class DogServiceTest {
     }
 
     @Test
-    public void getDog_shouldReturnADog() throws ApiException {
+    void getDog_shouldReturnADog() throws ApiException {
         Dog dog = MockDataBuilders.buildDog();
         when(dogsApi.getDog(any())).thenReturn(dog);
 
+        Assertions.assertNotNull(dog.getId());
         Dog returnedDog = dogService.getDog(dog.getId().toString());
 
         assertEquals(returnedDog.getId(), dog.getId());
     }
 
     @Test
-    public void updateDog_shouldUpdateADog() throws ApiException {
+    void updateDog_shouldUpdateADog() throws ApiException {
         Dog dog = MockDataBuilders.buildDog();
         String etag = "33a64df551425f";
 

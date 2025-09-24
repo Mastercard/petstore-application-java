@@ -124,13 +124,29 @@ public class MockDataBuilders {
 
     public static Employee buildEmployee(){
         String firstName = generateRandomName();
-        Employee employee = new Employee();
+        Employee employee = new Employee(UUID.randomUUID(), new Date(), new Date());
         employee.setFirstName(firstName);
         employee.setLastName(generateRandomName());
         employee.setPhoneNumber("+6573437115596");
         employee.setSsn(generateRandomSsn());
         employee.setUsername(firstName+"123");
         return employee;
+    }
+
+    public static EmployeeWrapper buildEmployeeWrapper(){
+        String firstName = generateRandomName();
+        return new EmployeeWrapper()
+                .firstName(generateRandomName())
+                .lastName(generateRandomName())
+                .phoneNumber("+6573437115596")
+                .ssn(generateRandomSsn())
+                .username(firstName + "123");
+    }
+
+    public static EmployeeSearch buildEmployeeSearch(){
+        EmployeeSearch employeeSearch = new EmployeeSearch();
+        employeeSearch.setSsn(generateRandomSsn());
+        return employeeSearch;
     }
 
     public static Payment buildPayment(){

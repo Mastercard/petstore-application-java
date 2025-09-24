@@ -1,8 +1,8 @@
-package com.mastercard.app.petstore;
+package com.mastercard.app.petstore.services;
 
-import com.mastercard.app.petstore.services.PetService;
 import com.mastercard.app.petstore.utils.MockDataBuilders;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
 import org.mockito.InjectMocks;
@@ -18,7 +18,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 
-public class PetServiceTest {
+class PetServiceTest {
 
     private PetsApi petsApi;
 
@@ -26,13 +26,13 @@ public class PetServiceTest {
     PetService petService;
 
     @BeforeEach
-    public void setUp() {
+    void setUp() {
         petsApi = mock(PetsApi.class);
         petService = new PetService(petsApi);
     }
 
     @Test
-    public void updatePet_shouldUpdateAPet() throws ApiException {
+    void updatePet_shouldUpdateAPet() throws ApiException {
         Pet pet = MockDataBuilders.buildPet();
         PetStatus petStatus = MockDataBuilders.buildPetStatus();
         String etag = "33a64df551425f";
@@ -45,7 +45,7 @@ public class PetServiceTest {
     }
 
     @Test
-    public void searchForPets_shouldReturnAListofPets() throws ApiException {
+    void searchForPets_shouldReturnAListofPets() throws ApiException {
         String status = "RESERVED";
         List<Pet> petCollection = Collections.singletonList(MockDataBuilders.buildPet());
         PetList pets = new PetList();
@@ -59,11 +59,12 @@ public class PetServiceTest {
 
         PetList returnedPets = petService.searchForPets(status);
 
+        Assertions.assertNotNull(returnedPets.getItems());
         assertEquals(petCollection.size(), returnedPets.getItems().size());
     }
 
     @Test
-    public void removePet_shouldRemoveAPet() throws ApiException {
+    void removePet_shouldRemoveAPet() throws ApiException {
         Pet pet = MockDataBuilders.buildPet();
 
         doNothing().when(petsApi).deletePet(pet.getId());
