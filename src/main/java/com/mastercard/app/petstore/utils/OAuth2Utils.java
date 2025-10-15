@@ -2,6 +2,8 @@ package com.mastercard.app.petstore.utils;
 
 import com.mastercard.developer.oauth2.config.Configuration;
 import com.mastercard.developer.oauth2.interceptors.OkHttp3ClientCredentialInterceptor;
+import com.mastercard.developer.oauth2.keygenerators.DefaultKeyGenerator;
+import com.mastercard.developer.oauth2.utils.ConsoleLogger;
 import com.mastercard.developer.utils.AuthenticationUtils;
 import org.openapitools.client.ApiClient;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +15,7 @@ import java.security.InvalidAlgorithmParameterException;
 import java.security.PrivateKey;
 import java.util.logging.Logger;
 
-@Profile({"oauth2stage"})
+@Profile({"oauth2stage", "oauth2onlystage"})
 @org.springframework.context.annotation.Configuration
 public class OAuth2Utils {
 
@@ -93,19 +95,31 @@ public class OAuth2Utils {
     @Bean
     public ApiClient apiClient() {
         ApiClient client = newGenericClient();
-        try {
-            var config = Configuration.productionConfigWithConsoleLogging();
-            client.setHttpClient(
-                    client.getHttpClient()
-                            .newBuilder()
-                            .addInterceptor(
-                                    new OkHttp3ClientCredentialInterceptor(config, clientId, getSigningKey(), tokenUrl, keyId, scope))
-                            .build()
-            );
+        var config = new Configuration.Builder()
+                .withClientId(clientId)
+                .withSigningKeyId(keyId)
+                .withTokenUrl(tokenUrl)
+                .withScope(scope)
+                .withSigningKey(getSigningKey())
+                .withJwtExpirationSeconds(840) // 2 minutes for production
+                .withKeyAlgorithmValidation(true)
+                .withPrivateJwtAlgorithm("PS256")
+                .withNbfDelay(120)
+                .withJtiLength(16)
+                //.withLogger(new ConsoleLogger())
+                .withKeyGenerator(new DefaultKeyGenerator.Builder()
+                        .withDpopKeyLifeTimeInSeconds(3600)
+                        .withDpopAlgorithm("ES256").build())
+                .build();
 
-        } catch (InvalidAlgorithmParameterException e) {
-            System.out.println(e.getMessage());
-        }
+        client.setHttpClient(
+                client.getHttpClient()
+                        .newBuilder()
+                        .addInterceptor(
+                                new OkHttp3ClientCredentialInterceptor(config))
+                        .build()
+        );
+
         return client;
     }
 
