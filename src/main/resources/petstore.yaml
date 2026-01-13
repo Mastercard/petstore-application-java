@@ -468,7 +468,7 @@ components:
       required: true
       schema:
         $ref: '#/components/schemas/ResourceIdentifier'
-      example: f2123113-2626-492d-bf73-309a429bf67a
+      example: 29d3d01f-2afc-47b6-a542-c5f097715fc4
     IfMatchHeaderParameter:
       name: If-Match
       in: header
@@ -489,7 +489,7 @@ components:
       required: true
       schema:
         $ref: '#/components/schemas/Username'
-      example: john_doe
+      example: john_doe12
     PetStatusParameter:
       name: status
       in: query
@@ -505,7 +505,7 @@ components:
       required: true
       schema:
         $ref: '#/components/schemas/FullDate'
-      example: '2021-04-23'
+      example: '2020-01-01'
     ToDateParameter:
       name: to_date
       in: query
@@ -513,7 +513,7 @@ components:
       required: true
       schema:
         $ref: '#/components/schemas/FullDate'
-      example: '2024-05-23'
+      example: '2035-01-01'
     PetCategoryParameter:
       name: pet_category
       in: query
@@ -1198,7 +1198,7 @@ components:
       description: 'The person''s [Social Security number](https://en.wikipedia.org/wiki/Social_Security_number)'
       type: string
       pattern: '^\d{3}-\d{2}-\d{4}$'
-      example: 123-45-6789
+      example: 123-45-2222
     ErrorWrapper:
       description: A top level object for errors.
       type: object
@@ -1849,10 +1849,12 @@ components:
           year: 2021
           month: 4
           day: 12
+        dogProperty1:
+          value: 'hunting:2'
         dogProperty2:
-          value: Something mandatory only dogs have
+          value: 'guarding:8'
         dogProperty3:
-          value: Something computed as part of adding the dog
+          value: 'canine quotient:3'
         status:
           value: AVAILABLE
     UpdateBellaExample:
@@ -1883,6 +1885,7 @@ components:
         birthdate:
           year: 2021
           month: 1
+          day: 12
         status:
           value: AVAILABLE
     KittyExample:
@@ -1897,10 +1900,13 @@ components:
         birthdate:
           year: 2021
           month: 1
+          day: 12
+        catProperty1:
+          value: 'extraversion:8'
         catProperty2:
-          value: Something computed as part of adding the cat
+          value: 'feline quotient:7'
         status:
-          value: AVAILABLE
+          value: ADOPTED
     UpdateKittyExample:
       description: Updating Kitty's date of birth
       value:
@@ -1914,7 +1920,7 @@ components:
           month: 2
           day: 15
         catProperty2:
-          value: Something computed as part of adding the cat
+          value: 'feline quotient:7'
         status:
           value: AVAILABLE
     AddCardPaymentExample:
@@ -1989,7 +1995,7 @@ components:
           - firstName: John
             lastName: Doe
             phoneNumber: '+6573437115596'
-            ssn: '123-45-6789'
+            ssn: '321-45-6789'
             allergies:
               - Shellfish
           - firstName: Amanda
@@ -2006,7 +2012,7 @@ components:
             firstName: John
             lastName: Doe
             phoneNumber: '+6573437115596'
-            ssn: '123-45-6789'
+            ssn: '123-45-2222'
             username: john_doe12
             email: 'john.doe@petstore.com'
             accountStatus: ACTIVE
@@ -2032,7 +2038,7 @@ components:
           firstName: John
           lastName: Doe
           phoneNumber: '+6573437115596'
-          ssn: '123-45-6789'
+          ssn: '123-45-2222'
           username: john_doe12
           email: 'john.doe@petstore.com'
           accountStatus: ACTIVE
@@ -2046,7 +2052,7 @@ components:
         firstName: John
         lastName: Doe
         phoneNumber: '+6573437115596'
-        ssn: '123-45-6789'
+        ssn: '123-45-2222'
         username: john_doe12
         email: 'john.doe@petstore.com'
         accountStatus: ACTIVE
@@ -2061,7 +2067,7 @@ components:
           updated: '2021-06-30T13:18:22Z'
           firstName: John
           lastName: Doe
-          ssn: '123-45-6789'
+          ssn: '123-45-2222'
           phoneNumber: '+6573454542316'
           username: john_doe12
           email: 'john.doe@petstore.com'
@@ -2074,7 +2080,7 @@ components:
         toDate: '2022-12-31'
         petCategory: DOG
         searchResults:
-          - id: 36d3d01f-2afc-47b6-a542-c5f097715f6y
+          - id: a5764857-ae35-34dc-8f25-a9c9e73aa898
             created: '2021-06-30T13:18:22Z'
             updated: '2021-06-30T13:18:22Z'
             adoptionDate: '2021-06-30'
@@ -2084,11 +2090,11 @@ components:
               lastName: Smith
               phoneNumber: '+7509287096053'
               ssn: '987-45-1234'
-          - id: 49d3d01f-2afc-47b6-a542-c5f097715fpd
+          - id: 6b7fcbb7-1441-3c17-8580-7fc490f21e59
             created: '2022-09-01T13:18:22Z'
             updated: '2022-09-01T13:18:22Z'
             adoptionDate: '2022-09-01'
-            petId: 9u53d01f-2afc-47b6-a542-c5f0977158h3
+            petId: 2384f927-5e2f-3998-8baa-c768616287f5
             owner:
               firstName: Marie
               lastName: Curie
@@ -2096,7 +2102,7 @@ components:
               ssn: '686-45-1234'
     SearchEmployeeExample:
       value:
-        ssn: '123-45-6789'
+        ssn: '123-45-2222'
     AdoptPetExample:
       value:
         petId: 54a96d5f-026b-4f41-853d-fa8a892f743e
@@ -2114,10 +2120,10 @@ components:
         updated: '2022-09-01T13:18:22Z'
         adoptionDate: '2022-09-01'
         owner:
-          firstName: Hayden
-          lastName: Smith
-          phoneNumber: '+7509287096053'
-          ssn: '987-45-1234'
+          firstName: Jane
+          lastName: Doe
+          phoneNumber: '+12356789'
+          ssn: '555-55-6789'
     UpdateAdoptionExample:
       description: Updating adoption date.
       value:
