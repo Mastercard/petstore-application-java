@@ -23,7 +23,7 @@ public class AdoptionFlowExample {
     private CatService catService;
 
     /**
-     * Constructs an instance of {@code AdoptionsService} with required dependencies.
+     * Constructs an instance of {@code AdoptionFlowExample} with required dependencies.
      * <p>
      * This constructor is annotated with {@link org.springframework.beans.factory.annotation.Autowired}
      * so that Spring can automatically inject the required beans at runtime.
@@ -33,7 +33,7 @@ public class AdoptionFlowExample {
      * @param catService       the service responsible for managing cat-related operations
      */
     @Autowired
-    public AdoptionsService(AdoptionsService adoptionsService, CatService catService){
+    public AdoptionFlowExample(AdoptionsService adoptionsService, CatService catService){
         this.adoptionsService = adoptionsService;
         this.catService = catService;
     }
