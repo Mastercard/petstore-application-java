@@ -11,15 +11,28 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Component;
 
-@ComponentScan(basePackages = {"com.mastercard.app.petstore.utils"})
 @Component("PetFlowExample")
 public class PetFlowExample {
 
-    @Autowired
     private CatService catService;
-    @Autowired
     private PetService petService;
-
+    /**
+     * Constructs a new {@code PetFlowExample} with the required service dependencies.
+     * <p>
+     * This constructor is annotated with {@link org.springframework.beans.factory.annotation.Autowired},
+     * allowing Spring to automatically inject the {@link CatService} and {@link PetService} beans
+     * at runtime. These services are then used to perform operations related to cats and pets
+     * within the flow example.
+     * </p>
+     *
+     * @param catService the service responsible for managing cat-related operations
+     * @param petService the service responsible for managing general pet-related operations
+     */
+    @Autowired
+    public PetFlowExample(CatService catService, PetService petService){
+        this.catService = catService;
+        this.petService=petService;
+    }
     /**
      * Pet use case flow. Shows creating a cat, updating their status and then removing them
      *

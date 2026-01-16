@@ -11,13 +11,25 @@ import org.springframework.stereotype.Component;
 /**
  * The type Employee flow example.
  */
-
-@ComponentScan(basePackages = {"com.mastercard.app.petstore.utils"})
 @Component("EmployeeFlowExample")
 public class EmployeeFlowExample {
 
-    @Autowired
     private EmployeeService employeeService;
+
+    /**
+     * Constructs a new {@code EmployeeFlowExample} with the required service dependency.
+     * <p>
+     * This constructor is annotated with {@link org.springframework.beans.factory.annotation.Autowired},
+     * allowing Spring to automatically inject the {@link EmployeeService} bean at runtime.
+     * The service is then used to perform operations related to employees within the flow example.
+     * </p>
+     *
+     * @param employeeService the service responsible for managing employee-related operations
+     */
+    @Autowired
+    public EmployeeFlowExample(EmployeeService employeeService){
+        this.employeeService = employeeService;
+    }
 
     /**
      * Employee use case. Show add a new employee, searching for their information, then removing them.
