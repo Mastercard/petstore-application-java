@@ -86,11 +86,6 @@ public class OAuthUtils {
         return buildApiClientEncryption(fieldLevelEncryptionConfigForAdoptions);
     }
 
-    @Bean
-    public ApiClient apiClientEncryptionEmployeeFle(EncryptionConfig fieldLevelEncryptionConfigForEmployees) {
-        return buildApiClientEncryption(fieldLevelEncryptionConfigForEmployees);
-    }
-
     private ApiClient buildApiClientEncryption(EncryptionConfig config){
         Interceptor encryptionInterceptor = new OkHttpJweInterceptor(config);
 
