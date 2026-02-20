@@ -20,24 +20,6 @@ public class PetstoreApplication {
     EmployeeFlowExample employeeFlowExample;
 
     @Bean
-    PetFlowExample petFlowExample() {
-        petFlowExample = new PetFlowExample();
-        return petFlowExample;
-    }
-
-    @Bean
-    AdoptionFlowExample adoptionFlowExample() {
-        adoptionFlowExample = new AdoptionFlowExample();
-        return adoptionFlowExample;
-    }
-
-    @Bean
-    EmployeeFlowExample employeeFlowExample() {
-        employeeFlowExample = new EmployeeFlowExample();
-        return employeeFlowExample;
-    }
-
-    @Bean
     public CommandLineRunner commandLineRunner(ApplicationContext ctx)  {
 
         return args -> {

@@ -4,6 +4,7 @@ import com.mastercard.developer.encryption.EncryptionConfig;
 import com.mastercard.developer.encryption.EncryptionException;
 import com.mastercard.developer.encryption.JweConfigBuilder;
 import com.mastercard.developer.utils.EncryptionUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 
@@ -15,15 +16,39 @@ import java.security.cert.Certificate;
 @org.springframework.context.annotation.Configuration
 public class JweEncryptionUtils {
 
-    @Value("${mastercard.encryption.encryptionCert}")
-    private String encryptionCertificateFilePath;
-    @Value("${mastercard.encryption.decryptionKeys}")
-    private String decryptionKeyFilePath;
-    @Value("${mastercard.encryption.decryptionKeyAlias}")
-    private String decryptionKeyAlias;
-    @Value("${mastercard.encryption.decryptionKeyPassword}")
-    private String decryptionKeyPassword;
+    private final String encryptionCertificateFilePath;
 
+    private final String decryptionKeyFilePath;
+
+    private final String decryptionKeyAlias;
+
+    private final String decryptionKeyPassword;
+
+    @Autowired
+    public JweEncryptionUtils(
+            @Value("${mastercard.encryption.encryptionCert}") String encryptionCertificateFilePath,
+            @Value("${mastercard.encryption.decryptionKeys") String decryptionKeyFilePath,
+            @Value("${mastercard.encryption.decryptionKeyAlias}") String decryptionKeyAlias,
+            @Value("${mastercard.encryption.decryptionKeyPassword}") String decryptionKeyPassword
+    )
+    {
+        if (encryptionCertificateFilePath.isEmpty()){
+            throw new IllegalArgumentException("encryptionCert in application.properties is empty");
+        }
+        this.encryptionCertificateFilePath = encryptionCertificateFilePath;
+        if (decryptionKeyFilePath.isEmpty()){
+            throw new IllegalArgumentException("decryptionKeys in application.properties is empty");
+        }
+        this.decryptionKeyFilePath = decryptionKeyFilePath;
+        if (decryptionKeyAlias.isEmpty()){
+            throw new IllegalArgumentException("decryptionKeyAlias in application.properties is empty");
+        }
+        this.decryptionKeyAlias = decryptionKeyAlias;
+        if (decryptionKeyPassword.isEmpty()){
+            throw new IllegalArgumentException("decryptionKeyPassword in application.properties is empty");
+        }
+        this.decryptionKeyPassword = decryptionKeyPassword;
+    }
     /**
      * Sets field level encryption config for adoptions.
      *
@@ -35,7 +60,6 @@ public class JweEncryptionUtils {
      */
     @Bean
     public EncryptionConfig fieldLevelEncryptionConfigForAdoptions() throws EncryptionException, GeneralSecurityException, IOException {
-        checkProperties();
         Certificate encryptionCertificate = EncryptionUtils.loadEncryptionCertificate(encryptionCertificateFilePath);
         PrivateKey decryptionKey = EncryptionUtils.loadDecryptionKey(decryptionKeyFilePath, decryptionKeyAlias, decryptionKeyPassword);
 
@@ -59,7 +83,6 @@ public class JweEncryptionUtils {
      */
     @Bean
     public EncryptionConfig fullBodyEncryptionConfig() throws EncryptionException, GeneralSecurityException, IOException {
-        checkProperties();
         Certificate encryptionCertificate = EncryptionUtils.loadEncryptionCertificate(encryptionCertificateFilePath);
         PrivateKey decryptionKey = EncryptionUtils.loadDecryptionKey(decryptionKeyFilePath, decryptionKeyAlias, decryptionKeyPassword);
 
@@ -69,20 +92,5 @@ public class JweEncryptionUtils {
                 .withDecryptionPath("$", "$")
                 .withDecryptionKey(decryptionKey)
                 .build();
-    }
-
-    private void checkProperties() {
-        if (encryptionCertificateFilePath.isEmpty()){
-            throw new IllegalArgumentException("encryptionCert in application.properties is empty");
-        }
-        if (decryptionKeyFilePath.isEmpty()){
-            throw new IllegalArgumentException("decryptionKeys in application.properties is empty");
-        }
-        if (decryptionKeyAlias.isEmpty()){
-            throw new IllegalArgumentException("decryptionKeyAlias in application.properties is empty");
-        }
-        if (decryptionKeyPassword.isEmpty()){
-            throw new IllegalArgumentException("decryptionKeyPassword in application.properties is empty");
-        }
     }
 }

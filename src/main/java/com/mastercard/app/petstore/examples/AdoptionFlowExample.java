@@ -16,15 +16,27 @@ import org.springframework.stereotype.Component;
  * The type Adoption flow example.
  */
 
-@ComponentScan(basePackages = {"com.mastercard.app.petstore.utils"})
 @Component("AdoptionFLowExample")
 public class AdoptionFlowExample {
 
-    @Autowired
     private AdoptionsService adoptionsService;
-    @Autowired
     private CatService catService;
 
+    /**
+     * Constructs an instance of {@code AdoptionFlowExample} with required dependencies.
+     * <p>
+     * This constructor is annotated with {@link org.springframework.beans.factory.annotation.Autowired}
+     * so that Spring can automatically inject the required beans at runtime.
+     * </p>
+     *
+     * @param adoptionsService the service responsible for handling adoption operations
+     * @param catService       the service responsible for managing cat-related operations
+     */
+    @Autowired
+    public AdoptionFlowExample(AdoptionsService adoptionsService, CatService catService){
+        this.adoptionsService = adoptionsService;
+        this.catService = catService;
+    }
     /**
      * Adoption use case. Shows a typical adding an adoption, adopting pet, updating status and then removing it
      *
