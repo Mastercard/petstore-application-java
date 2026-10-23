@@ -42,8 +42,9 @@ mastercard.oauth.keyPassword
 ```
 If using the API in mTLS mode the following are required in [application-mtls.properties](src/main/resources/application-mtls.properties)
 ```
-mastercard.mtls.pfxKeyFile
+mastercard.mtls.keyFile
 mastercard.mtls.keyPassword
+mastercard.mtls.crtFile
 ```
 Encryption properties are required to be set. This API supports JWE encryption. This is in [application.properties](src/main/resources/application.properties)
 ```
